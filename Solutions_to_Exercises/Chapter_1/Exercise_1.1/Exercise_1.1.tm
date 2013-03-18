@@ -1,6 +1,6 @@
 <TeXmacs|1.0.7.18>
 
-<style|article>
+<style|generic>
 
 <\body>
   <strong|<no-indent>Exercise 1.1. ><normal-size|Below is a sequence of

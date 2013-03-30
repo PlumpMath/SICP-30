@@ -87,8 +87,8 @@
     <scm|p> in expression <scm|(test 0 (p))> here would not be evaluated
     until it is needed.>
 
-    <normal-size|So obiviously, as is the case in Figure
-    <reference|Figure_1>, the interpreter will proceed to Environment
+    <normal-size|Obviously, as is the case in Figure <reference|Figure_1>,
+    the interpreter will proceed to Environment
     <strong|<math|\<b-up-I\>\<b-up-I\>>> immediately and reveal its procedure
     as the following: >
 

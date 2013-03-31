@@ -26,17 +26,18 @@
 (define (good-enough? guess x)
   (< (abs (- (square guess) x)) 0.001))
 
-(define (sqrt x)
+(define (square x) (* x x))
+
+(define (square-root x)
   (sqrt-iter 1.0 x))
 
 
 ;; Test
 
-(sqrt 9)
+(square-root 9)
 
-(sqrt (+ 100 37))
+(square-root (+ 100 37))
 
-(sqrt (+ (sqrt 2) (sqrt 3)))
+(square-root (+ (square-root 2) (square-root 3)))
 
-(define (square x) (* x x))
-(square (sqrt 1000))
+(square (square-root 1000))

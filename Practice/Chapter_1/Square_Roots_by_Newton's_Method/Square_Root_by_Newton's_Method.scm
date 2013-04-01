@@ -2,11 +2,6 @@
 ;;
 ;;        Square Root by Newton's Method
 ;;
-;;   The interpreter might report error while running this .scm file,
-;; for many Scheme implementation take 'sqrt' here as a constant pri-
-;; mitive. Dispite this, I still put them down here, since I believe 
-;; practice promotes a better understanding. 
-;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 

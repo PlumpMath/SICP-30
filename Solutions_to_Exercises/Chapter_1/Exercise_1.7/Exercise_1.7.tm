@@ -55,9 +55,9 @@
       <scm|guess> itself. Well, let's go:
 
       <\scm-code>
-        (define (good-enough? guess prev-guess x)
+        (define (good-enough? guess prev-guess)
 
-        \ \ (\<less\> (abs (- (improve guess x) guess))(* guess 0.001)))
+        \ \ (\<less\> (abs (- guess prev-guess))(* guess 0.001)))
       </scm-code>
 
       Having the new <scm|good-enough?> conditional defined above, we can
@@ -66,7 +66,7 @@
       <\scm-code>
         (define (sqrt-iter guess pre-guess x)
 
-        \ \ (if (good-enough? guess prev-guess x)
+        \ \ (if (good-enough? guess prev-guess)
 
         \ \ \ \ \ \ guess
 

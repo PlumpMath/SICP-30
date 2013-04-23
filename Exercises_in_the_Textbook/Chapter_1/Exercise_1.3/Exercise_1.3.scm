@@ -1,12 +1,14 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;                  Exercise_1.3.scm
-;;               by Lawrence R. Amlord
-;;                    Apr 7, 2013
-;;                    Xi'an, China
+;;                    Exercise_1.3.scm
+;;               by Lawrence R. Amlord(颜世敏)
+;;                      Apr 7, 2013
+;;                      Xi'an, China
 ;;
+;; License: Creative Commons Attribution-NonCommercial-ShareAlike 3.0 
+;;          Unported
 ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (sum-of-squares-of-two-largest a b c)
     (cond ((and (< a b) (< a c)) (sum-of-squares b c))

@@ -1,10 +1,15 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;                  Exercise_1.11-Iterative.scm
-;;                     by Lawrence R. Amlord
-;;                         Apr. 12, 2013
+;;                  by Lawrence R. Amlord(颜世敏)
+;;                       Apr. 12, 2013
+;;                       Xi'an, China
 ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; License: Creative Commons Attribution-NonCommercial-ShareAlike 3.0 
+;;   Unported
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ;; Definition of the Procedure
 (define (f n)

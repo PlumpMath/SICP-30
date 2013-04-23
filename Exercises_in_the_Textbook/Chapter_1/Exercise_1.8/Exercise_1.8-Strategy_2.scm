@@ -1,9 +1,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;                    SICP Exercise 1.8 (Strategy 2)
-;;          Author: Lawrence R. Amlord (颜世敏)    Date: Apr. 3, 2013
+;;                     Exercise_1.8-Strategy_2.scm
+;;                    by Lawrence R. Amlord (颜世敏)
+;;                           Apr 3, 2013
+;;                           Xi'an, China 
+;;
+;; License: Creative Commons Attribution-NonCommercial-ShareAlike 3.0 
+;;          Unported
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ;; This implementation uses the improved 'good-enough?' test as it has
 ;; been implemented in Exercise 1.7.

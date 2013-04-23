@@ -1,7 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;                    SICP Exercise 1.8 (Strategy 1)
-;;          Author: Lawrence R. Amlord (颜世敏)    Date: Apr. 3, 2013
+;;                     Exercise_1.8-Strategy_1.scm
+;;                    by Lawrence R. Amlord (颜世敏)
+;;                           Apr 3, 2013
+;;                           Xi'an, China 
+;;
+;; License: Creative Commons Attribution-NonCommercial-ShareAlike 3.0 
+;;          Unported
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

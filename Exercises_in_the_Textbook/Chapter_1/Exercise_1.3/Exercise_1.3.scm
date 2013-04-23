@@ -1,3 +1,13 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;                  Exercise_1.3.scm
+;;               by Lawrence R. Amlord
+;;                    Apr 7, 2013
+;;                    Xi'an, China
+;;
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (define (sum-of-squares-of-two-largest a b c)
     (cond ((and (< a b) (< a c)) (sum-of-squares b c))
           ((and (< b a) (< b c)) (sum-of-squares a c))

@@ -1,10 +1,15 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;                  Exercise_1.12.scm
-;;                by Lawrence R. Amlord
-;;                 Date: Apr. 14, 2013
+;;                     Exercise_1.12.scm
+;;                  by Lawrence R. Amlord(颜世敏)
+;;                       Apr 14, 2013
+;;                       Xi'an, China
 ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; License: Creative Commons Attribution-NonCommercial-ShareAlike 3.0 
+;;   Unported
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 (define (pascal-triangle row column)
   (cond ((or (< column 1) (< row column)) 0)

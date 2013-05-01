@@ -35,12 +35,12 @@
     (= (expmod a n n) a))
   (try-it (+ 1 (random (- n 1)))))
 
-(define (expmod base expt m)
-  (cond ((= expt 0) 1)
-	((even? expt)
-	 (remainder (square (expmod base (/ expt 2) m))
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+	((even? exp)
+	 (remainder (square (expmod base (/ exp 2) m))
 		    m))
-	(else (remainder (* base (expmod base (- expt 1) m))
+	(else (remainder (* base (expmod base (- exp 1) m))
 			 m))))
 
 (define square

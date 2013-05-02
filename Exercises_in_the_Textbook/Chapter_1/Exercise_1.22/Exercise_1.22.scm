@@ -1,9 +1,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;                       (Put the name of the program here.)
+;;                       Exercise_1.22.scm
 ;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
 ;;                       informlarry@gmail.com
-;;                       (Put the date here.)
+;;                       May 2nd, 2013
 ;;                       Xi'an, China
 
 ;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)

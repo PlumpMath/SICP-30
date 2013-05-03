@@ -1,0 +1,259 @@
+Copyright (C) 2011 Massachusetts Institute of Technology
+This is free software; see the source for copying conditions. There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Image saved on Tuesday November 8, 2011 at 10:45:46 PM
+  Release 9.1.1     || Microcode 15.3 || Runtime 15.7 || SF 4.41
+  LIAR/x86-64 4.118 || Edwin 3.116
+;You are in an interaction window of the Edwin editor.
+;Type `C-h' for help, or `C-h t' for a tutorial.
+;`C-h m' will describe some commands.
+;`C-h' means: hold down the Ctrl key and type `h'.
+;Package: (user)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;                       Test_for_Exercise_1.23.scm
+;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       informlarry@gmail.com
+;;                       May 3rd, 2013
+;;                       Xi'an, China
+
+;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; <informlarry@gmail.com>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;Value: search-for-primes
+
+;Value: timed-prime-test
+
+;Value: start-prime-test
+
+;Value: report-prime
+
+;Value: prime?
+
+;Value: smallest-divisor
+
+;Value: find-divisor
+
+;Value: square
+
+;Value: divide?
+
+;Value: next
+
+(search-for-primes 1000 1019)
+
+1001
+1003
+1005
+1007
+1009 *** 0.
+1011
+1013 *** 0.
+1015
+1017
+1019 *** 0.
+Finished in searching prime numbers.
+;Unspecified return value
+
+(search-for-primes 10000 10037)
+
+10001
+10003
+10005
+10007 *** 0.
+10009 *** 0.
+10011
+10013
+10015
+10017
+10019
+10021
+10023
+10025
+10027
+10029
+10031
+10033
+10035
+10037 *** 0.
+Finished in searching prime numbers.
+;Unspecified return value
+
+(search-for-primes 100000 100043)
+
+100001
+100003 *** 0.
+100005
+100007
+100009
+100011
+100013
+100015
+100017
+100019 *** 0.
+100021
+100023
+100025
+100027
+100029
+100031
+100033
+100035
+100037
+100039
+100041
+100043 *** 0.
+Finished in searching prime numbers.
+;Unspecified return value
+
+(search-for-primes 1000000 1000037)
+
+1000001
+1000003 *** 0.
+1000005
+1000007
+1000009
+1000011
+1000013
+1000015
+1000017
+1000019
+1000021
+1000023
+1000025
+1000027
+1000029
+1000031
+1000033 *** 0.
+1000035
+1000037 *** 0.
+Finished in searching prime numbers.
+;Unspecified return value
+
+(search-for-primes 1000000000 1000000021)
+
+1000000001
+1000000003
+1000000005
+1000000007 *** .02999999999999936
+1000000009 *** 1.9999999999999574e-2
+1000000011
+1000000013
+1000000015
+1000000017
+1000000019
+1000000021 *** 1.9999999999999574e-2
+Finished in searching prime numbers.
+;Unspecified return value
+
+(search-for-primes 10000000000 10000000061)
+
+10000000001
+10000000003
+10000000005
+10000000007
+10000000009
+10000000011
+10000000013
+10000000015
+10000000017
+10000000019 *** .08000000000000007
+10000000021
+10000000023
+10000000025
+10000000027
+10000000029
+10000000031
+10000000033 *** .08000000000000007
+10000000035
+10000000037
+10000000039
+10000000041
+10000000043
+10000000045
+10000000047
+10000000049
+10000000051
+10000000053
+10000000055
+10000000057
+10000000059
+10000000061 *** .08000000000000007
+Finished in searching prime numbers.
+;Unspecified return value
+
+(search-for-primes 100000000000 100000000057)
+
+100000000001
+100000000003 *** .25
+100000000005
+100000000007
+100000000009
+100000000011
+100000000013
+100000000015
+100000000017
+100000000019 *** .2400000000000002
+100000000021
+100000000023
+100000000025
+100000000027
+100000000029
+100000000031
+100000000033
+100000000035
+100000000037
+100000000039
+100000000041
+100000000043
+100000000045
+100000000047
+100000000049
+100000000051
+100000000053
+100000000055
+100000000057 *** .25
+Finished in searching prime numbers.
+;Unspecified return value
+
+(search-for-primes 1000000000000 1000000000063)
+
+1000000000001
+1000000000003
+1000000000005
+1000000000007
+1000000000009
+1000000000011
+1000000000013
+1000000000015
+1000000000017
+1000000000019
+1000000000021
+1000000000023
+1000000000025
+1000000000027
+1000000000029
+1000000000031
+1000000000033
+1000000000035
+1000000000037
+1000000000039 *** .7699999999999978
+1000000000041
+1000000000043
+1000000000045
+1000000000047
+1000000000049
+1000000000051
+1000000000053
+1000000000055
+1000000000057
+1000000000059
+1000000000061 *** .7899999999999991
+1000000000063 *** .7899999999999991
+Finished in searching prime numbers.
+;Unspecified return value
+

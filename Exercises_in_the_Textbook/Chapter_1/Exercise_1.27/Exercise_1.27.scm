@@ -49,41 +49,4 @@
 (define square
   (lambda (x) (* x x)))
 
-;Value: carm-fool
-
-;Value: carm-test
-
-;Value: expmod
-
-;Value: even?
-
-;Value: square
-
-(carm-fool 561)
-;Value: #f
-
-;Value: carm-test
-
-(carm-fool 561)
-;Value: #f
-
-;Value: carm-test
-
-(carm-fool 561)
-;Value: #t
-
-(carm-fool 1105)
-;Value: #t
-
-(carm-fool 1729)
-;Value: #t
-
-(carm-fool 2465)
-;Value: #t
-
-(carm-fool 2821)
-;Value: #t
-
-(carm-fool 6601)
-;Value: #t
 

@@ -50,3 +50,15 @@
 
 (* 4 (pi-quotient 2.0 200))
 ;Value: #[NaN]
+
+(iFactorial 0)
+;Value: 1
+
+(iFactorial 1)
+;Value: 1
+
+(iFactorial 6)
+;Value: 720
+
+(iFactorial 10)
+;Value: 3628800

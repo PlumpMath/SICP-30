@@ -19,12 +19,14 @@
     to <math|b> (assuming that you have a <scm|prime?> predicate already
     written)
 
-    b. the product of all the positive integers less than <scm|n> that are
-    relatively prime to n (i.e., all positive integers <math|i\<less\>n> such
-    that <math|GCD(i,n) = 1>).
+    b. the product of all the positive integers less than <math|n> that are
+    relatively prime to <math|n> (i.e., all positive integers
+    <math|i\<less\>n> such that <math|GCD(i,n) = 1>).
 
     <\answer>
-      \;
+      Comparing with <scm|accumulate>, the <scm|filter-accumulate> procedure
+      here with an additional predicate <scm|filter> that check each index to
+      decide whether to combine with that term or not.
 
       <\scm-code>
         (define (filter-accumulate filter combiner null-value term a next b)
@@ -42,7 +44,9 @@
         term (next a) next b))))
       </scm-code>
 
-      a.\ 
+      a. Now, we can easily write down a procedure <scm|prime-sum-sq> to
+      compute the sum of the squares of the prime numbers in the interval
+      <math|a> to <math|b>:
 
       <\scm-code>
         (define (prime-sum-sq a b)
@@ -50,12 +54,14 @@
         \ \ (filter-accumulate prime? + 0 square a inc b))
       </scm-code>
 
-      b.\ 
+      b. Similarly, the product of all the positive integers less than
+      <math|n> that are relatively prime to <math|n> can be expressed by a
+      procedure called <scm|relat-prime-product>:
 
       <\scm-code>
-        (define (relat-prime-product 1 n)
+        (define (relat-prime-product n)
 
-        \ \ (filter-accumulate relat-prime? * 1 identity inc b))
+        \ \ (filter-accumulate relat-prime? * 1 identity inc n))
       </scm-code>
     </answer>
   </render-exercise>
@@ -64,6 +70,6 @@
 <\references>
   <\collection>
     <associate|footnote-|<tuple|?|?>>
-    <associate|footnote-*|<tuple|?|?>>
+    <associate|footnote-*|<tuple|?|1>>
   </collection>
 </references>

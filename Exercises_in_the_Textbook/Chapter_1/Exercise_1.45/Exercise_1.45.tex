@@ -1,0 +1,375 @@
+\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amssymb}
+\usepackage{ccicons}
+
+%\title{Brief Article}
+%\author{The Author}
+%\date{}							% Activate to display a given date or no date
+
+
+\begin{document}
+
+%\maketitle
+%\section{}
+%\subsection{}
+
+\noindent\textbf{Exercise 1.45}\\ We saw in section 1.3.3 that attempting to compute square roots by naively finding a fixed point of $y\mapsto x/y$ does not converge, and that this can be fixed by average damping. The same method works for finding cube roots as fixed points of the average-damped $y\mapsto x/y^{2}$. Unfortunately, the process does not work for fourth roots---a single average damp is not enough to make a fixed-point search for $y\mapsto x/y^{3}$ converge. On the other hand, if we average damp twice (i.e., use the average damp of the average damp of $y\mapsto x/y^{3}$) the fixed-point search does converge. Do some experiments to determine how many average damps are required to compute $n$th roots as a fixed-point search based upon repeated average damping of $y\mapsto x/y^{n-1}$. Use this to implement a simple procedure for computing $n$th roots using \texttt{fixed-point}, \texttt{average-damp}, and the \texttt{repeated} procedure of exercise 1.43. Assume that any arithmetic operations you need are available as primitives.\\
+
+\noindent\textbf{Answer}\footnote{Creative Commons \ccbyncsa\ 2012--2013 Lawrence R. Amlord (Shi-min Yan). This solution was originally created on Dec 21, 2012. Currently, this version was revised on May 5th, 2013.}
+\begin{center}
+\textbf{Foreword}
+\end{center}
+In the following contexts, we will leave out many implementation of basic arithmetic operation, as the problem presentation recommends, so that we are able to focus on the key to the solution. The code and results presented here has been tested in MIT/GNU Scheme 9.1.1 on a MacBook Pro running OS X 10.8.\\
+
+The \texttt{fixed-point-of-transform} procedure is so crucial that we have to present it here at the very beginning of this solution.
+
+\begin{verbatim}
+(define (fixed-point-of-transform g transform guess)
+  (fixed-point (transform g) guess))
+ \end{verbatim}
+
+\begin{center}
+\textbf{\uppercase\expandafter{\romannumeral1}\hspace{4ex}Exploration}
+\end{center}
+This section attempts to bring the underlying general pattern relates the $n$th root and the fixed-point search to the surface. To do this, we have to raise the quantity of the repeated average damping of $y\mapsto x/y^{n-1}$ increasingly  and analyze the results generated in the meantime.\\
+
+Starting here, we have to average damp twice for fourth roots, the problem description had made it quite clear.
+
+\begin{verbatim}
+(define (fourth-root x)
+  (fixed-point-of-transform (lambda (y) (/ x (cube y)))
+                            (repeated average-damp 2)
+                            1.0))
+\end{verbatim}
+
+Test:\\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(fourth-root (* 6 6 6 6))}\\
+Value: \textsl{6.0}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(fourth-root (* 999 999 999 999))}\\
+Value: \textsl{999.0}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(fourth-root (* 10001 10001 10001 10001))}\\
+Value: \textsl{10001.0}\\
+\hline
+\end{tabular}\\ \\
+
+It bears out the problem description. Now we want to know whether average damp twice works for the fifth roots, and further more, what is the highest roots order does it still works validly. Let's go on to write the definition of fifth root:
+
+\begin{verbatim}
+(define (fifth-root x)
+  (fixed-point-of-transform (lambda (y) (/ x (expt y 4)))
+                            (repeated average-damp 2)
+                            1.0))
+\end{verbatim}
+
+\noindent where the arithmetic operation \texttt{expt} here is defined in section 1.2.4. Try it:\\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(fifth-root (expt 4 5))}\\
+Value: \textsl{4.000000066676982}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(fifth-root (expt 299 5))}\\
+Value: \textsl{298.9999999288808}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(fifth-root (expt 1099 5))}\\
+Value: \textsl{1099.0000000889913}\\
+\hline
+\end{tabular}\\ \\
+
+So twice average damp also works fine with fifth root. Let's take see if it works well with the sixth roots:
+
+\begin{verbatim}
+(define (sixth-root x)
+  (fixed-point-of-transform (lambda (y) (/ x (expt y 5)))
+                            (repeated average-damp 2)
+                            1.0))
+\end{verbatim}
+
+Here we have\ldots\\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(sixth-root (expt 3 6))}\\
+Value: \textsl{2.999999799117626}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(sixth-root (expt 89 6))}\\
+Value: \textsl{89.00000021985286}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(sixth-root (expt 2012 6))}\\
+Value: \textsl{2012.0000001764565}\\
+\hline
+\end{tabular}\\ \\
+
+
+So it does work with some particular integers as before. What about the seventh roots?
+
+\begin{verbatim}
+(define (seventh-root x)
+  (fixed-point-of-transform (lambda (y) (/ x (expt y 6)))
+                            (repeated average-damp 2)
+                            1.0))
+\end{verbatim}
+
+Let's see\ldots\\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(seventh-root (expt 5 7))}\\
+Value: \textsl{5.00000042720795}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(seventh-root (expt 98 7))}\\
+Value: \textsl{98.00000040711095}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(seventh-root (expt 1999 7))}\\
+Value: \textsl{1999.0000003393989}\\
+\hline
+\end{tabular}\\ \\
+
+Go straight along the boring routine, let's examine the eighth root with twice average damping:
+
+\begin{verbatim}
+(define (eighth-root x)
+  (fixed-point-of-transform (lambda (y) (/ x (expt y 7)))
+                            (repeated average-damp 2)
+                            1.0))
+\end{verbatim}
+
+It is this time, the eighth root, that makes the twice average damping strategy failed. If we sent the following expression to the Scheme interpreter, we will find that this program never terminates:
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(eighth-root (expt 100 8))}\\
+\hline
+\end{tabular}\\ \\
+
+By increasing the times of average damping, we figure out that $3$ times average damp works fine for eighth root.
+
+\begin{verbatim}
+(define (eighth-root x)
+  (fixed-point-of-transform (lambda (y) (/ x (expt y 7)))
+                            (repeated average-damp 3)
+                            1.0))
+\end{verbatim}
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(eighth-root (expt 100 8))}\\
+Value: \textsl{100.0}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(eighth-root (expt 365 8))}\\
+Value: \textsl{365.0}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(eighth-root (expt 1001 8))}\\
+Value: \textsl{1001.0}\\
+\hline
+\end{tabular}\\ \\
+
+Now Let see how far does the 3 times average damp extends to work, and try to clarify then underlying general pattern. Note that the definition of $n$th-root is almost identical except the exponent of \texttt{y}, so here we can leave them out to make out statement more concise:\\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(nineth-root (expt 16 9))}\\
+Value: \textsl{15.999999962497867}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(tenth-root (expt 32 10))}\\
+Value: \textsl{32.00000012830529}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(eleventh-root (expt 64 11))}\\
+Value: \textsl{64.00000016042839}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(twelveth-root (expt 128 12))}\\
+Value: \textsl{127.99999971700788}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(thirteenth-root (expt 256 13))}\\
+Value: \textsl{256.0000002471129}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(fourteenth-root (expt 512 14))}\\
+Value: \textsl{511.99999964597305}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(fifteenth-root (expt 1024 15))}\\
+Value: \textsl{1024.0000004256258}\\
+\hline
+\end{tabular}\\ \\
+
+Once again, the interpreter hits an infinite loop while the following expression:\\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(sixteenth-root (expt 2048 16))}\\
+\hline
+\end{tabular}\\ \\
+
+Some one might guess that the \texttt{sixteen-root} will probably work if we fixed the routine with one more average damp, let's see\ldots
+
+\begin{verbatim}
+(define (sixteenth-root x)
+  (fixed-point-of-transform (lambda (y) (/ x (expt y 15)))
+                            (repeated average-damp 4)
+                            1.0))
+\end{verbatim}
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(sixteenth-root (expt 2048 16))}\\
+Value: \textsl{2048.0}\\
+\hline
+\end{tabular}\\ \\
+
+It really works!\\
+
+\begin{center}
+\textbf{\uppercase\expandafter{\romannumeral2}\hspace{4ex}Induction}
+\end{center}
+
+
+The presence of such a regular pattern is strong evidence that there is a useful underlying abstraction and we feel obliged to bring it to the surface.\\
+
+If we pay attention to the number of average damps and the order of roots where they are valid to converge. We can summarize the patterns between them as the following:\\
+
+\begin{tabular}{c c}
+Average Damps & Converged Root\\
+\hline
+$1$ & $1\sim3$\\
+$2$ & $4\sim7$\\
+$3$ & $8\sim15$\\
+$4$ & $16\sim\ldots$\\
+\end{tabular}\\
+
+Obviously, we need $\lfloor\log_2{n}\rfloor$ average damps to converge to the $n$th root. we can check our guess out by increasing the number of average damps to $5$ and see if it works for the $40$th root:
+
+\begin{verbatim}
+(define (fortyth-root x)
+  (fixed-point-of-transform (lambda (y) (/ x (expt y 39)))
+                            (repeated average-damp 5)
+                            1.0))
+\end{verbatim}
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(sixteenth-root (expt 95 40))}\\
+Value: \textsl{94.99999994278059}\\
+\hline
+\end{tabular}\\ \\
+
+It did bear our prediction out.\\
+
+So far, we have find out the underlying general pattern between the average damps and their converged roots. But we still have to implement the expression $\lfloor\log_2{n}\rfloor$ in Lisp. Note that \texttt{floor} is a primitive operation in Scheme and $\lfloor\log_2{n}\rfloor$ can be calculated in the following way mathematically:
+\begin{displaymath}
+\log_2{n}=\frac{\ln{n}}{\ln{2}}
+\end{displaymath}
+where the mathematical operation $\ln{x}$ here can be implement with Lisp primitive operation \texttt{(log x)}. Just implement it in Lisp:
+
+\begin{verbatim}
+(define (floor-log-2 n)
+  (floor (/ (log n) (log 2))))
+\end{verbatim}
+
+With all the previous endeavor we have devoted, we can readily write the \texttt{nth-root} procedure as follow:
+
+\begin{verbatim}
+(define (nth-root x n)
+  (let ((damp-times (floor-log-2 n)))
+    (fixed-point-of-transform (lambda (y) (/ x (expt y (- n 1))))
+                              (repeated average-damp damp-times)
+                              1.0)))
+\end{verbatim}
+
+We are going to end up with this problem with a few test with this general \texttt{nth-root} procedure:\\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(nth-root (expt 9 7) 7)}\\
+Value: \textsl{9.000000335802724}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(nth-root (expt 89 24) 24)}\\
+Value: \textsl{88.99999980123344}\\
+\hline
+\end{tabular}\\ \\
+
+\begin{tabular}[c]{|l|}
+\hline
+$>$ \texttt{(nth-root (expt 12 60) 60)}\\
+Value: \textsl{12.00000044150704}\\
+\hline
+\end{tabular}\\ \\
+
+\end{document}  

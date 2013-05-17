@@ -6,7 +6,7 @@
 ;;                       May 17th, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2012-2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
 ;; <informlarry@gmail.com>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

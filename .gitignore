@@ -1,5 +1,8 @@
 *~
 *#
+*.aux
+*.log
+*.gz
 .DS_Store
 SICP-Full-Text.pdf
 Exercises_from_Instructor's_Manual

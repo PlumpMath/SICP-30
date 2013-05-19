@@ -24,12 +24,15 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; The Recursive Version
 (define (test-strategy player-strategy house-strategy n)
   (let ((pw (twenty-one player-strategy house-strategy)))
+    ; pw: the number of rounds that won by the player
     (if (< n 2)
 	pw
 	(+ pw (test-strategy player-strategy house-strategy (- n 1))))))
 
+;; The Iterative Version
 (define (test-strategy player-strategy house-strategy n)
   (define (play round pw)
     (if (> round n)

@@ -48,13 +48,12 @@
 
 (define (hit? your-hand opponent-up-card)
   (newline)
+  (newline)
   (display "Opponent up card ")
   (display opponent-up-card)
   (newline)
   (display "Your Total: ")
   (display (hand-total your-hand))
-  (newline)
-  (display "Hit? ")
   (user-wants-hit?))
 
 (define (user-wants-hit?)

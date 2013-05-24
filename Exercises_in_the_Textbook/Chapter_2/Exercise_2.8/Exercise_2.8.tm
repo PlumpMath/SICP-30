@@ -14,21 +14,20 @@
     <\answer>
       \;
 
-      Much similar to the multiplication operation, the difference of two
-      intervals can be worked out by finding the minimum and maximum of the
-      difference between the lower bound of one interval and the upper bound
-      of the other and using them to represent the resulting interval.
+      Much similar to the addition operation, the lower bound of the
+      difference of two intervals can be worked out by subtracting the upper
+      bound of the second interval from the lower bound of the first.
+      Contrarily, the resulting upper bound could be the difference between
+      the upper bound of the first interval and the lower bound of the
+      second.
 
       <\scm-code>
         (define (sub-interval x y)
 
-        \ \ (let ((p1 (- (lower-bound x) (upper-bound y)))
+        \ \ (make-interval (- (lower-bound x) (upper-bound y))
 
-        \ \ \ \ \ \ \ \ (p2 (- (upper-bound x) (lower-bound y))))
-
-        \ \ \ \ (make-interval (min p1 p2)
-
-        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (max p1 p2))))
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (- (upper-bound x) (lower-bound
+        y))))
       </scm-code>
     </answer>
   </render-exercise>
@@ -43,7 +42,7 @@
 <\references>
   <\collection>
     <associate|footnote-|<tuple|?|?>>
-    <associate|footnote-*|<tuple|?|?>>
+    <associate|footnote-*|<tuple|?|1>>
     <associate|footnote-1|<tuple|1|?>>
     <associate|footnr-1|<tuple|1|?>>
   </collection>

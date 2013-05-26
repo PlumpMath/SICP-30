@@ -29,11 +29,7 @@
 		 (* c (+ 1.0 p))))
 
 (define (percent i)
-  (* (/ (/ (- (upper-bound i) (lower-bound i))
-	   2)
-	(/ (+ (lower-bound i) (upper-bound i))
-	   2))
-     100))
+  (/ (width i) (center i)))
 
 (define (center i)
   (/ (+ (lower-bound i) (upper-bound i))

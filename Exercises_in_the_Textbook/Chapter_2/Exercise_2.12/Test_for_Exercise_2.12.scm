@@ -20,10 +20,14 @@
 (define (upper-bound i)
   (cdr i))
 
+(define (width i)
+  (/ (- (upper-bound i) (lower-bound i))
+     2))
+
 (define (print-center-percent i)
   (display (center i))
   (display " with ")
-  (display (percent i))
+  (display (* 100 (percent i)))
   (display "% ")
   (display "tolerance."))
 
@@ -38,6 +42,8 @@
 ;Value: lower-bound
 
 ;Value: upper-bound
+
+;Value: width
 
 ;Value: print-center-percent
 

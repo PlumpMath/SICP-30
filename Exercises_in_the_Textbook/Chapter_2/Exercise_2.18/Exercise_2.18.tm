@@ -49,7 +49,7 @@
 
         \ \ \ \ (if (null? (cdr items))
 
-        \ \ \ \ \ \ \ \ nil
+        \ \ \ \ \ \ \ \ '()
 
         \ \ \ \ \ \ \ \ (cons (car items) (former-sublist (cdr items)))))
 
@@ -73,6 +73,6 @@
 <\references>
   <\collection>
     <associate|footnote-|<tuple|?|?>>
-    <associate|footnote-*|<tuple|?|?>>
+    <associate|footnote-*|<tuple|?|1>>
   </collection>
 </references>

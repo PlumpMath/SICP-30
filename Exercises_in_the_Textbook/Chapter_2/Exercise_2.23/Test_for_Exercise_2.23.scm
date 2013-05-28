@@ -1,0 +1,23 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;                       Test_for_Exercise_2.23.scm
+;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       informlarry@gmail.com
+;;                       May 29th, 2013
+;;                       Xi'an, China
+
+;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; <informlarry@gmail.com>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;Value: for-each
+
+(for-each (lambda (x) (newline) (display x))
+	  (list 57 321 88))
+
+57
+321
+88
+;Value: #t
+

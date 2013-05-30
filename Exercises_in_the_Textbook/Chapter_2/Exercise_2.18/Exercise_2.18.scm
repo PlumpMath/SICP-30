@@ -28,14 +28,14 @@
   (cond ((null? items) nil)
 	((null? (cdr items)) items)
 	(else
-	 (cons (last-elements items)
+	 (cons (last-element items)
 	       (reverse (former-elements items))))))
 
-(define (last-elements items)
+(define (last-element items)
   (cond ((null? items) '())
 	((null? (cdr items)) (car items))
 	(else
-	 (last-elements (cdr items)))))
+	 (last-element (cdr items)))))
 
 (define (former-elements items)
   (if (or (null? items)

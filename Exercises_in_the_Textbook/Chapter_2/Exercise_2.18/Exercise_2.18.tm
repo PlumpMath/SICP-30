@@ -22,43 +22,61 @@
       To <scm|reverse> a list, do the following:
 
       <\itemize-dot>
-        <item>If the list contains only one element, then just return the
-        list.
+        <item><scm|Reverse> of the empty list is <scm|nil>.
+
+        <item>Else, if the list contains only one element, then just return
+        the list wholly intact.
 
         <item>Otherwise, <scm|reverse> all but the last element of the list,
         and <scm|cons> that last element onto the result.
       </itemize-dot>
 
-      The second case above can be implemented with the help of two
-      procedures: <scm|last-element> that picks the last element in a given
-      list and <scm|former-sublist> which constructs a list that contains all
-      but the last element of the original list.
+      Using this strategy, we can write down the procedure <scm|reverse>:
 
       <\scm-code>
         (define (reverse items)
 
-        \ \ (define (last-element items)
+        \ \ (cond ((null? items) nil)
 
-        \ \ \ \ (if (null? (cdr items))
+        \ \ \ \ \ \ \ \ ((null? (cdr items)) items)
 
-        \ \ \ \ \ \ \ \ (car items)
+        \ \ \ \ \ \ \ \ (else
 
-        \ \ \ \ \ \ \ \ (last-element (cdr items))))
+        \ \ \ \ \ \ \ \ \ \ (cons (last-element items)
 
-        \ \ (define (former-sublist items)
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (reverse (former-elements items))))))
+      </scm-code>
 
-        \ \ \ \ (if (null? (cdr items))
+      where the <scm|last-element> is a procedure which picks the last
+      element in a given list
 
-        \ \ \ \ \ \ \ \ '()
+      <\scm-code>
+        (define (last-element items)
 
-        \ \ \ \ \ \ \ \ (cons (car items) (former-sublist (cdr items)))))
+        \ \ (cond ((null? items) nil)
 
-        \ \ (if (null? (cdr items))
+        \ \ \ \ \ \ \ \ ((null? (cdr items)) (car items))
 
-        \ \ \ \ \ \ items
+        \ \ \ \ \ \ \ \ (else
 
-        \ \ \ \ \ \ (cons (last-element items) (reverse (former-sublist
-        items)))))
+        \ \ \ \ \ \ \ \ \ \ (last-element (cdr items)))))
+      </scm-code>
+
+      and <scm|former-elements> constructs a list that contains all but the
+      last element of the original list
+
+      <\scm-code>
+        (define (former-elements items)
+
+        \ \ (if (or (null? items)
+
+        \ \ \ \ \ \ \ \ \ \ \ (null? (cdr items)))
+
+        \ \ \ \ \ \ nil
+
+        \ \ \ \ \ \ (cons (car items)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ (former-elements (cdr items)))))
       </scm-code>
     </answer>
   </render-exercise>

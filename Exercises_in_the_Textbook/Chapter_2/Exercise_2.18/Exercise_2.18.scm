@@ -25,14 +25,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (reverse items)
-  (define (last-element items)
-    (if (null? (cdr items))
-	(car items)
-	(last-element (cdr items))))
-  (define (former-sublist items)
-    (if (null? (cdr items))
-	'()
-	(cons (car items) (former-sublist (cdr items)))))
-  (if (null? (cdr items))
-      items
-      (cons (last-element items) (reverse (former-sublist items)))))
+  (cond ((null? items) nil)
+	((null? (cdr items)) items)
+	(else
+	 (cons (last-elements items)
+	       (reverse (former-elements items))))))
+
+(define (last-elements items)
+  (cond ((null? items) '())
+	((null? (cdr items)) (car items))
+	(else
+	 (last-elements (cdr items)))))
+
+(define (former-elements items)
+  (if (or (null? items)
+	   (null? (cdr items)))
+      '()
+      (cons (car items)
+	    (former-elements (cdr items)))))

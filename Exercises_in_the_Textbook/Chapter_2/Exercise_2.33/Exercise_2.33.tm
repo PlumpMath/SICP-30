@@ -35,17 +35,18 @@
 
       Remember that <scm|accumulate> assembles a new object by applying the
       operator it was provided onto all the elements in a list. To do this,
-      we see that in the body of <scm|accumulate>, the operator combines the
-      first element with the accumulation of the rest of the list.\ 
+      in the body of <scm|accumulate>, the operator combines the first
+      element with the accumulation of the rest of the list.\ 
 
       We've seen in section 2.2.1 that the procedure <scm|map> takes as its
       arguments a procedure of one argument and a list, and returns a list of
       results produced by applying the procedure to each element in the list.
-      In the view of <scm|accumulate>, this process can be accomplished by
-      combining a list that contains only its first element with the list
-      that contains the rest of the elements. And before that, we should
-      apply the procedure to the newly joined element. Using this
-      description, we can write <scm|map> in terms of <scm|accumulate>\ 
+      In the view of <scm|accumulate>, this process can be carried out by
+      combining a list that contains only the first element of a sequence
+      with the list that contains the rest of the elements. And before that,
+      the designated procedure should be applied to the newly joined element.
+      Using this description, we can write <scm|map> in terms of
+      <scm|accumulate>:\ 
 
       <\scm-code>
         (define (map p sequence)
@@ -62,10 +63,10 @@
       </scm-code>
 
       where the parameter <scm|x> and <scm|y> correspond to the first element
-      and a list of subsequent elements in respect.
+      and a list of subsequent elements of a sequence in respect.
 
       To give the definition of <scm|append> in this way, recall the
-      recursive plan we took to implement <scm|append> in section 2.2.1:
+      recursive plan we took in implementing <scm|append> in section 2.2.1:
 
       <\itemize-dot>
         <item>If <scm|seq1> is the empty list, then the result is just
@@ -96,10 +97,10 @@
         <scm|cdr> of the list.
       </itemize-dot>
 
-      As far as <scm|accumulate> concerns, in the reduction step, <scm|op>
-      adds <scm|1> to the accumulation of the rest of the sequence. This
-      reveals the complete picture of <scm|length> defined by
-      <scm|accumulate>:
+      As far as <scm|accumulate> concerns, the reduction step can be captured
+      by an operation which adds <scm|1> to the accumulation of the rest of
+      the sequence. This reveals the complete picture of <scm|length> defined
+      by <scm|accumulate>:
 
       <\scm-code>
         (define (length sequence)

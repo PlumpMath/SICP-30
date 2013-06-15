@@ -40,19 +40,19 @@
       </float>. This arouses us to implement the selectors as:
 
       <\scm-code>
-        (define (origin frame)
+        (define (origin-frame frame)
 
         \ \ (car frame))
       </scm-code>
 
       <\scm-code>
-        (define (edge1 frame)
+        (define (edge1-frame frame)
 
         \ \ (cadr frame))
       </scm-code>
 
       <\scm-code>
-        (define (edge2 frame)
+        (define (edge2-frame frame)
 
         \ \ (caddr frame))
       </scm-code>
@@ -66,19 +66,19 @@
       representation in Lisp:\ 
 
       <\scm-code>
-        (define (origin frame)
+        (define (origin-frame frame)
 
         \ \ (car frame))
       </scm-code>
 
       <\scm-code>
-        (define (edge1 frame)
+        (define (edge1-frame frame)
 
         \ \ (cadr frame))
       </scm-code>
 
       <\scm-code>
-        (define (edge2 frame)
+        (define (edge2-frame frame)
 
         \ \ (cddr frame))
       </scm-code>
@@ -106,9 +106,9 @@
 <\auxiliary>
   <\collection>
     <\associate|figure>
-      <tuple|normal||<pageref|auto-1>>
+      <tuple|normal|The frame represented as a list|<pageref|auto-1>>
 
-      <tuple|normal||<pageref|auto-2>>
+      <tuple|normal|An alternative way to represent a frame|<pageref|auto-2>>
     </associate>
   </collection>
 </auxiliary>

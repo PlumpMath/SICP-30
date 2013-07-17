@@ -27,7 +27,7 @@
 
 ;; a. The painter that draws the outline of the designated frame.
 
-(define (outline->painter frame)
+(define (outline frame)
   (let ((origin (make-vect 0 0))
 	(top-left (make-vect 0 1))
 	(opposite (make-vect 1 1))
@@ -39,12 +39,10 @@
       (let ((outline-segment-list (list bottom-right right-vert top-horiz left-vert)))
 	(segments->painter outline-segment-list)))))
 
-(define outline (outline->painter frame))
-
 
 ;; b. The painter that draws an "X" by connecting opposite corner of the frame.
 
-(define (X->painter frame)
+(define (X frame)
   (let ((origin (make-vect 0 0))
 	(top-left (make-vect 0 1))
 	(opposite (make-vect 1 1))
@@ -54,13 +52,11 @@
       (let ((X-segment-list (list diagnal counter-diagnal)))
 	(segments->painter X-segment-list)))))
 
-(define X (X->painter frame))
-
 
 ;; c. The painter that draws a diamond shape by connecting the midpoints of the
 ;; sides of the frame.
 
-(define (diamond->painter frame)
+(define (diamond frame)
   (let ((origin (make-vect 0 0))
 	(top-left (make-vect 0 1))
 	(opposite (make-vect 1 1))
@@ -76,12 +72,10 @@
 	(let ((diamond-segment-list (list s1 s2 s3 s4)))
 	  (segments->painter diamond-segment-list))))))
 
-(define diamond (diamond->painter frame))
-
 
 ;; d. The wave painter.
 
-(define (wave->painter frame)
+(define (wave frame)
   (let ((p1 (make-vect 0 0.85))
 	(p2 (make-vect 0.15 0.6))
 	(p3 (make-vect 0.3 0.65))
@@ -125,4 +119,6 @@
 				     s11 s12 s13 s14 s15 s16 s17)))
 	(segments->painter wave-segment-list)))))
 
-(define wave (wave->painter frame))
+
+
+

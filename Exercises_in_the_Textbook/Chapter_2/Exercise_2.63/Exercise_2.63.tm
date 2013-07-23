@@ -165,8 +165,10 @@
       flatten a tree of approximate <math|<frac*|n|2>> nodes. On the other
       hand, we know that the number of steps to perform <scm|append>
       operation has an order of growth <math|\<Theta\> <around*|(|n|)>>,
-      where <math|n> is the number of element in the first argument list.
-      Hence, for <scm|tree-\<gtr\>list-1> we have:
+      where <math|n> is the number of elements in the first argument list,
+      here it is the flattened left branch which contains nearly
+      <math|<frac*|n|2>> elements. Hence, for <scm|tree-\<gtr\>list-1> we
+      have:
 
       <\equation*>
         T<rsub|1> <around*|(|n|)>=2\<times\>T<rsub|1><around*|(|<frac|n|2>|)>+\<Theta\>
@@ -182,7 +184,7 @@
       The <scm|tree-\<gtr\>list-2> procedure flattens a tree into a list by
       <scm|cons>ing the left most element onto the flattened left branch as
       well as <scm|cons>ing the entry element onto the flattened right
-      branch. Since the number of step takes up by <scm|cons> only has an
+      branch. Since the number of steps takes up by <scm|cons> only has an
       order of growth <math|\<Theta\> <around*|(|1|)>>, we have:
 
       <\equation*>

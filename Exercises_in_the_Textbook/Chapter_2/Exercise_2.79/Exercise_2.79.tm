@@ -64,11 +64,13 @@
 
         \ \ 
 
-        \ \ ;; interface to the rest of the system
+        \ \ <with|prog-font-shape|italic|;; interface to the rest of the
+        system>
 
         \ \ ...
 
-        \ \ \<less\>other interface procedures\<gtr\>
+        \ \ <with|prog-font-shape|italic|\<less\>other interface
+        procedures\<gtr\>>
 
         \ \ ...
 
@@ -80,7 +82,7 @@
       </scm-code>
 
       <hspace|3ex>Following the same way, we can add the <scm|equ?> predicate
-      into the package that handl complex numbers:<\footnote>
+      into the package that handles complex numbers:<\footnote>
         We dispatch the equality test of two complex numbers from outside
         world on to the corresponding <scm|equ?> procedures in terms of
         rectangular form and polar form for the sake of additivity. This can
@@ -90,7 +92,7 @@
         <\scm-code>
           (define (install-rectangular-package)
 
-          \ \ ;; internal procedures
+          \ \ <with|prog-font-shape|italic|;; internal procedures>
 
           \ \ ...
 
@@ -102,7 +104,8 @@
 
           \ \ 
 
-          \ \ ;; interface to the rest part of the system
+          \ \ <with|prog-font-shape|italic|;; interface to the rest part of
+          the system>
 
           \ \ ...
 
@@ -116,7 +119,7 @@
         <\scm-code>
           (define (install-polar-package)
 
-          \ \ ;; internal procedures
+          \ \ <with|prog-font-shape|italic|;; internal procedures>
 
           \ \ ...
 
@@ -128,7 +131,8 @@
 
           \ \ 
 
-          \ \ ;; interface to the rest part of the system
+          \ \ <with|prog-font-shape|italic|;; interface to the rest part of
+          the system>
 
           \ \ ...
 
@@ -145,18 +149,19 @@
 
         \ \ ...
 
-        \ \ \<less\>imported procedures from rectangular and polar
-        packages\<gtr\>
+        \ \ <with|prog-font-shape|italic|\<less\>imported procedures from
+        rectangular and polar packages\<gtr\>>
 
         \ \ ...
 
         \ \ 
 
-        \ \ ;; internal procedures
+        \ \ <with|prog-font-shape|italic|;; internal procedures>
 
         \ \ ...
 
-        \ \ \<less\>other internal procedures\<gtr\>
+        \ \ <with|prog-font-shape|italic|\<less\>other internal
+        procedures\<gtr\>>
 
         \ \ ...
 
@@ -166,11 +171,13 @@
 
         \ \ 
 
-        \ \ ;; interface to the rest of the system
+        \ \ <with|prog-font-shape|italic|;; interface to the rest of the
+        system>
 
         \ \ ...
 
-        \ \ \<less\>other interface procedures\<gtr\>
+        \ \ <with|prog-font-shape|italic|\<less\>other interface
+        procedures\<gtr\>>
 
         \ \ ...
 

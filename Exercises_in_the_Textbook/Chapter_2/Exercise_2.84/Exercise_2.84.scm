@@ -24,15 +24,14 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define (raise-up arg1 arg2)
-  (let ((t1 (type-tag arg1))
-	(t2 (type-tag arg2)))
-    (cond ((eq? t1 t2) arg1)
-	  ((get op t2)
-	   (raise-up (raise arg1) arg2))
-	  (else false))))
-
 (define (apply-generic op . args)
+  (define (raise-up arg1 arg2)
+    (let ((t1 (type-tag arg1))
+	  (t2 (type-tag arg2)))
+      (cond ((eq? t1 t2) arg1)
+	    ((get op t2)
+	     (raise-up (raise arg1) arg2))
+	    (else false))))
   (let ((type-tag (map type-tag args)))
     (let ((proc (get op type-tags)))
       (if proc

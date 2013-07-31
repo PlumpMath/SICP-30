@@ -24,21 +24,21 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; inside the integer package
+;; inside the scheme-number package
 
-(define (integer->rational n)
-  (make-rat (contents n) 1))
+(define (scheme-number->rational n)
+  (make-rat n 1))
 
 (put 'raise '(integer)
-     (lambda (n) (tag (integer->rational n))))
+     (lambda (n) (tag (scheme-number->rational n))))
 
 
 
 ;; inside the rational package
 
 (define (rational->real x)
-  (make-real (/ (numer (contents x))
-		(denom (contents x)))))
+  (make-real (/ (numer x)
+		(denom x))))
 
 (put 'raise '(rational)
      (lambda (x) (tag (rational->real x))))
@@ -48,7 +48,7 @@
 ;; inside the real package
 
 (define (real->complex x)
-  (make-from-real-imag (contents x) 0))
+  (make-from-real-imag x 0))
 
 (put 'raise '(real)
      (lambda (x) (tag (real->complex x))))

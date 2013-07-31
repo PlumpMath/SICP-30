@@ -88,6 +88,7 @@ of a given hand:
 (define (hand-total hand)
   (cdr hand))
 \endlisp
+
 Don't worry right now about the details of the Scheme primitives {\tt
 cons}, {\tt car}, and {\tt cdr}, which are used in implementing these
 procedures---we will be discussing this topic in detail over the next
@@ -104,6 +105,7 @@ both the up card and the total):
 (define (make-new-hand first-card)
   (make-hand first-card first-card))
 \endlisp
+
 {\tt Hand-add-card} takes a hand and a new card and returns a hand with
 the same up-card as the original, but with the total augmented by the
 value of the new card:

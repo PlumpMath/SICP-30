@@ -14,7 +14,7 @@
 
       \ \ (cond ((number? exp) 0)
 
-      \ \ \ \ \ \ \ \ ((variable? exp)(if (same-variable? exp var) 1 0))
+      \ \ \ \ \ \ \ \ ((variable? exp) (if (same-variable? exp var) 1 0))
 
       \ \ \ \ \ \ \ \ ((sum? exp)
 
@@ -93,31 +93,31 @@
       \;
 
       a. The first two clauses in this conditional play the same roles as
-      they did in the former version of <scm|deriv>. All the variation appear
-      in the <scm|else> clause, let's come and take a close investigation on
-      it.
+      they did formerly. All the variation appears in the third case, that
+      is, the <scm|else> clause.
 
-      In the third case, the symbolic differentiation was performed by means
-      of a general ``operation'' procedure named <scm|deriv>, which applies a
-      generic derivation operation to the operands in the expression and the
-      variable. The derivation operation is extracted by looking in table
-      <reference|Exercise_2.73-Figure_1><\float|float|tbh>
+      <hspace|3ex>We see in the <scm|else> clause that the symbolic
+      differentiation was performed by means of a general ``operation''
+      procedure named <scm|deriv>, which performs a generic derivation
+      operation to the operands in a particular expression respect to a
+      designated variable. The derivation operation is extracted by looking
+      in table <reference|Exercise_2.73-Figure_1><\float|float|tbh>
         <big-figure|<label|Exercise_2.73-Figure_1><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.5gw|0.5gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|<graphics||<gr-group|<text-at|Operations|<point|-5.07362570630231|-0.61506663270876>>|<line|<point|-2.01783635401508|-1.54289588569917>|<point|-2.01783635401508|0.45710411430083>|<point|4.48216364598492|0.45710411430083>>|<text-at|<scm|deriv>|<point|-3.01783635401508|-0.14289588569917>>|<line|<point|-0.017836354015081|0.95710411430083>|<point|-0.017836354015081|-1.54289588569917>>|<text-at|<scm|+>|<point|-1.11783635401508|0.65710411430083>>|<text-at|<scm|deriv-sum>|<point|-1.81783635401508|-0.14289588569917>>|<text-at|Types|<point|0.68216364598492|1.25710411430083>>|<text-at|<scm|*>|<point|1.18216364598492|0.65710411430083>>|<line|<point|2.48216364598492|0.95710411430083>|<point|2.48216364598492|-1.54289588569917>>|<text-at|<scm|deriv-product>|<point|0.18216364598492|-0.14289588569917>>|<text-at|<scm|**>|<point|3.28216364598492|0.65710411430083>>|<text-at|<scm|deriv-expt>|<point|2.68216364598492|-0.14289588569917>>>>>|Table
         of operations for the symbolic differentiation system>
       </float> under the name of the operation (which is <scm|deriv> here)
       and the type of the algebraic operator symbol (such as <scm|+>).
 
-      Remeber that the program we designed in the data-directed style
-      requires all the data represented by list structure, which serve as a
-      foundation in performing the strategy of dispatching on type. We learnt
-      from section 1.1.2 that if a variable or an expression is defined to be
-      a number, evaluating it we will get the numerical value it is binded
-      with. In the case where the expression is simply a variable (that is,
-      literally a string of characters) the rule of quotation indicates that
-      the expression possesses a value which is the symbols themselves. In
-      neither cases, the expression is represented by list structure.
-      Therefore, we can not assimilate the predicates <scm|number?> and
-      <scm|same-variable?> into the data-directed dispatch.
+      <hspace|3ex>Remeber that all the programs we designed in the
+      data-directed style requires data to be represented by list structure,
+      which serve as a foundation in performing the strategy of dispatching
+      on type. We learnt from section 1.1.2 that if a variable or an
+      expression is defined to be a number, evaluating it we will get the
+      numerical value it is binded with. In the case where the expression is
+      simply a variable (that is, literally a string of characters) the rule
+      of quotation indicates that the expression possesses a value which is
+      the symbols themselves. In neither cases, the expression is represented
+      by list structure. Therefore, we can not assimilate the predicates
+      <scm|number?> and <scm|same-variable?> into the data-directed dispatch.
 
       b. Much similar to those of the complex number, the packages for
       derivatives of sums and products can be implemented as:<\footnote>

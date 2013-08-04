@@ -15,6 +15,28 @@
 
 ;Value: make-rational
 
+(define (attach-tag type-tag contents)
+  (cons type-tag contents))
+;Value: attach-tag
+
+(define (type-tag datum)
+  (if (pair? datum)
+      (car datum)
+      (error "Bad tagged datum -- TYPE-TAG" datum)))
+;Value: type-tag
+
+(define (contents datum)
+  (if (pair? datum)
+      (cdr datum)
+      (error "Bad tagged datum -- CONTENTS" datum)))
+;Value: contents
+
+(define (assoc key records)
+  (cond ((null? records) false)
+	((equal? key (caar records)) (car records))
+	(else (assoc key (cdr records)))))
+;Value: assoc
+
 (define (make-table)
   (let ((local-table (list '*table*)))
     (define (lookup key-1 key-2)
@@ -148,4 +170,5 @@
 (define p1 (make-polynomial 'x '((2 1) (0 1))))
 (define p1 (make-polynomial 'x '((3 1) (0 1))))
 (define rf (make-rational p2 p1))
+
 

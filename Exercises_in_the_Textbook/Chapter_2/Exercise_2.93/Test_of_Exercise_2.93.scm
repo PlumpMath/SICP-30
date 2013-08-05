@@ -11,24 +11,24 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;Value: install-rational-package
-
-;Value: make-rational
-
 (define (attach-tag type-tag contents)
-  (cons type-tag contents))
+  (if (number? contents)
+      contents
+      (cons type-tag contents)))
 ;Value: attach-tag
 
 (define (type-tag datum)
-  (if (pair? datum)
-      (car datum)
-      (error "Bad tagged datum -- TYPE-TAG" datum)))
+  (cond ((number? datum) 'scheme-number)
+	((pair? datum) (car datum))
+	(else
+	 (error "Bad tagged datum -- TYPE-TAG" datum))))
 ;Value: type-tag
 
 (define (contents datum)
-  (if (pair? datum)
-      (cdr datum)
-      (error "Bad tagged datum -- CONTENTS" datum)))
+  (cond ((number? datum) datum)
+	((pair? datum) (cdr datum))
+	(else
+	 (error "Bad tagged datum -- CONTENTS" datum))))
 ;Value: contents
 
 (define (assoc key records)
@@ -84,7 +84,7 @@
     (cons variable term-list))
   (define (variable p) (car p))
   (define (term-list p) (cdr p))
-
+ 
   (define (variable? x) (symbol? x))
   (define (same-variable? v1 v2)
     (and (variable? v1) (variable? v2) (eq? v1 v2)))
@@ -93,16 +93,22 @@
     (if (=zero? (coeff term))
 	term-list
 	(cons term term-list)))
-  (define (=zero? p) (empty-termlist? (term-list p)))
-  
+
   (define (the-empty-termlist) '())
   (define (first-term term-list) (car term-list))
-  (define (rest-term term-list) (cdr term-list))
+  (define (rest-terms term-list) (cdr term-list))
   (define (empty-termlist? term-list) (null? term-list))
 
   (define (make-term order coeff) (list order coeff))
   (define (order term) (car term))
   (define (coeff term) (cadr term))
+
+  (define (zero-poly? p)
+    (define (zero-terms? L)
+      (or (empty-termlist L)
+	  (and (=zero? (coeff (first-term L)))
+	       (zero-terms? (rest-terms L)))))
+    (zero-terms? (term-list p)))
 
   (define (add-poly p1 p2)
     (if (same-variable? (variable p1) (variable p2))
@@ -152,8 +158,8 @@
   
   ;; interface to the rest of the system
   (define (tag p) (attach-tag 'polynomial p))
-  (put '=zero? 'polynomial
-       (lambda (p) (tag (=zero? p))))
+  (put '=zero? '(polynomial)
+       (lambda (p) (tag (zero-poly? p))))
   (put 'add '(polynomial polynomial)
        (lambda (p1 p2) (tag (add-poly p1 p2))))
   (put 'mul '(polynomial polynomial)
@@ -167,8 +173,89 @@
   ((get 'make 'polynomial) var term-list))
 ;Value: make-polynomial
 
+(install-polynomial-package)
+;Value: done
+
+
+
+(define (install-scheme-number-package)
+  (define (zero-number? x) (= x 0))
+  (define (tag x)
+    (attach-tag 'scheme-number x))
+  (put '=zero? '(scheme-number)
+       (lambda (x) (tag (zero-number? x))))
+  (put 'add '(scheme-number scheme-number)
+       (lambda (x y) (tag (+ x y))))
+  (put 'sub '(scheme-number scheme-number)
+       (lambda (x y) (tag (- x y))))
+  (put 'mul '(scheme-number scheme-number)
+       (lambda (x y) (tag (* x y))))
+  (put 'div '(scheme-number scheme-number)
+       (lambda (x y) (tag (/ x y))))
+  (put 'make 'scheme-number
+       (lambda (x) (tag x)))
+  'done)
+;Value: install-scheme-number-package
+
+(install-scheme-number-package)
+;Value: done
+
+;Value: install-rational-package
+
+;Value: make-rational
+
+(install-rational-package)
+;Value: done
+
+(define (apply-generic op . args)
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags)))
+      (if proc
+	  (apply proc (map contents args))
+	  (error
+	   "No method for these types -- APPLY-GENERIC"
+	   (list op type-tags))))))
+;Value: apply-generic
+
+(define (=zero? x) (apply-generic '=zero? x))
+;Value: =zero?
+
+(define (add a b) (apply-generic 'add a b))
+;Value: add
+
+(define (sub a b) (apply-generic 'sub a b))
+;Value: sub
+
+(define (mul a b) (apply-generic 'mul a b))
+;Value: mul
+
+(define (div a b) (apply-generic 'div a b))
+;Value: div
+
 (define p1 (make-polynomial 'x '((2 1) (0 1))))
-(define p1 (make-polynomial 'x '((3 1) (0 1))))
+;Value: p1
+
+(display p1)
+(polynomial x (2 1) (0 1))
+;Unspecified return value
+
+(define p2 (make-polynomial 'x '((3 1) (0 1))))
+;Value: p2
+
+(display p2)
+(polynomial x (3 1) (0 1))
+;Unspecified return value
+
 (define rf (make-rational p2 p1))
+;Value: rf
 
+(display rf)
+(rational (polynomial x (3 1) (0 1)) polynomial x (2 1) (0 1))
+;Unspecified return value
 
+(define daul-rf (add rf rf))
+;Value: daul-rf
+
+(display daul-rf)
+(rational (polynomial x) polynomial x)
+;Unspecified return value

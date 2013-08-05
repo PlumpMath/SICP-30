@@ -29,7 +29,7 @@
   (define (numer x) (car x))
   (define (denom x) (cdr x))
   (define (make-rat n d) (cons n d))
-  (define (=zero? x) (= (numer x) 0))
+  (define (zero-rat? x) (= (numer x) 0))
   (define (add-rat x y)
     (make-rat (add (mul (numer x) (denom y))
 		   (mul (numer y) (denom x)))
@@ -44,11 +44,11 @@
   (define (div-rat x y)
     (make-rat (mul (numer x) (denom y))
 	      (mul (denom x) (numer y))))
-  
+    
   ;; interface to the rest of the system
   (define (tag x) (attach-tag 'rational x))
   (put '=zero? 'rational
-       (lambda (x) (tag (=zero? x))))
+       (lambda (x) (tag (zero-rat? x))))
   (put 'add '(rational rational)
        (lambda (x y) (tag (add-rat x y))))
   (put 'sub '(rational rational)

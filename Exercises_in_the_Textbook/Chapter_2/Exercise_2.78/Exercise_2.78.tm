@@ -27,11 +27,11 @@
       <\scm-code>
         (define (attach-tag type-tag contents)
 
-        \ \ (if (eq? type-tag 'scheme-number)
+        \ \ (if (number? contents)
 
         \ \ \ \ \ \ contents
 
-        \ \ \ \ \ \ (cons type-tags contents)))
+        \ \ \ \ \ \ (cons type-tag contents)))
 
         \;
 

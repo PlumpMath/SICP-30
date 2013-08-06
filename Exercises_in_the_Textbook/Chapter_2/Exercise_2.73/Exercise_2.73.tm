@@ -116,8 +116,9 @@
       simply a variable (that is, literally a string of characters) the rule
       of quotation indicates that the expression possesses a value which is
       the symbols themselves. In neither cases, the expression is represented
-      by list structure. Therefore, we can not assimilate the predicates
-      <scm|number?> and <scm|same-variable?> into the data-directed dispatch.
+      by list structure and thus can not be dispatched on type. Therefore, we
+      can not assimilate the predicates <scm|number?> and
+      <scm|same-variable?> into the data-directed dispatch.
 
       b. Much similar to those of the complex number, the packages for
       derivatives of sums and products can be implemented as:<\footnote>
@@ -138,11 +139,11 @@
 
         \ \ <with|prog-font-shape|italic|;; internal procedures>
 
-        \ \ (define (deriv operands var)
+        \ \ (define (sum-deriv exp var)
 
-        \ \ \ \ (make-sum (deriv (addend operands) var)
+        \ \ \ \ (make-sum (deriv (addend exp) var)
 
-        \ \ \ \ \ \ \ \ \ \ \ \ \ \ (deriv (augend operands) var)))
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ (deriv (augend exp) var)))
 
         \ \ (define (addend s) (car s))
 
@@ -154,30 +155,28 @@
 
         \ \ \ \ \ \ \ \ \ \ ((=number? a2 0) a1)
 
-        \ \ \ \ \ \ \ \ \ \ ((and (number? a1) (number? a2))
+        \ \ \ \ \ \ \ \ \ \ ((and (number? a1) (number? a2)) (+ a1 a2))
 
-        \ \ \ \ \ \ \ \ \ \ \ (+ a1 a2))
-
-        \ \ \ \ \ \ \ \ \ \ (else (list a1 a2))))
+        \ \ \ \ \ \ \ \ \ \ (else (list '+ a1 a2))))
 
         \ \ 
 
         \ \ <with|prog-font-shape|italic|;; interface to the rest of the
         system>
 
-        \ \ (define (tag x) (attach-tag '+ x))
+        \ \ (put 'deriv '+ sum-deriv)
 
-        \ \ (put 'deriv '+ deriv)
+        \ \ (put 'make '+
 
-        \ \ (put 'addend '+ addend)
-
-        \ \ (put 'augend '+ augend)
-
-        \ \ (put 'make-sum '+
-
-        \ \ \ \ \ \ \ (lambda (a1 a2) (tag (make-sum a1 a2))))
+        \ \ \ \ \ \ \ (lambda (a1 a2) (make-sum a1 a2)))
 
         \ \ 'done)
+
+        \;
+
+        (define (make-sum a1 a2)
+
+        \ \ ((get 'make '+) a1 a2))
       </scm-code>
 
       <\scm-code>
@@ -185,18 +184,17 @@
 
         \ \ <with|prog-font-shape|italic|;; internal procedures>
 
-        \ \ (define (deriv operands var)
+        \ \ (define (product-deriv exp var)
 
         \ \ \ \ (make-sum
 
-        \ \ \ \ \ (make-product (multiplier operands)
+        \ \ \ \ \ (make-product (multiplier exp)
 
-        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (deriv (multiplicand operands)
-        var))
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (deriv (multiplicand exp) var))
 
-        \ \ \ \ \ (make-product (deriv (multiplier operands) var)
+        \ \ \ \ \ (make-product (deriv (multiplier exp) var)
 
-        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (multiplicand operands))))
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (multiplicand exp))))
 
         \ \ (define (multiplier p) (car p))
 
@@ -210,45 +208,47 @@
 
         \ \ \ \ \ \ \ \ \ \ ((=number? m2 1) m1)
 
-        \ \ \ \ \ \ \ \ \ \ (else (list m1 m2))))
+        \ \ \ \ \ \ \ \ \ \ ((and (number? m1) (number? m2)) (* m1 m2))
+
+        \ \ \ \ \ \ \ \ \ \ (else (list '* m1 m2))))
 
         \ \ 
 
         \ \ <with|prog-font-shape|italic|;; interface to the rest part of the
         system>
 
-        \ \ (define (tag x) (attach-tag '* x))
+        \ \ (put 'deriv '* product-deriv)
 
-        \ \ (put 'deriv '* deriv)
+        \ \ (put 'make '*
 
-        \ \ (put 'multiplier '* multiplier)
-
-        \ \ (put 'multiplicand '* multiplicand)
-
-        \ \ (put 'make-product '*
-
-        \ \ \ \ \ \ \ (lambda (m1 m2) (tag (make-product m1 m2))))
+        \ \ \ \ \ \ \ (lambda (m1 m2) (make-product m1 m2)))
 
         \ \ 'done)
+
+        \;
+
+        (define (make-product m1 m2)
+
+        \ \ ((get 'make '*) m1 m2))
       </scm-code>
 
       c. The following procedure install the derivatives of exponent in this
       data-directed system:
 
       <\scm-code>
-        (define (install-exponent-package)
+        (define (install-exponentiation-package)
 
         \ \ <with|prog-font-shape|italic|;; internal procedures>
 
-        \ \ (define (deriv operands var)
+        \ \ (define (exponentiation-deriv exp var)
 
-        \ \ \ \ (let ((u (base operands))
+        \ \ \ \ (let ((u (base exp))
 
-        \ \ \ \ \ \ \ \ \ \ (n (exponent operands)))
+        \ \ \ \ \ \ \ \ \ \ (n (exponent exp)))
 
         \ \ \ \ \ \ (make-product (make-product n
 
-        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (make-exponent
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (make-exponentiation
         u (- n 1)))
 
         \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (deriv u var))))
@@ -257,36 +257,34 @@
 
         \ \ (define (exponent e) (cadr e))
 
-        \ \ (define (make-exponent u n)
+        \ \ (define (make-exponentiation u n)
 
         \ \ \ \ (cond ((=number? n 0) 1)
 
         \ \ \ \ \ \ \ \ \ \ ((=number? n 1) u)
 
-        \ \ \ \ \ \ \ \ \ \ ((and (number? u) (number? n))
+        \ \ \ \ \ \ \ \ \ \ ((and (number? u) (number? n)) (expt u n))
 
-        \ \ \ \ \ \ \ \ \ \ \ (expt u n))
-
-        \ \ \ \ \ \ \ \ \ \ (else (list u n))))
+        \ \ \ \ \ \ \ \ \ \ (else (list '** u n))))
 
         \ \ 
 
         \ \ <with|prog-font-shape|italic|;; interface to the rest of the
         system>
 
-        \ \ (define (tag x) (attach-tag '** x))
+        \ \ (put 'deriv '** exponentiation-deriv)
 
-        \ \ (put 'deriv '** deriv)
+        \ \ (put 'make '**
 
-        \ \ (put 'base '** base)
-
-        \ \ (put 'exponent '** exponent)
-
-        \ \ (put 'make-exponent '**
-
-        \ \ \ \ \ \ \ (tag (lambda (u n) (make-exponent u n)))))
+        \ \ \ \ \ \ \ (lambda (u n) (make-exponentiation u n))))
 
         \ \ 'done)
+
+        \;
+
+        (define (make-exponentiation u n)
+
+        \ \ ((get 'make '**) u n))
       </scm-code>
 
       d. All the changes required by the derivative system is swap the order

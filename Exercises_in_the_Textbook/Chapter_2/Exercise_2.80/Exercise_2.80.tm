@@ -47,9 +47,9 @@
 
         \ \ ...
 
-        \ \ (put '=zero? 'scheme-number
+        \ \ (put '=zero? '(scheme-number)
 
-        \ \ \ \ \ \ \ (lambda (x) (tag (= x 0))))
+        \ \ \ \ \ \ \ (lambda (x) (= x 0)))
 
         \ \ 'done)
       </scm-code>
@@ -69,7 +69,7 @@
 
         \ \ ...
 
-        \ \ (define (=zero? x)
+        \ \ (define (=zero-rat? x)
 
         \ \ \ \ (= (numer x) 0)
 
@@ -85,9 +85,9 @@
 
         \ \ ...
 
-        \ \ (put '=zero? 'rational
+        \ \ (put '=zero? '(rational)
 
-        \ \ \ \ \ \ \ (lambda (x) (tag (=zero? x))))
+        \ \ \ \ \ \ \ (lambda (x) (=zero? x)))
 
         \ \ 'done)
       </scm-code>
@@ -121,9 +121,9 @@
 
           \ \ ...
 
-          \ \ (put '=zero? 'rectangular
+          \ \ (put '=zero? '(rectangular)
 
-          \ \ \ \ \ \ \ (lambda (z) (tag (=zero? z))))
+          \ \ \ \ \ \ \ (lambda (z) (=zero? z)))
 
           \ \ 'done)
         </scm-code>
@@ -148,9 +148,9 @@
 
           \ \ ...
 
-          \ \ (put '=zero? 'polar
+          \ \ (put '=zero? '(polar)
 
-          \ \ \ \ \ \ \ (lambda (z) (tag (=zero? z))))
+          \ \ \ \ \ \ \ (lambda (z) (=zero? z)))
 
           \ \ 'done)
         </scm-code>
@@ -177,7 +177,7 @@
 
         \ \ ...
 
-        \ \ (define (=zero? z)
+        \ \ (define (=zero-complex? z)
 
         \ \ \ \ (apply-generic '=zero? z))
 
@@ -193,9 +193,9 @@
 
         \ \ ...
 
-        \ \ (put 'equ? 'complex
+        \ \ (put '=zero? '(complex)
 
-        \ \ \ \ \ \ \ (lambda (z) (tag (=zero? z))))
+        \ \ \ \ \ \ \ (lambda (z) (=zero-complex? z)))
 
         \ \ 'done)
       </scm-code>

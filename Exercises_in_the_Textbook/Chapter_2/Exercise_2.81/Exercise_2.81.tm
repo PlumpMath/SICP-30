@@ -61,36 +61,43 @@
     <\answer>
       \;
 
-      a. With Louis's coercion procedures installed, the program drops into
-      infinite recursion whenever <scm|apply-generic> is called with two
-      arguments of type <scm|scheme-number> or two arguments of type
-      <scm|complex> for an operation that is not found in the table for those
-      types rather than reports error explicitly. For example, when we call
-      <scm|exp> with two complex numbers <scm|z1> and <scm|z2> as the
-      postulation stated above, the process generated during the evaluation
-      turns out to be:
+      a. With Louis's coercion procedures installed, whenever
+      <scm|apply-generic> is called with two arguments of type
+      <scm|scheme-number> or two arguments of type <scm|complex> for an
+      operation that is not found in the table, it drops into an infinite
+      loop, instead of reporting error explicitly. For example, when we call
+      <scm|exp> with two complex numbers <scm|z1> and <scm|z2> as been
+      postulated above, the process generated during the evaluation turns out
+      to be:
 
       <\scm-code>
         (exp z1 z2)
 
         (apply-generic 'exp z1 z2)
 
-        (apply-generic 'exp z1 z2)
+        ; coerce the type of z1 to itself
 
         (apply-generic 'exp z1 z2)
+
+        ; coerce the type of z1 to itself
+
+        (apply-generic 'exp z1 z2)
+
+        ; coerce the type of z1 to itself
 
         ... \ ; infinite recursion of apply-generic
       </scm-code>
 
       b. Louis is wrong. <scm|Apply-generic> just works fine as originally to
-      be. When the original <scm|apply-generic> procedure is called with two
-      arguments of the same type for an operatioin that is not found in the
-      table for those types, the program gives up together with reporting
-      error. This is a pretty natural and reasonable practice. Louis,
-      however, gild the lily by keeping the program tied to coerce arguments
-      of each type to their own type, which in turn makes the
-      <scm|apply-generic> procedure call itself infinitely rather than
-      reporting error explicitly.
+      be. It is reasonable to regard the case where <scm|apply-generic> is
+      called with two arguments of the same type for an operation that is not
+      found in the table as a special case in which there is no known way to
+      coerce either type to each other type. This case had been addressed by
+      the <scm|else> clause in the <scm|cond> predicate, where the program
+      gives up and reports an error. Louis, however, gild the lily by keeping
+      the program tied to coerce arguments of each type to their own type,
+      which in turn makes the <scm|apply-generic> procedure fail to address
+      this case.
 
       c. We can meet this requirement by making <scm|apply-generic> report an
       error whenever it encounter two arguments of the same type but

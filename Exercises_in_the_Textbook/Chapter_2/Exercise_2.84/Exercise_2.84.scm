@@ -25,7 +25,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (apply-generic op . args)
-  (define (raise-up arg1 arg2)
+  (define (raise-up arg1 arg2)  ; raise arg1 to the same type of arg2
     (let ((t1 (type-tag arg1))
 	  (t2 (type-tag arg2)))
       (cond ((eq? t1 t2) arg1)
@@ -39,12 +39,12 @@
 	  (if (= (length args) 2)
 	      (let ((a1 (car args))
 		    (a2 (cadr args)))
-		(let ((a1->a2 (raise-up a1 a2))
-		      (a2->a1 (raise-up a2 a1)))
-		  (cond (a1->a2
-			 (apply-generic op (raise-up a1 a2) a2))
-			(t2->t1
-			 (apply-generic op a1 (raise-up a2 a1)))
+		(let ((raised-a1 (raise-up a1 a2))
+		      (raised-a2 (raise-up a2 a1)))
+		  (cond (raised-a1
+			 (apply-generic op raised-a1 a2))
+			(raised-a2
+			 (apply-generic op a1 raised-a2))
 			(else
 			 (error "No method for these types"
 				(list op type-tags))))))

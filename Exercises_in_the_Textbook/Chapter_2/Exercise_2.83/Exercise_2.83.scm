@@ -27,7 +27,7 @@
 ;; inside the scheme-number package
 
 (define (scheme-number->rational n)
-  (make-rat n 1))
+  (make-rational (contents n) 1))
 
 (put 'raise '(integer)
      (lambda (n) (tag (scheme-number->rational n))))
@@ -48,7 +48,7 @@
 ;; inside the real package
 
 (define (real->complex x)
-  (make-from-real-imag x 0))
+  (make-complex-from-real-imag x 0))
 
 (put 'raise '(real)
      (lambda (x) (tag (real->complex x))))

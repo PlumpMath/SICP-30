@@ -49,23 +49,23 @@
 
 ;; inside the complex package
 
-(define (project z)
-  (make-real (real-part z)))
+(define (project-complex z)
+  (make-complex-from-real-imag (real-part z)))
 
 (put 'project '(complex)
-     (lambda (z) (tag (project z))))
+     (lambda (z) (tag (project-complex z))))
 
 
 
 ;; inside the real package
 
-(define (project x)
-  (let ((rat (rationalize (inexact->exact x) 1/100)))
-    (make-rat (numerator rat)
-	      (denominator rat))))
+(define (project-real x)
+  (let ((r (rationalize (inexact->exact x) 1/100)))
+    (make-rational (numerator r)
+		   (denominator r))))
 
 (put 'project '(real)
-     (lambda (x) (tag (project x))))
+     (lambda (x) (tag (project-real x))))
 
 
 
@@ -76,6 +76,17 @@
 
 (put 'project '(rational)
      (lambda (x) (tag (project x))))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;    The Generic PROJECT Procedure
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (project . x)
+  (apply-generic 'project . x))
 
 
 

@@ -15,7 +15,7 @@
       \;
 
       <\scm-code>
-        (define (install-rational-package)
+        (define (install-polynomial-package)
 
         \ \ ;; internal procedures
 

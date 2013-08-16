@@ -18,12 +18,12 @@
       \;
 
       To make the system accomodate this mutability, we'd better revisit the
-      complex package we saw in section 2.5.1 and find out what traps it in
-      only competent with those complex numbers whose components are of
-      ordinary numbers. Well, the reason is that all the arithmetic
-      operations between the component of complex numbers (such as
-      <scm|add-complex>) are implemented using plain arithmetic operations on
-      scheme number (such as <scm|+>). This inspire us to update the complex
+      complex package in section 2.5.1 and find out what makes it only
+      competent with those complex numbers whose real parts and imaginary
+      parts are of ordinary numbers. Well, the reason is that all the
+      arithmetic operations between the component of complex numbers (such as
+      <scm|add-complex>) are implemented using plain arithmetic operator on
+      scheme number (such as <scm|+>). This inspires us to update the complex
       number system by expressing the notion of addition, subtraction,
       multiplication and division between the components of rational numbers
       using generic procedures.

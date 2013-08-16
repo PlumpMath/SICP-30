@@ -87,7 +87,7 @@
 
         \ \ (put '=zero? '(rational)
 
-        \ \ \ \ \ \ \ (lambda (x) (=zero? x)))
+        \ \ \ \ \ \ \ (lambda (x) (=zero-rat? x)))
 
         \ \ 'done)
       </scm-code>

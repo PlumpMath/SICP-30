@@ -52,7 +52,11 @@
   (define (coeff term) (cadr term))
 
   (define (zero-poly? p)
-    (empty-termlist? (term-list p)))
+    (define (zero-terms? L)
+      (or (empty-termlist? L)
+	  (and (=zero? (first-term L))
+	       (zero-terms? (rest-terms L)))))
+    (zero-terms? (term-list p)))
 
   (define (add-poly p1 p2)
     (if (same-variable? (variable p1) (variable p2))

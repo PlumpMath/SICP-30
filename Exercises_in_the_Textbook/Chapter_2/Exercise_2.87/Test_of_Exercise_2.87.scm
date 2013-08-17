@@ -371,14 +371,58 @@
 ;Value: p2
 
 (add p0 p1)
-;Value 14: (polynomial x (100 1) (2 2) (0 1))
+;Value 13: (polynomial x (100 1) (2 2) (0 1))
 
 (=zero? (add p0 p1))
 ;Value: #f
 
 (add p1 p2)
-;Value 15: (polynomial x)
+;Value 14: (polynomial x)
 
 (=zero? (add p1 p2))
 ;Value: #t
 
+(define p3 (make-polynomial 'x
+			    '((4 1)
+			      (2 (make-rational 2 3))
+			      (0 (make-complex-from-real-imag 5 3)))))
+;Value: p3
+
+(add p3 p3)
+
+;No method for these types -- APPLY-GENERIC (add (make-complex-from-real-imag make-complex-from-real-imag))
+;To continue, call RESTART with an option number:
+; (RESTART 1) => Return to read-eval-print level 1.
+
+(RESTART 1)
+
+;Abort!
+
+(define p14 (make-polynomial 'x
+			     '((2 (make-rational 2 3))
+			       (0 (make-rational -1 3)))))
+;Value: p14
+
+(mul p14 p14)
+
+;No method for these types -- APPLY-GENERIC (mul (make-rational make-rational))
+;To continue, call RESTART with an option number:
+; (RESTART 1) => Return to read-eval-print level 1.
+
+(RESTART 1)
+
+;Abort!
+
+
+
+(define r1 (make-rational 2 3))
+;Value: r1
+
+;Bad tagged datum -- TYPE-TAG r1
+;To continue, call RESTART with an option number:
+; (RESTART 1) => Return to read-eval-print level 1.
+;The object x, passed as the first argument to integer-zero?, is not the correct type.
+
+(RESTART 1)
+
+;Abort!

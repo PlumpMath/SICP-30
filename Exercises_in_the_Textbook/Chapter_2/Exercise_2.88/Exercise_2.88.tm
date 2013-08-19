@@ -127,11 +127,7 @@
 
         \ \ ...
 
-        \ \ (define (sub-poly p1 p2)
-
-        \ \ \ \ (add-poly p1 (neg p2))
-
-        \ \ (define (neg p)
+        \ \ (define (neg-poly p)
 
         \ \ \ \ (make-poly (variable p)
 
@@ -155,6 +151,12 @@
 
         \ \ 
 
+        \ \ (define (sub-poly p1 p2)
+
+        \ \ \ \ (add-poly p1 (neg-poly p2))
+
+        \ \ 
+
         \ \ ;; interface to rest of the system
 
         \ \ ...
@@ -163,13 +165,13 @@
 
         \ \ ...
 
+        \ \ (put 'neg 'polynomial
+
+        \ \ \ \ \ \ \ (lambda (p) (tag (neg-poly p))))
+
         \ \ (put 'sub '(polynomial polynomial)
 
         \ \ \ \ \ \ \ (lambda (p1 p2) (tag (sub-poly p1 p2))))
-
-        \ \ (put 'neg 'polynomial
-
-        \ \ \ \ \ \ \ (lambda (p) (tag (neg p))))
 
         \ \ 'done)
       </scm-code>
@@ -180,58 +182,70 @@
       <\scm-code>
         ;; inside the Scheme-number package
 
-        (define (neg x) (- x))
+        (put 'neg '(scheme-number)
 
-        (put 'neg 'scheme
-
-        \ \ \ \ \ (lambda (x) (tag (neg x))))
+        \ \ \ \ \ (lambda (x) (tag (- x))))
 
         \;
 
         ;; inside the rational package
 
-        (define (neg x)
+        (define (neg-rat x)
 
-        \ \ (make-rat (- (numer x))
+        \ \ (make-rat (neg (numer x))
 
         \ \ \ \ \ \ \ \ \ \ \ \ (denom x)))
 
-        (put 'neg 'rational
+        (put 'neg '(rational)
 
-        \ \ \ \ \ (lambda (x) (tag (neg x))))
-
-        \;
-
-        ;; inside the real package
-
-        (define (neg x)
-
-        \ \ (make-real (- x)))
-
-        (put 'neg 'real
-
-        \ \ \ \ \ (lambda (x) (tag (neg x))))
+        \ \ \ \ \ (lambda (x) (tag (neg-rat x))))
 
         \;
 
         ;; inside the complex package
 
-        (define (neg z)
+        (define (neg-complex z)
 
-        \ \ (make-from-real-imag (- (real-part z))
+        \ \ (apply-generic 'neg z))
 
-        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (- (imag-part z))))
+        (put 'neg '(complex)
 
-        (put 'neg 'complex
+        \ \ \ \ \ (lambda (z) (tag (neg-complex z))))
 
-        \ \ \ \ \ (lambda (z) (tag (neg z))))
+        \;
+
+        ;; inside the rectangular package
+
+        (define (neg-rec z)
+
+        \ \ (make-from-real-imag (neg (real-part z))
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (neg (imag-part z))))
+
+        (put 'neg '(rectangular)
+
+        \ \ \ \ \ (lambda (z) (tag (neg-rec z))))
+
+        \;
+
+        ;; inside the polar-package
+
+        (define (neg-pol z)
+
+        \ \ (make-from-mag-ang (neg (magnitude z))
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (neg (angle z))))
+
+        (put 'neg '(polar)
+
+        \ \ \ \ \ (lambda (z) (tag (neg-pol z))))
       </scm-code>
 
       <hspace|3ex>Users can access the <scm|neg> procedure by means of the
       following procedure:
 
       <\scm-code>
-        (define (neg x) (apply-generic 'neg 'x))
+        (define (neg x) (apply-generic 'neg x))
       </scm-code>
     </answer>
   </render-exercise>
@@ -246,6 +260,6 @@
 <\references>
   <\collection>
     <associate|footnote-|<tuple|?|?>>
-    <associate|footnote-*|<tuple|?|?>>
+    <associate|footnote-*|<tuple|?|1>>
   </collection>
 </references>

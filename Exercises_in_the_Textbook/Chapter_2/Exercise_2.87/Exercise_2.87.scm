@@ -54,7 +54,7 @@
   (define (zero-poly? p)
     (define (zero-terms? L)
       (or (empty-termlist? L)
-	  (and (=zero? (first-term L))
+	  (and (=zero? (coeff (first-term L)))
 	       (zero-terms? (rest-terms L)))))
     (zero-terms? (term-list p)))
 

@@ -351,6 +351,7 @@
 (define (angle z) (apply-generic 'angle z))
 ;Value: angle
 
+
 ;Value: install-polynomial-package
 
 (install-polynomial-package)
@@ -371,58 +372,80 @@
 ;Value: p2
 
 (add p0 p1)
-;Value 13: (polynomial x (100 1) (2 2) (0 1))
+;Value 21: (polynomial x (100 1) (2 2) (0 1))
 
 (=zero? (add p0 p1))
 ;Value: #f
 
 (add p1 p2)
-;Value 14: (polynomial x)
+;Value 22: (polynomial x)
 
 (=zero? (add p1 p2))
 ;Value: #t
 
 (define p3 (make-polynomial 'x
-			    '((4 1)
-			      (2 (make-rational 2 3))
-			      (0 (make-complex-from-real-imag 5 3)))))
+			    (list (list 4 1)
+				  (list 2 (make-rational 2 3))
+				  (list 0 (make-complex-from-real-imag 5 3)))))
 ;Value: p3
 
 (add p3 p3)
+;Value 27: (polynomial x (4 2) (2 (rational 4 . 3)) (0 (complex rectangular 10 . 6)))
 
-;No method for these types -- APPLY-GENERIC (add (make-complex-from-real-imag make-complex-from-real-imag))
-;To continue, call RESTART with an option number:
-; (RESTART 1) => Return to read-eval-print level 1.
-
-(RESTART 1)
-
-;Abort!
 
 (define p14 (make-polynomial 'x
-			     '((2 (make-rational 2 3))
-			       (0 (make-rational -1 3)))))
+			     (list (list 2 (make-rational 2 3))
+				   (list 0 (make-rational -1 3)))))
 ;Value: p14
 
 (mul p14 p14)
+;Value 28: (polynomial x (4 (rational 4 . 9)) (2 (rational -4 . 9)) (0 (rational 1 . 9)))
 
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;     Wrong Practices to Create Polynomial
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define p5 (make-polynomial 'x
+			    '((4 1)
+			      (2 (make-rational 2 3))
+			      (0 (make-complex-from-real-imag 5 3)))))
+;Value: p5
+
+(add p5 p5)
+;No method for these types -- APPLY-GENERIC (add (make-complex-from-real-imag make-complex-from-real-imag))
+;To continue, call RESTART with an option number:
+; (RESTART 6) => Return to read-eval-print level 6.
+; (RESTART 5) => Return to read-eval-print level 5.
+; (RESTART 4) => Return to read-eval-print level 4.
+; (RESTART 3) => Return to read-eval-print level 3.
+; (RESTART 2) => Return to read-eval-print level 2.
+; (RESTART 1) => Return to read-eval-print level 1.
+;Start debugger? (y or n): y
+;Starting debugger...
+
+
+
+(define p16 (make-polynomial 'x
+			     '((2 (make-rational 2 3))
+			       (0 (make-rational -1 3)))))
+;Value: p16
+
+(mul p16 p16)
 ;No method for these types -- APPLY-GENERIC (mul (make-rational make-rational))
 ;To continue, call RESTART with an option number:
+; (RESTART 7) => Return to read-eval-print level 7.
+; (RESTART 6) => Return to read-eval-print level 6.
+; (RESTART 5) => Return to read-eval-print level 5.
+; (RESTART 4) => Return to read-eval-print level 4.
+; (RESTART 3) => Return to read-eval-print level 3.
+; (RESTART 2) => Return to read-eval-print level 2.
 ; (RESTART 1) => Return to read-eval-print level 1.
+;Start debugger? (y or n): y
+;Starting debugger...
 
-(RESTART 1)
+;; Have you ever known what's wrong with the practices of creating polynomials above?
 
-;Abort!
-
-
-
-(define r1 (make-rational 2 3))
-;Value: r1
-
-;Bad tagged datum -- TYPE-TAG r1
-;To continue, call RESTART with an option number:
-; (RESTART 1) => Return to read-eval-print level 1.
-;The object x, passed as the first argument to integer-zero?, is not the correct type.
-
-(RESTART 1)
-
-;Abort!

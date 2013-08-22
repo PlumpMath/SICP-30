@@ -44,10 +44,7 @@
 
   ;; representation of terms and term lists
   (define (adjoin-term term term-list)
-    (if (=zero? (coeff term))
-	term-list
-	(cons (coeff term)
-	      term-list)))
+    (cons (coeff term) term-list))
 
   (define (the-empty-termlist) '())
   (define (first-term term-list)

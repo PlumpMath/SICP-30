@@ -400,80 +400,77 @@
 ;Value: p11
 
 (add p0 p1)
-;Value 14: (polynomial x 1 2 0 3 -2 -5)
+;Value 20: (polynomial x 1 2 0 3 -2 -5)
 
 (add p1 p2)
-;Value 15: (polynomial x 1 -2 1 1 5 4)
+;Value 21: (polynomial x 1 -2 1 1 5 4)
 
 (sub p0 p1)
-;Value 19: (polynomial x -1 -2 -3 2 5)
+;Value 22: (polynomial x -1 -2 0 -3 2 5)
 
 (sub p2 p0)
-;Value 20: (polynomial x -4 1 -2 7 9)
+;Value 23: (polynomial x -4 1 -2 7 9)
 
 (mul p0 p1)
-;Value 16: (polynomial x)
+;Value 24: (polynomial x)
 
 (mul p1 p2)
-;Value 18: (polynomial x 4 -1 2 -7 -9)
+;Value 25: (polynomial x 4 -1 2 -7 -9)
 
 (add p0 p10)
-
 ;Polys not in the same var --ADD-POLY ((x) (y))
 ;To continue, call RESTART with an option number:
 ; (RESTART 1) => Return to read-eval-print level 1.
-
-(RESTART 1)
-
-;Abort!
+;Start debugger? (y or n): y
+;Starting debugger...
 
 (add p2 p10)
-
 ;Polys not in the same var --ADD-POLY ((x -4 1 -2 7 ...) (y))
 ;To continue, call RESTART with an option number:
+; (RESTART 2) => Return to read-eval-print level 2.
 ; (RESTART 1) => Return to read-eval-print level 1.
-
-(RESTART 1)
-
-;Abort!
+;Start debugger? (y or n): y
+;Starting debugger...
 
 (sub p10 p1)
-
-;Polys not in the same var --ADD-POLY ((y) (x -1 -2 -3 2 ...))
+;Polys not in the same var --ADD-POLY ((y) (x -1 -2 0 -3 ...))
 ;To continue, call RESTART with an option number:
+; (RESTART 3) => Return to read-eval-print level 3.
+; (RESTART 2) => Return to read-eval-print level 2.
 ; (RESTART 1) => Return to read-eval-print level 1.
-
-(RESTART 1)
-
-;Abort!
+;Start debugger? (y or n): y
+;Starting debugger...
 
 (sub p2 p11)
-
-;Polys not in the same var --ADD-POLY ((x -4 1 -2 7 ...) (y -1 -2 -3 2 ...))
+;Polys not in the same var --ADD-POLY ((x -4 1 -2 7 ...) (y -1 -2 0 -3 ...))
 ;To continue, call RESTART with an option number:
+; (RESTART 4) => Return to read-eval-print level 4.
+; (RESTART 3) => Return to read-eval-print level 3.
+; (RESTART 2) => Return to read-eval-print level 2.
 ; (RESTART 1) => Return to read-eval-print level 1.
-
-(RESTART 1)
-
-;Abort!
+;Start debugger? (y or n): y
+;Starting debugger...
 
 (mul p0 p10)
-
 ;Polys not in the same var --MUL-POLY ((x) (y))
 ;To continue, call RESTART with an option number:
+; (RESTART 5) => Return to read-eval-print level 5.
+; (RESTART 4) => Return to read-eval-print level 4.
+; (RESTART 3) => Return to read-eval-print level 3.
+; (RESTART 2) => Return to read-eval-print level 2.
 ; (RESTART 1) => Return to read-eval-print level 1.
-
-(RESTART 1)
-
-;Abort!
+;Start debugger? (y or n): y
+;Starting debugger...
 
 (mul p2 p11)
-
 ;Polys not in the same var --MUL-POLY ((x -4 1 -2 7 ...) (y 1 2 0 3 ...))
 ;To continue, call RESTART with an option number:
+; (RESTART 6) => Return to read-eval-print level 6.
+; (RESTART 5) => Return to read-eval-print level 5.
+; (RESTART 4) => Return to read-eval-print level 4.
+; (RESTART 3) => Return to read-eval-print level 3.
+; (RESTART 2) => Return to read-eval-print level 2.
 ; (RESTART 1) => Return to read-eval-print level 1.
-
-(RESTART 1)
-
-;Abort!
+;Start debugger? (y or n): y
+;Starting debugger...
 

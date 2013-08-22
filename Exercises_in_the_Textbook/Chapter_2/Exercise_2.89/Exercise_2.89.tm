@@ -25,13 +25,7 @@
       <\scm-code>
         (define (adjoin-term term term-list)
 
-        \ \ (if (=zero? (coeff term))
-
-        \ \ \ \ \ \ term-list
-
-        \ \ \ \ \ \ (cons (coeff term)
-
-        \ \ \ \ \ \ \ \ \ \ \ \ term-list)))
+        \ \ (cons (coeff term) term-list))
 
         \;
 

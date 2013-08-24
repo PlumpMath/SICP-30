@@ -30,17 +30,35 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (install-polynomial-package)
-  ;; imported procedures from dense and sparse packages
-  (define (make-from-dense variable term-list)
-    ((get 'make-from-dense 'dense) variable term-list))
-  (define (make-from-sparse variable term-list)
-    ((get 'make-from-sparse 'sparse) variable term-list))
-
+  ;; imported procedures from dense and sparse package
+  
   ;; internal procedures
-  ;; representation of poly
+  (define (make-poly variable term-list)
+    (cons variable term-list))
+  (define (variable p) (car p))
+  (define (term-list p) (cdr p))
+
+  (define (the-empty-termlist) '())
+
   (define (variable? x) (symbol? x))
   (define (same-variable? v1 v2)
     (and (variable? v1) (variable? v2) (eq? v1 v2)))
+
+  ;; representation of term
+  (define (make-term order coeff) (list order term))
+  (define (order term) (car term))
+  (define (coeff term) (cadr term))
+
+  (define (neg-poly L)
+    (make-poly (variable p)
+	       (neg-terms (term-list p))))
+  (define (neg-terms L)
+    (if (empty-termlist? L)
+	(the-empty-termlist)
+	(let ((t1 (first-term L)))
+	  (adjoin-term (make-term (order t1)
+				  (neg (coeff t1)))
+		       (neg-terms (rest-terms L))))))
   
   (define (add-poly p1 p2)
     (if (same-variable? (variable p1) (variable p1))
@@ -65,20 +83,10 @@
 		    (adjoin-term (make-term (order t1)
 					    (add (coeff t1) (coeff t2)))
 				 (add-terms (rest-terms L1) (rest-terms L2)))))))))
-  
+
   (define (sub-poly p1 p2)
     (add-poly p1 (neg-poly p2)))
-  (define (neg-poly L)
-    (make-poly (variable L)
-	       (neg-terms (term-list L))))
-  (define (neg-terms L)
-    (if (empty-termlist? L)
-	(the-empty-termlist)
-	(let ((t1 (first-term L)))
-	  (cons (make-term (order t1)
-			   (neg (coeff t1)))
-		(neg-terms (rest-terms L))))))
-  
+
   (define (mul-poly p1 p2)
     (if (same-variable? (variable p1) (variable p2))
 	(make-poly (variable p1)
@@ -101,22 +109,21 @@
 
   ;; interface to rest of the system
   (define (tag x) (attach-tag 'polynomial x))
+  (put 'neg 'polynomial
+       (lambda (p) (tag (neg-poly p))))
   (put 'add 'polynomial
        (lambda (p1 p2) (tag (add-poly p1 p2))))
   (put 'sub 'polynomial
        (lambda (p1 p2) (tag (sub-poly p1 p2))))
   (put 'mul 'polynomial
        (lambda (p1 p2) (tag (mul-poly p1 p2))))
-  (put 'neg 'polynomial
-       (lambda (p) (tag (neg-poly p))))
-  (put 'make-from-dense 'polynomial
-       (lambda (variable term-list) (tag (make-from-dense variable term-list))))
-  (put 'make-from-sparse 'polynomial
-       (lambda (variable term-list) (tag (make-from-sparse variable term-list))))
+  (put 'make 'polynomial
+       (lambda (var terms) (tag (make-poly var terms))))
   'done)
 
-(define (make-poly variable term-list)
-  ((get 'make-from-sparse 'polynomial) variable term-list))
+(define (make-polynomial var terms)
+  ((get 'make 'polynomial) var terms))
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -125,38 +132,35 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (define (install-dense-package)
   ;; internal procedures
+  ;; representation of term list
+  (define (the-empty-termlist) '())
+
+  (define (adjoin-term term term-list)
+    (cons (coeff term) term-list))
+
   (define (first-term term-list)
-    (make-term (- (length term-list) 1)
-	       (car term-list)))
+    (list (- (length term-list) 1)
+	  (car term-list)))
   (define (rest-terms term-list) (cdr term-list))
   (define (empty-termlist? term-list) (null? term-list))
 
-  (define (adjoin-term term term-list)
-    (if (=zero? (coeff term))
-	term-list
-	(cons (coeff term)
-	      term-list)))
-
-  (define (make-from-dense variable term-list)
-    (if (empty-termlist? term-list)
-	'()
-	(cons variable term-list)))
+  ;; representation of term
+  (define (make-term order coeff) (list order term))
+  (define (order term) (car term))
+  (define (coeff term) (cadr term))
 
   ;; interface to the rest of the system
   (define (tag x) (attach-tag 'dense x))
+  (put 'adjoin-term 'dense
+       (lambda (t L) (tag (adjoin-term t L))))
   (put 'first-term 'dense
-       (lambda (term-list) (tag (first-term term-list))))
+       (lambda (L) (tag (first-term L))))
   (put 'rest-terms 'dense
-       (lambda (term-list) (tag (rest-terms term-list))))
+       (lambda (L) (tag (rest-terms L))))
   (put 'empty-termlist? 'dense
-       (lambda (term-list) (tag (empty-termlist? term-list))))
-  (put 'adjoin-term '(term dense)
-       (lambda (term term-list) (tag (adjoin-term term term-list))))
-  (put 'make-from-dense '(scheme-symbol dense)
-       (lambda (variable term-list) (tag (make-from-dense variable term-list))))
+       (lambda (L) (tag (empty-termlist? L))))
   'done)
 
 
@@ -167,58 +171,47 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (define (install-sparse-package)
   ;; internal procedures
-  (define (first-term term-list) (car term-list))
-  (define (rest-terms term-list) (cdr term-list))
-  (define (empty-termlist? term-list) (null? term-list))
+  ;; representation of term list
+  (define (the-empty-termlist) '())
 
   (define (adjoin-term term term-list)
     (if (=zero? (coeff term))
 	term-list
 	(cons term term-list)))
-  
-  (define (make-from-sparse variable term-list)
-    (if (empty-termlist? term-list)
-	'()
-	(cons variable term-list)))
-  
-  ;; interface to the rest of the system
-  (define (tag x) (attach-tag 'sparse x))
-  (put 'first-term 'sparse
-       (lambda (term-list) (tag (first-term term-list))))
-  (put 'rest-terms 'sparse
-       (lambda (term-list) (tag (rest-terms term-list))))
-  (put 'empty-term-list? 'sparse
-       (lambda (term-list) (tag (empty-termlist? term-list))))
-  (put 'adjoin-term '(term sparse)
-       (lambda (term term-list) (tag (adjoin-term term term-list))))
-  (put 'make-from-sparse '(scheme-symbol sparse)
-       (lambda (variable term-list) (tag variable term-list)))
-  'done)
 
+  (define (first-term term-list) (car term-list))
+  (define (rest-terms term-list) (cdr term-list))
+  (define (empty-termlist? term-list) (null? term-list))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;     The Term Package
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(define (install-term-package)
-  ;; internal procedures
-  (define (make-term order coeff)
-    (list order coeff))
+  ;; representation of term
+  (define (make-term order coeff) (list order term))
   (define (order term) (car term))
   (define (coeff term) (cadr term))
-  
+
   ;; interface to the rest of the system
-  (define (tag x) (attach-tag 'term x))
-  (put 'make-term 'term
-       (lambda (order coeff) (tag (make-term order coeff))))
-  (put 'order 'term
-       (lambda (term) (tag (order term))))
-  (put 'coeff 'term
-       (lambda (term) (tag (coeff term))))
+  (define (tag x) (attach-tag 'sparse x))
+  (put 'adjoin-term 'sparse
+       (lambda (t L) (tag (adjoin-term t L))))
+  (put 'first-term 'sparse
+       (lambda (L) (tag (first-term L))))
+  (put 'rest-terms 'sparse
+       (lambda (L) (tag (rest-terms L))))
+  (put 'empty-termlist? 'sparse
+       (lambda (L) (tag (empty-termlist? L))))
   'done)
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;   The Generic Selectors and Constructors of Termlists
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (first-term L) (apply-generic 'first-term L))
+(define (rest-terms L) (apply-generic 'rest-terms L))
+(define (empty-termlist? L) (apply-generic 'empty-termlist? L))
+(define (adjoin-term t L) (apply-generic 'adjoin-term t L))
+

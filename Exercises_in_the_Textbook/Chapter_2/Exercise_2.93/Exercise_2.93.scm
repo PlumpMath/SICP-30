@@ -24,12 +24,22 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;     The Rational Number Package
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (define (install-rational-package)
   ;; internal procedures
   (define (numer x) (car x))
   (define (denom x) (cdr x))
   (define (make-rat n d) (cons n d))
-  (define (zero-rat? x) (= (numer x) 0))
+
+  (define (=zero-rat? x) (=zero? (numer x)))
+  (define (neg-rat x)
+    (make-rat (neg (numer x))
+	      (denom x)))
   (define (add-rat x y)
     (make-rat (add (mul (numer x) (denom y))
 		   (mul (numer y) (denom x)))
@@ -47,8 +57,10 @@
     
   ;; interface to the rest of the system
   (define (tag x) (attach-tag 'rational x))
-  (put '=zero? 'rational
-       (lambda (x) (tag (zero-rat? x))))
+  (put '=zero? '(rational)
+       (lambda (x) (=zero-rat? x)))
+  (put 'neg '(rational)
+       (lambda (x) (tag (neg-rat x))))
   (put 'add '(rational rational)
        (lambda (x y) (tag (add-rat x y))))
   (put 'sub '(rational rational)
@@ -57,14 +69,10 @@
        (lambda (x y) (tag (mul-rat x y))))
   (put 'div '(rational rational)
        (lambda (x y) (tag (div-rat x y))))
-
   (put 'make 'rational
        (lambda (n d) (tag (make-rat n d))))
   'done)
 
 (define (make-rational n d)
   ((get 'make 'rational) n d))
-
-
-
 

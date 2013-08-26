@@ -188,10 +188,10 @@
 
   (define (gcd-terms a b)
     (if (empty-termlist? b)
-	(reduce-terms a)
+	(remove-common-factor a)
 	(gcd-terms b (pseudoremainder-terms a b))))
 
-  (define (reduce-terms L)
+  (define (remove-common-factor L)
     (if (empty-termlist? L)
 	(the-empty-termlist)
 	(let ((coeffs (map (lambda (term)

@@ -25,19 +25,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (make-monitored f)
-  (define counter 0)
-  (define (how-many-calls? arg) counter)
-  (define (reset-count arg)
-    (begin (set! counter 0)
-	   counter))
-  (define (apply-proc arg)
-    (begin (set! counter (+ counter 1))
-	   (f arg)))
-  (define (mf symbol)
-    (cond ((eq? symbol 'how-many-calls?)
-	   (how-many-calls? symbol))
-	  ((eq? symbol 'reset-count)
-	   (reset-count symbol))
-	  (else
-	   (apply-proc symbol))))
+  (define mf
+    (let ((counter 0))
+      (lambda (m)
+	(cond ((eq? m 'how-many-calls?)
+	       counter)
+	      ((eq? m 'reset-count)
+	       (begin (set! counter 0)
+		      counter))
+	      (else
+	       (begin (set! counter (+ counter 1))
+		      (f m)))))))
   mf)

@@ -22,24 +22,65 @@
 (s 'how-many-calls?)
 ;Value: 1
 
-(s 64)
-;Value: 8
-
-(s 'how-many-calls?)
-;Value: 2
-
 (s 256)
 ;Value: 16
 
 (s 'how-many-calls?)
-;Value: 3
+;Value: 2
 
 (s 'reset-count)
 ;Value: 0
 
-(s 121)
-;Value: 11
+(s 8100)
+;Value: 90
 
 (s 'how-many-calls?)
 ;Value: 1
+
+(s 1024)
+;Value: 32
+
+(s 'how-many-calls?)
+;Value: 2
+
+
+
+(define neg (make-monitored -))
+;Value: neg
+
+(neg 999)
+;Value: -999
+
+(neg 'how-many-calls?)
+;Value: 1
+
+(neg -1)
+;Value: 1
+
+(neg 'how-many-calls?)
+;Value: 2
+
+(neg -64)
+;Value: 64
+
+(neg 'how-many-calls?)
+;Value: 3
+
+(neg 'reset-count)
+;Value: 0
+
+(neg 'how-many-calls?)
+;Value: 0
+
+(neg 2387)
+;Value: -2387
+
+(neg 'how-many-calls?)
+;Value: 1
+
+(neg 8270)
+;Value: -8270
+
+(neg 'how-many-calls?)
+;Value: 2
 

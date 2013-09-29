@@ -36,15 +36,15 @@
         d>|<point|1.8|-2.369519>>|<text-at|<scm|b
         c>|<point|1.8|-1.369519>>|<text-at|<scm|b>|<point|1.8|0.130481>>|<text-at|<scm|a
         b>|<point|1.8|-0.369519>>|<text-at|Resulting
-        Queue|<point|1.8|1.130481>>>>><anim-constant||0>|Double-ended queue
-        operations.>
-      </float> shows an initially empty double-ended queue in which the item
-      <scm|b> is inserted at the rear of the queue. Then <scm|a> is inserted
-      at the front, but sooner it is also removed at the front. <scm|C> is
-      inserted and removed at the rear, and <scm|d> is inserted at the rear.
+        Queue|<point|1.8|1.130481>>>>><anim-constant||0>|Operations on a
+        deque.>
+      </float> shows an initially empty deque in which the item <scm|b> is
+      inserted at the rear of the sequence. Then <scm|a> is inserted at the
+      front, but sooner it is also removed at the front. <scm|C> is inserted
+      and removed at the rear, and <scm|d> is inserted at the rear.
 
-      <hspace|3ex>In terms of data abstraction, we can regard a double-ended
-      queue as defined by the following set of operations:
+      <hspace|3ex>In terms of data abstraction, we can regard a deque as
+      defined by the following set of operations:
 
       <\with|par-line-sep|0.025fns>
         <\with|par-par-sep|0.1111fn>
@@ -52,25 +52,23 @@
 
           <scm|(make-deque)>
 
-          returns an empty double-ended queue (a queue containing no
-          items).<vspace|0.5fn>
+          returns an empty deque (a deque containing no items).<vspace|0.5fn>
 
           <math|\<bullet\>> three selectors:
 
           <scm|(empty-deque? \<less\><with|prog-font-shape|italic|deque>\<gtr\>)>
 
-          test if the doubled-ended queue is empty.<vspace|0.5fn>
+          test if the deque is empty.<vspace|0.5fn>
 
           <scm|(front-deque \<less\><with|prog-font-shape|italic|deque>\<gtr\>)>
 
-          returns the object at the front of the double-ended queue,
-          signaling an error if the queue is empty; it does not modified the
-          queue.<vspace|0.5fn>
+          returns the object at the front of the deque, signaling an error if
+          the deque is empty; it does not modified the deque.<vspace|0.5fn>
 
           <scm|(rear-deque \<less\><with|prog-font-shape|italic|deque>\<gtr\>)>
 
-          returns the object at the rear of the double-ended queue, signaling
-          an error if the queue is empty; it does not modified the queue
+          returns the object at the rear of the deque, signaling an error if
+          the deque is empty; it does not modified the deque
           either.<vspace|0.5fn>
 
           <math|\<bullet\>> four mutators:
@@ -78,33 +76,40 @@
           <scm|(front-insert-deque! \<less\><with|prog-font-shape|italic|deque>\<gtr\>
           \<less\><with|prog-font-shape|italic|item>\<gtr\>)>
 
-          inserts the item at the front of the double-ended queue and returns
-          the modified queue as its value.<vspace|0.5fn>
+          inserts the item at the front of the deque and returns the modified
+          deque as its value.<vspace|0.5fn>
 
           <scm|(rear-insert-deque! \<less\><with|prog-font-shape|italic|deque>\<gtr\>
           \<less\><with|prog-font-shape|italic|item>\<gtr\>)>
 
-          inserts the item at the rear of the double-ended queue and returns
-          the modified queue as its value.<vspace|0.5fn>
+          inserts the item at the rear of the deque and returns the modified
+          deque as its value.<vspace|0.5fn>
 
           <scm|(front-delete-deque! \<less\><with|prog-font-shape|italic|deque>\<gtr\>)>
 
-          removes the item at the front of the double-ended queue and returns
-          the modified queue as its value, signaling an error if the queue is
-          empty before the deletion.<vspace|0.5fn>
+          removes the item at the front of the deque and returns the modified
+          deque as its value, signaling an error if the deque is empty before
+          the deletion.<vspace|0.5fn>
 
           <scm|(rear-delete-deque! \<less\><with|prog-font-shape|italic|deque>\<gtr\>)>
 
-          removes the item at the rear of the double-ended queue and returns
-          the modified queue as its value, signaling an error if the queue is
-          empty before the deletion.
+          removes the item at the rear of the deque and returns the modified
+          deque as its value, signaling an error if the deque is empty before
+          the deletion.<vspace|0.5fn>
+
+          <math|\<bullet\>> the printing procedure:
+
+          <scm|(print-deque \<less\><with|prog-font-shape|italic|deque>\<gtr\>)>
+
+          prints items in the deque. If the deque is empty, just display the
+          empty list.
         </with>
       </with>
     </answer>
 
-    <hspace|3ex>Consider a double-ended queue that share the same
-    representation with single-ended queues, but allow an additional selectot
-    <scm|rear-deque> and two more mutators: <scm|front-insert-deque!> and
+    <hspace|3ex>Consider a deque that share the same representation with
+    single-ended queues, but allow an additional selectot <scm|rear-deque>
+    and two more mutators: <scm|front-insert-deque!> and
     <scm|rear-delete-deque!>. We hope, as designated in the problem, that all
     operations can be accomplish in <math|\<Theta\> <around*|(|1|)>> steps.
     Unfortunately, implementing <scm|rear-delete-deque!> in this way is
@@ -114,31 +119,29 @@
     scanning requires <math|\<Theta\> <around*|(|n|)>> steps for a list of
     <math|n> items, causes the <scm|rear-delete-deque!> to be done in
     <math|\<Theta\> <around*|(|n|)>> steps, rather than the <math|\<Theta\>
-    <around*|(|1|)>> step we initially hope.
+    <around*|(|1|)>> steps we initially hoped.
 
-    <hspace|3ex>The modification that ascertains all operations on a
-    double-ended queue to be accomplished in <math|\<Theta\> <around*|(|1|)>>
-    steps is to represent the queue as a doubly linked list, together with an
-    additional pointer that indicated the final pair in the list. That way,
-    when we go to delete the last item in the queue, we can set the rear
-    pointer to the precursor of the last item and so avoid scanning the list.
+    <hspace|3ex>The modification that ascertains all operations on a deque to
+    be accomplished in <math|\<Theta\> <around*|(|1|)>> steps is to represent
+    the deque as a doubly linked list, together with an additional pointer
+    that indicated the final pair in the list. That way, when we go to delete
+    the last item in the deque, we can set the rear pointer to the precursor
+    of the last item and so avoid scanning the list.
 
-    <hspace|3ex>A double-ended queue is represented, then, as a pair of
-    pointers, <scm|front-ptr> and <scm|rear-ptr>, which indicate,
-    respectively, the first and last pairs in a doubly linked list. An
-    typical item in the doubly linked list is made up of two pairs, where the
-    <scm|car> of the upper pair points to the lower pair and its <scm|cdr>
-    indicates the rest of the list. The data is stored in the <scm|car> of
-    the lower pair whose <scm|cdr>, however, points to the precursor of that
+    <hspace|3ex>A deque is represented, then, as a pair of pointers,
+    <scm|front-ptr> and <scm|rear-ptr>, which indicate, respectively, the
+    first and last pairs in a doubly linked list. An typical item in the
+    doubly linked list is made up of two pairs, where the <scm|car> of the
+    upper pair points to the lower pair and its <scm|cdr> indicates the rest
+    of the doubly linked list. The data is stored in the <scm|car> of the
+    lower pair whose <scm|cdr> in this case, points to the precursor of that
     item. Figure <reference|Exercise_3.23-Figure_2><\float|float|tbh>
       <big-figure|<label|Exercise_3.23-Figure_2><with|gr-mode|<tuple|edit|line>|gr-frame|<tuple|scale|1cm|<tuple|0.5gw|0.5gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|rear-ptr>|<point|2.70069913043478|1.86641712642699>>|<line|<point|2.5|0.4854351035474>|<point|3.1|1.0773921035474>>|<with|magnify|0.583914669242297|<line|<point|2.5|1.06934943816855>|<point|2.5|0.48543476892625>>>|<with|magnify|0.583914669242297|<point|2.79195733462115|-0.3>>|<with|magnify|0.583914669242297|<point|2.20804266537885|0.7773921035474>>|<with|magnify|0.583914669242297|<line|<point|2.5|-0.00804266537884998>|<point|2.5|-0.59195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|2.20804|0.7773921035474>|<point|2.2|-0.0226078964526>>>|<with|magnify|0.583914669242297|<cline|<point|1.9160853307577|1.06934943816855>|<point|3.0839146692423|1.06934943816855>|<point|3.0839146692423|0.48543476892625>|<point|1.9160853307577|0.48543476892625>>>|<with|magnify|0.583914669242297|<point|2.20804266537885|-0.3>>|<with|arrow-end|\<gtr\>|<line|<point|2.20804|-0.3>|<point|2.2|-1.1>>>|<text-at|<scm|c>|<point|2.06233627331658|-1.48462677476562>>|<with|magnify|0.583914669242297|<cline|<point|1.9160853307577|-0.00804266537884998>|<point|3.0839146692423|-0.00804266537884998>|<point|3.0839146692423|-0.59195733462115>|<point|1.9160853307577|-0.59195733462115>>>|<with|magnify|0.590117724122821|<cline|<point|1.90494113793859|-1.10494113793859>|<point|2.49505886206141|-1.10494113793859>|<point|2.49505886206141|-1.69505886206141>|<point|1.90494113793859|-1.69505886206141>>>|<with|magnify|0.583914669242297|<point|0.591957334621149|0.9>>|<with|arrow-end|\<gtr\>|<line|<point|0.591959999999999|0.9>|<point|1.9160853307577|0.9>>>|<with|magnify|0.583914669242297|<point|-1.70804266537885|2.8>>|<with|arrow-end|\<gtr\>|<line|<point|-1.70804|2.8>|<point|2.5|2.8>|<point|2.5|1.06934943816855>>>|<text-at|<scm|front-ptr>|<point|-2.1|1.9>>|<with|magnify|0.583914669242297|<point|-2.29195733462115|2.8>>|<with|magnify|0.583914669242297|<line|<point|-2.0|3.09195733462115>|<point|-2.0|2.50804266537885>>>|<with|magnify|0.583914669242297|<line|<point|0.299999999999997|1.19195733462115>|<point|0.299999999999997|0.60804266537885>>>|<text-at|<scm|dq>|<point|-3.88565165398442|2.7>>|<with|magnify|0.583914669242297|<point|0.00804266537884796|0.9>>|<with|arrow-end|\<gtr\>|<line|<point|-3.4|2.8>|<point|-2.5839146692423|2.8>>>|<with|magnify|0.583914669242297|<point|0.59195733462115|-0.2>>|<with|magnify|0.583914669242297|<cline|<point|-2.5839146692423|3.09195733462115>|<point|-1.4160853307577|3.09195733462115>|<point|-1.4160853307577|2.50804266537885>|<point|-2.5839146692423|2.50804266537885>>>|<with|magnify|0.583914669242297|<cline|<point|-0.2839146692423|1.19195733462115>|<point|0.8839146692423|1.19195733462115>|<point|0.8839146692423|0.60804266537885>|<point|-0.2839146692423|0.60804266537885>>>|<with|arrow-end|\<gtr\>|<line|<point|0.00803999999999795|0.9>|<point|-2.02615701994091e-15|0.1>>>|<with|magnify|0.583914669242297|<line|<point|0.299999999999996|0.09195733462115>|<point|0.299999999999996|-0.49195733462115>>>|<with|magnify|0.583914669242297|<point|0.00804266537884696|-0.2>>|<with|arrow-end|\<gtr\>|<line|<point|-1.70804|1.1>|<point|-0.2839146692423|1.1>>>|<with|magnify|0.583914669242297|<point|-1.70804266537885|1.1>>|<with|magnify|0.583914669242297|<cline|<point|-0.2839146692423|0.09195733462115>|<point|0.8839146692423|0.09195733462115>|<point|0.8839146692423|-0.49195733462115>|<point|-0.2839146692423|-0.49195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|0.00803999999999695|-0.2>|<point|-3.02535774210355e-15|-1.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.29196|2.8>|<point|-2.3|1.39195733462115>>>|<text-at|<scm|b>|<point|-0.13766372668342|-1.38462677476562>>|<with|magnify|0.583914669242297|<point|-2.29195733462115|1.1>>|<with|magnify|0.583914669242297|<line|<point|-2.0|1.39195733462115>|<point|-2.0|0.80804266537885>>>|<with|magnify|0.590117724122821|<cline|<point|-0.29505886206141|-1.00494113793859>|<point|0.295058862061406|-1.00494113793859>|<point|0.295058862061406|-1.59505886206141>|<point|-0.29505886206141|-1.59505886206141>>>|<with|magnify|0.583914669242297|<cline|<point|-2.5839146692423|1.39195733462115>|<point|-1.4160853307577|1.39195733462115>|<point|-1.4160853307577|0.80804266537885>|<point|-2.5839146692423|0.80804266537885>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.29196|1.1>|<point|-2.3|0.3>>>|<with|magnify|0.583914669242297|<point|-2.29195733462115|1.52655665885959e-16>>|<with|magnify|0.583914669242297|<line|<point|-2.0|0.29195733462115>|<point|-2.0|-0.29195733462115>>>|<line|<point|2.79196|-0.3>|<point|2.8|-2.8>|<point|-0.8|-2.8>|<point|-0.8|-2.5>>|<with|magnify|0.155581968316883|<arc|<point|-0.74961888401734|-2.17726597713928>|<point|-0.90371663691297|-2.33431813498255>|<point|-0.7466644790697|-2.48841588787818>>>|<with|magnify|0.583914669242297|<cline|<point|-2.5839146692423|0.29195733462115>|<point|-1.4160853307577|0.29195733462115>|<point|-1.4160853307577|-0.29195733462115>|<point|-2.5839146692423|-0.29195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.29196|1.52655665885959e-16>|<point|-2.3|-0.8>>>|<text-at|<scm|a>|<point|-2.43766372668342|-1.18462677476562>>|<with|magnify|0.590117724122821|<cline|<point|-2.59505886206141|-0.80494113793859>|<point|-2.00494113793859|-0.80494113793859>|<point|-2.00494113793859|-1.39505886206141>|<point|-2.59505886206141|-1.39505886206141>>>|<with|arrow-end|\<gtr\>|<line|<point|-0.8|-2.2>|<point|-0.8|0.7>|<point|-0.3|0.7>>>|<line|<point|-1.4|0.3>|<point|-2.0|-0.29195733462115>>|<with|arrow-end|\<gtr\>|<line|<point|0.59196|-0.2>|<point|0.6|-2.3>|<point|-3.7|-2.3>|<point|-3.7|1.0>|<point|-2.6|1.0>>>>>|Implementation
-      of a double-ended queue as a doubly linked list with front and rear
-      pointers.>
+      of a deque as a doubly linked list with front and rear pointers.>
     </float> illustrate this representation.
 
     <hspace|3ex>The procedures to select and to modify the front and rear
-    pointers of a double-ended queue is the same as those of a single-ended
-    queue:
+    pointers of a deque is the same as those of a single-ended queue:
 
     <\scm>
       (define (front-ptr deque) (car deque))
@@ -151,62 +154,63 @@
     </scm>
 
     <hspace|3ex>Now we can implement the actual queue operations. We will
-    consider a double-ended queue to be empty if its front pointer is the
-    empty list:
+    consider a deque to be empty if its front pointer is the empty list:
 
     <\scm-code>
-      (define (empty-deque? deque) (null? (front-ptr deque)))
+      (define (empty-deque? deque)
+
+      \ \ (and (null? (front-ptr deque))
+
+      \ \ \ \ \ \ \ (null? (rear-ptr deque))))
     </scm-code>
 
-    The <scm|make-deque> constructor returns, as an initially empty
-    double-ended queue, a pair of empty list:
+    The <scm|make-deque> constructor returns, as an initially empty deque, a
+    pair of empty list:
 
     <\scm-code>
       (define (make-deque) (cons '() '()))
     </scm-code>
 
-    To select the item at the front of the double-ended queue, we return the
-    <scm|caar> of the pair indicated by the front pointers respectively:
+    To select the item at the front of the deque, we return the <scm|caar> of
+    the pair indicated by the front pointers respectively:
 
     <\scm-code>
       (define (front-deque deque)
 
       \ \ (if (empty-deque? deque)
 
-      \ \ \ \ \ \ (error "FRONT-DEQUE called with an empty double-ended
-      queue" deque)
+      \ \ \ \ \ \ (error "FRONT-DEQUE called with an empty deque" deque)
 
       \ \ \ \ \ \ (caar (front-ptr deque))))
     </scm-code>
 
-    <hspace|3ex>Selecting the item located at the rear of the doubled-ended
-    queue is almost identical to that of the front:
+    <hspace|3ex>Selecting the item located at the rear of the deque is almost
+    identical to that of the front:
 
     <\scm-code>
       (define (rear-deque deque)
 
       \ \ (if (empty-deque? deque)
 
-      \ \ \ \ \ \ (error "REAR-DEQUE called with an empty double-ended queue"
-      deque)
+      \ \ \ \ \ \ (error "REAR-DEQUE called with an empty deque" deque)
 
       \ \ \ \ \ \ (caar (rear-ptr deque))))
     </scm-code>
 
-    <hspace|3ex>To insert an item at the front of a double-ended queue, we
-    follow the method whose result is indicated in figure
+    <hspace|3ex>To insert an item at the front of a deque, we follow the
+    method whose result is indicated in figure
     <reference|Exercise_3.23-Figure_3><\float|float|tbh>
       <big-figure|<label|Exercise_3.23-Figure_3><with|gr-mode|<tuple|group-edit|move>|gr-frame|<tuple|scale|1cm|<tuple|0.509999gw|0.5gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<with|arrow-end|\<gtr\>|<line|<point|-2.34909|-2.0>|<point|-4.6|-2.0>|<point|-4.6|1.0>|<point|-4.0839146692423|1.0>>>|<text-at|<scm|z>|<point|-3.93766372668342|-1.23767398734185>>|<with|arrow-end|\<gtr\>|<line|<point|-3.79196|-0.0530472125762314>|<point|-3.8|-0.85304721257623>>>|<with|magnify|0.590117724122821|<cline|<point|-4.09505886206141|-0.85798835051482>|<point|-3.50494113793859|-0.85798835051482>|<point|-3.50494113793859|-1.44810607463764>|<point|-4.09505886206141|-1.44810607463764>>>|<with|magnify|0.583914669242297|<cline|<point|-4.0839146692423|0.23891012204492>|<point|-2.9160853307577|0.23891012204492>|<point|-2.9160853307577|-0.34500454719738>|<point|-4.0839146692423|-0.34500454719738>>>|<with|magnify|0.583914669242297|<line|<point|-3.5|0.23891012204492>|<point|-3.5|-0.34500454719738>>>|<line|<point|-2.9|0.24695278742377>|<point|-3.5|-0.34500454719738>>|<with|magnify|0.155581968316883|<arc|<point|-2.35519616725314|-1.95567687974252>|<point|-2.20076317883712|-2.11239940466989>|<point|-2.04404065390975|-1.95796641625387>>>|<with|magnify|0.583914669242297|<point|-3.79195733462115|-0.0530472125762314>>|<with|arrow-end|\<gtr\>|<line|<point|1.391957|-0.4>|<point|1.4|-2.6>|<point|-2.2|-2.6>|<point|-2.2|0.8>|<point|-1.8|0.8>>>|<with|arrow-end|\<gtr\>|<line|<point|-3.79196|1.04695278742377>|<point|-3.8|0.24695278742377>>>|<line|<point|-0.9|-0.2>|<point|-0.9|-2.0>|<point|-2.0|-2.0>>|<with|magnify|0.583914669242297|<cline|<point|-4.0839146692423|1.33891012204492>|<point|-2.9160853307577|1.33891012204492>|<point|-2.9160853307577|0.75499545280262>|<point|-4.0839146692423|0.75499545280262>>>|<with|magnify|0.590117724122821|<cline|<point|-1.79505886206141|-1.00494113793859>|<point|-1.20494113793859|-1.00494113793859>|<point|-1.20494113793859|-1.59505886206141>|<point|-1.79505886206141|-1.59505886206141>>>|<with|magnify|0.583914669242297|<line|<point|-3.5|1.33891012204492>|<point|-3.5|0.75499545280262>>>|<with|arrow-end|\<gtr\>|<line|<point|-1.49196|-0.2>|<point|-1.5|-1.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-3.20804|1.04695278742377>|<point|-1.7839146692423|1.04695278742377>>>|<with|arrow-end|\<gtr\>|<line|<point|-0.90804|0.9>|<point|0.516085330757699|0.9>>>|<with|arrow-end|\<gtr\>|<line|<point|-1.49196|0.9>|<point|-1.5|0.0999999999999998>>>|<with|magnify|0.583914669242297|<cline|<point|-1.7839146692423|1.19195733462115>|<point|-0.6160853307577|1.19195733462115>|<point|-0.6160853307577|0.60804266537885>|<point|-1.7839146692423|0.60804266537885>>>|<with|magnify|0.583914669242297|<point|-3.79195733462115|1.04695278742377>>|<with|magnify|0.583914669242297|<point|-0.90804266537885|0.9>>|<with|magnify|0.583914669242297|<cline|<point|-1.7839146692423|0.0919573346211498>|<point|-0.6160853307577|0.0919573346211498>|<point|-0.6160853307577|-0.49195733462115>|<point|-1.7839146692423|-0.49195733462115>>>|<with|magnify|0.583914669242297|<line|<point|-1.2|1.19195733462115>|<point|-1.2|0.60804266537885>>>|<text-at|<scm|a>|<point|-1.63766372668342|-1.38462677476562>>|<with|arrow-end|\<gtr\>|<line|<point|-0.0291295541885398|-2.5>|<point|1.52655665885959e-16|0.5>|<point|0.499999999999999|0.5>>>|<with|magnify|0.583914669242297|<point|-1.49195733462115|-0.2>>|<with|arrow-end|\<gtr\>|<line|<point|-1.49196|2.6>|<point|-1.5|2.0>|<point|-3.5|2.0>|<point|-3.5|1.33891012204492>>>|<with|magnify|0.583914669242297|<point|-3.20804266537885|1.04695278742377>>|<with|magnify|0.583914669242297|<line|<point|-1.2|0.0919573346211498>|<point|-1.2|-0.49195733462115>>>|<text-at|<scm|front-ptr>|<point|-3.2|1.7>>|<text-at|<scm|dq>|<point|-3.08565165398442|2.5>>|<line|<point|3.59196|-0.5>|<point|3.6|-3.0>|<point|1.52655665885959e-16|-3.0>|<point|1.52655665885959e-16|-2.8>>|<arc|<point|-0.0496188840173398|-2.47726597713928>|<point|-0.203716636912971|-2.63431813498255>|<point|-0.0466644790696998|-2.78841588787818>>|<point|-0.9|-0.2>|<with|magnify|0.590117724122821|<cline|<point|0.504941137938589|-1.20494113793859>|<point|1.09505886206141|-1.20494113793859>|<point|1.09505886206141|-1.79505886206141>|<point|0.504941137938589|-1.79505886206141>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.6|2.6>|<point|-1.7839146692423|2.6>>>|<with|magnify|0.583914669242297|<point|-1.49195733462115|0.9>>|<with|magnify|0.583914669242297|<line|<point|-1.2|2.89195733462115>|<point|-1.2|2.30804266537885>>>|<with|magnify|0.583914669242297|<point|-1.49195733462115|2.6>>|<with|magnify|0.583914669242297|<cline|<point|0.516085330757699|0.991957334621149>|<point|1.6839146692423|0.991957334621149>|<point|1.6839146692423|0.40804266537885>|<point|0.516085330757699|0.40804266537885>>>|<with|magnify|0.583914669242297|<point|0.80804266537885|-0.4>>|<with|arrow-end|\<gtr\>|<line|<point|0.80804|-0.4>|<point|0.8|-1.2>>>|<with|magnify|0.583914669242297|<point|0.80804266537885|0.7>>|<with|magnify|0.583914669242297|<point|-0.90804266537885|2.6>>|<with|magnify|0.583914669242297|<point|1.39195733462115|-0.4>>|<with|magnify|0.583914669242297|<point|1.39195733462115|0.7>>|<with|magnify|0.583914669242297|<point|3.59195733462115|-0.5>>|<line|<point|3.3|0.2854351035474>|<point|3.9|0.8773921035474>>|<with|magnify|0.583914669242297|<line|<point|3.3|0.86934943816855>|<point|3.3|0.28543476892625>>>|<with|magnify|0.583914669242297|<point|3.00804266537885|0.5773921035474>>|<with|arrow-end|\<gtr\>|<line|<point|3.00804|0.5773921035474>|<point|3.0|-0.2226078964526>>>|<with|magnify|0.583914669242297|<line|<point|3.3|-0.20804266537885>|<point|3.3|-0.79195733462115>>>|<with|magnify|0.583914669242297|<point|3.00804266537885|-0.5>>|<with|magnify|0.583914669242297|<cline|<point|2.7160853307577|0.86934943816855>|<point|3.8839146692423|0.86934943816855>|<point|3.8839146692423|0.28543476892625>|<point|2.7160853307577|0.28543476892625>>>|<text-at|<scm|c>|<point|2.86233627331658|-1.68462677476562>>|<with|magnify|0.590117724122821|<cline|<point|2.70494113793859|-1.30494113793859>|<point|3.29505886206141|-1.30494113793859>|<point|3.29505886206141|-1.89505886206141>|<point|2.70494113793859|-1.89505886206141>>>|<with|arrow-end|\<gtr\>|<line|<point|1.39196|0.7>|<point|2.7160853307577|0.7>>>|<with|magnify|0.583914669242297|<line|<point|1.1|0.991957334621149>|<point|1.1|0.40804266537885>>>|<with|magnify|0.583914669242297|<line|<point|1.1|-0.10804266537885>|<point|1.1|-0.69195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|-0.90804|2.6>|<point|3.3|2.6>|<point|3.3|0.86934943816855>>>|<text-at|<scm|b>|<point|0.66233627331658|-1.58462677476562>>|<with|magnify|0.583914669242297|<cline|<point|0.516085330757699|-0.10804266537885>|<point|1.6839146692423|-0.10804266537885>|<point|1.6839146692423|-0.69195733462115>|<point|0.516085330757699|-0.69195733462115>>>|<with|magnify|0.583914669242297|<cline|<point|-1.7839146692423|2.89195733462115>|<point|-0.6160853307577|2.89195733462115>|<point|-0.6160853307577|2.30804266537885>|<point|-1.7839146692423|2.30804266537885>>>|<with|magnify|0.583914669242297|<cline|<point|2.7160853307577|-0.20804266537885>|<point|3.8839146692423|-0.20804266537885>|<point|3.8839146692423|-0.79195733462115>|<point|2.7160853307577|-0.79195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|3.00804|-0.5>|<point|3.0|-1.3>>>|<text-at|<scm|rear-ptr>|<point|3.50069913043478|1.66641712642699>>|<with|arrow-end|\<gtr\>|<line|<point|0.80804|0.7>|<point|0.8|-0.1>>>>>|Result
-      of using <scm|(front-insert-deque! dq 'z)> on the queue of figure
+      of using <scm|(front-insert-deque! dq 'z)> on the deque of figure
       <reference|Exercise_3.23-Figure_2>.>
     </float>. We first create a new pair whose <scm|car> is another pair and
     whose <scm|cdr> is the empty list. The item to be inserted is stored in
     the <scm|car> of its subordinated pair, while the <scm|cdr> of the latter
-    pair is also the empty list. If the double-ended queue was initially
-    empty, we set the front and rear pointers of the queue to this new pair.
-    Otherwise, we first assign the <scm|cdar> of the first pair to this new
-    pair, then modified this new pair to point to the first pair in the
-    queue, and also set the front pointer to the new pair.
+    pair is also the empty list. If the deque was initially empty, we set the
+    front and rear pointers of the deque to this new pair. Otherwise, we
+    first assign the <scm|cdar> of the first pair to this new pair, then
+    modified this new pair to point to the first pair in the deque, and also
+    set the front pointer to the new pair.
 
     <\scm-code>
       (define (front-insert-deque! deque item)
@@ -225,23 +229,25 @@
 
       \ \ \ \ \ \ \ \ \ \ (else
 
-      \ \ \ \ \ \ \ \ \ \ \ \ (set! (cdar (front-ptr deque)) new-pair)
+      \ \ \ \ \ \ \ \ \ \ \ \ (set-cdr! (car (front-ptr deque)) new-pair)
 
       \ \ \ \ \ \ \ \ \ \ \ \ (set-cdr! new-pair (front-ptr deque))
 
-      \ \ \ \ \ \ \ \ \ \ \ \ (set-front-ptr! deque new-pair)))))
+      \ \ \ \ \ \ \ \ \ \ \ \ (set-front-ptr! deque new-pair)
+
+      \ \ \ \ \ \ \ \ \ \ \ \ deque))))
     </scm-code>
 
-    <hspace|3ex>Inserting an item at the rear of a double-ended queue follows
-    almost same ways as we did in inserting items at the front. We begin by
-    creating the a new pair that has the same structure as before. If the
-    double-ended queue was initially empty, we set the front and rear
-    pointers of the queue to this new pair. Otherwise, we first assign the
-    <scm|cdar> of the new pair to the last pair, then modified the last pair
-    in the queue to point to this new pair, and also set the rear pointer to
-    the new pair (see figure <reference|Exercise_3.23-Figure_4><\float|float|tbh>
+    <hspace|3ex>Inserting an item at the rear of a deque follows almost same
+    ways as we did in inserting items at the front. We begin by creating the
+    a new pair that has the same structure as before. If the deque was
+    initially empty, we set the front and rear pointers of the deque to this
+    new pair. Otherwise, we first assign the <scm|cdar> of the new pair to
+    the last pair, then modified the last pair in the deque to point to this
+    new pair, and also set the rear pointer to the new pair (see figure
+    <reference|Exercise_3.23-Figure_4><\float|float|tbh>
       <big-figure|<label|Exercise_3.23-Figure_4><with|gr-mode|<tuple|group-edit|move>|gr-frame|<tuple|scale|1cm|<tuple|0.5gw|0.5gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|rear-ptr>|<point|2.50069913043478|2.06641712642699>>|<with|magnify|0.583914669242297|<line|<point|4.1|1.16934943816855>|<point|4.1|0.58543476892625>>>|<line|<point|4.1|0.5854351035474>|<point|4.7|1.1773921035474>>|<with|magnify|0.583914669242297|<point|3.80804266537885|0.8773921035474>>|<with|magnify|0.583914669242297|<cline|<point|3.5160853307577|1.16934943816855>|<point|4.6839146692423|1.16934943816855>|<point|4.6839146692423|0.58543476892625>|<point|3.5160853307577|0.58543476892625>>>|<with|magnify|0.583914669242297|<point|4.39195733462115|-0.2>>|<with|magnify|0.583914669242297|<line|<point|4.1|0.09195733462115>|<point|4.1|-0.49195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|3.80804|0.8773921035474>|<point|3.8|0.0773921035474>>>|<with|arrow-end|\<gtr\>|<line|<point|3.80804|-0.2>|<point|3.8|-1.0>>>|<with|magnify|0.583914669242297|<point|3.80804266537885|-0.2>>|<with|magnify|0.583914669242297|<cline|<point|3.5160853307577|0.09195733462115>|<point|4.6839146692423|0.09195733462115>|<point|4.6839146692423|-0.49195733462115>|<point|3.5160853307577|-0.49195733462115>>>|<text-at|<scm|d>|<point|3.66233627331658|-1.38462677476562>>|<with|arrow-end|\<gtr\>|<line|<point|2.20627|0.99138>|<point|3.5303953307577|0.99138>>>|<with|magnify|0.583914669242297|<point|1.62235266537885|0.99138>>|<with|magnify|0.583914669242297|<cline|<point|1.3303953307577|1.28333733462115>|<point|2.4982246692423|1.28333733462115>|<point|2.4982246692423|0.69942266537885>|<point|1.3303953307577|0.69942266537885>>>|<with|magnify|0.583914669242297|<point|2.20626733462115|0.99138>>|<with|magnify|0.590117724122821|<cline|<point|3.50494113793859|-1.00494113793859>|<point|4.09505886206141|-1.00494113793859>|<point|4.09505886206141|-1.59505886206141>|<point|3.50494113793859|-1.59505886206141>>>|<with|magnify|0.583914669242297|<line|<point|1.91431|1.28333733462115>|<point|1.91431|0.69942266537885>>>|<with|magnify|0.583914669242297|<point|2.20626733462115|-0.10862>>|<with|arrow-end|\<gtr\>|<line|<point|1.62235|0.99138>|<point|1.61431|0.19138>>>|<with|magnify|0.583914669242297|<point|1.62235266537885|-0.10862>>|<text-at|<scm|front-ptr>|<point|-2.7|2.1>>|<with|magnify|0.583914669242297|<line|<point|1.91431|0.18333733462115>|<point|1.91431|-0.40057733462115>>>|<text-at|<scm|b>|<point|1.47664627331658|-1.29324677476562>>|<with|magnify|0.583914669242297|<point|-2.30804266537885|3.0>>|<with|arrow-end|\<gtr\>|<line|<point|-4.0|3.0>|<point|-3.1839146692423|3.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-0.00803999999999983|1.1>|<point|1.3160853307577|1.1>>>|<with|magnify|0.590117724122821|<cline|<point|1.31925113793859|-0.91356113793859>|<point|1.90936886206141|-0.91356113793859>|<point|1.90936886206141|-1.50367886206141>|<point|1.31925113793859|-1.50367886206141>>>|<text-at|<scm|dq>|<point|-4.48565165398442|2.9>>|<with|magnify|0.583914669242297|<line|<point|-2.6|3.29195733462115>|<point|-2.6|2.70804266537885>>>|<with|magnify|0.583914669242297|<point|-0.00804266537884885|1.1>>|<with|arrow-end|\<gtr\>|<line|<point|0.9|-2.5>|<point|0.9|0.8>|<point|1.3303953307577|0.8>>>|<with|magnify|0.583914669242297|<cline|<point|-0.8839146692423|1.39195733462115>|<point|0.2839146692423|1.39195733462115>|<point|0.2839146692423|0.80804266537885>|<point|-0.8839146692423|0.80804266537885>>>|<with|magnify|0.583914669242297|<point|-0.59195733462115|1.1>>|<with|arrow-end|\<gtr\>|<line|<point|-2.89196|0.2>|<point|-2.9|-0.6>>>|<with|magnify|0.583914669242297|<point|-0.00804266537884885|2.77555756156289e-17>>|<with|magnify|0.583914669242297|<line|<point|-0.3|1.39195733462115>|<point|-0.3|0.80804266537885>>>|<with|magnify|0.583914669242297|<point|-0.59195733462115|2.77555756156289e-17>>|<with|magnify|0.583914669242297|<line|<point|-0.3|0.29195733462115>|<point|-0.3|-0.29195733462115>>>|<with|magnify|0.590117724122821|<cline|<point|-3.19505886206141|-0.60494113793859>|<point|-2.60494113793859|-0.60494113793859>|<point|-2.60494113793859|-1.19505886206141>|<point|-3.19505886206141|-1.19505886206141>>>|<with|magnify|0.583914669242297|<cline|<point|-3.1839146692423|0.49195733462115>|<point|-2.0160853307577|0.49195733462115>|<point|-2.0160853307577|-0.09195733462115>|<point|-3.1839146692423|-0.09195733462115>>>|<text-at|<scm|a>|<point|-3.03766372668342|-0.98462677476562>>|<with|arrow-end|\<gtr\>|<line|<point|-1.4|-2.0>|<point|-1.4|0.9>|<point|-0.9|0.9>>>|<with|magnify|0.155581968316883|<arc|<point|-1.34961888401734|-1.97726597713928>|<point|-1.50371663691297|-2.13431813498255>|<point|-1.3466644790697|-2.28841588787818>>>|<with|magnify|0.590117724122821|<cline|<point|-0.895058862061409|-0.80494113793859>|<point|-0.30494113793859|-0.80494113793859>|<point|-0.30494113793859|-1.39505886206141>|<point|-0.895058862061409|-1.39505886206141>>>|<with|magnify|0.583914669242297|<line|<point|-2.6|0.49195733462115>|<point|-2.6|-0.09195733462115>>>|<with|magnify|0.583914669242297|<point|-2.89195733462115|0.2>>|<line|<point|-2.0|0.5>|<point|-2.6|-0.09195733462115>>|<with|arrow-end|\<gtr\>|<line|<point|-2.89196|1.3>|<point|-2.9|0.5>>>|<line|<point|2.19196|-0.1>|<point|2.2|-2.6>|<point|-1.4|-2.6>|<point|-1.4|-2.3>>|<with|arrow-end|\<gtr\>|<line|<point|-0.00803999999999983|2.77555756156289e-17>|<point|1.66533453693773e-16|-2.1>|<point|-4.3|-2.1>|<point|-4.3|1.2>|<point|-3.2|1.2>>>|<with|magnify|0.583914669242297|<cline|<point|-3.1839146692423|3.29195733462115>|<point|-2.0160853307577|3.29195733462115>|<point|-2.0160853307577|2.70804266537885>|<point|-3.1839146692423|2.70804266537885>>>|<with|arrow-end|\<gtr\>|<line|<point|-0.59196|1.1>|<point|-0.6|0.3>>>|<with|magnify|0.155581968316883|<arc|<point|0.94904987674127|-2.4768424834132>|<point|0.79629551469966|-2.6352015772726>|<point|0.95465460855907|-2.78795593931421>>>|<line|<point|4.39196|-0.2>|<point|4.4|-3.2>|<point|0.9|-3.2>|<point|0.9|-2.77908627213426>>|<with|arrow-end|\<gtr\>|<line|<point|-2.30804|1.3>|<point|-0.8839146692423|1.3>>>|<with|magnify|0.583914669242297|<point|-2.30804266537885|1.3>>|<with|magnify|0.583914669242297|<cline|<point|-0.8839146692423|0.29195733462115>|<point|0.2839146692423|0.29195733462115>|<point|0.2839146692423|-0.29195733462115>|<point|-0.8839146692423|-0.29195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.89196|3.0>|<point|-2.9|1.59195733462115>>>|<with|magnify|0.583914669242297|<point|-2.89195733462115|1.3>>|<with|arrow-end|\<gtr\>|<line|<point|-0.59196|2.77555756156289e-17>|<point|-0.6|-0.8>>>|<with|magnify|0.583914669242297|<line|<point|-2.6|1.59195733462115>|<point|-2.6|1.00804266537885>>>|<with|magnify|0.583914669242297|<cline|<point|-3.1839146692423|1.59195733462115>|<point|-2.0160853307577|1.59195733462115>|<point|-2.0160853307577|1.00804266537885>|<point|-3.1839146692423|1.00804266537885>>>|<text-at|<scm|b>|<point|-0.73766372668342|-1.18462677476562>>|<with|arrow-end|\<gtr\>|<line|<point|1.62235|-0.10862>|<point|1.61431|-0.90862>>>|<with|magnify|0.583914669242297|<point|-2.89195733462115|3.0>>|<with|magnify|0.583914669242297|<cline|<point|1.3303953307577|0.18333733462115>|<point|2.4982246692423|0.18333733462115>|<point|2.4982246692423|-0.40057733462115>|<point|1.3303953307577|-0.40057733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.30804|3>|<point|4.0|3.0>|<point|4.0|1.16934943816855>>>>>|Result
-      of using <scm|(rear-insert-deque! dq 'd)> on the queue of figure
+      of using <scm|(rear-insert-deque! dq 'd)> on the deque of figure
       <reference|Exercise_3.23-Figure_2>.>
     </float>):
 
@@ -262,22 +268,22 @@
 
       \ \ \ \ \ \ \ \ \ \ (else
 
-      \ \ \ \ \ \ \ \ \ \ \ \ (set! (cdar new-pair) (rear-ptr deque))
+      \ \ \ \ \ \ \ \ \ \ \ \ (set-cdr! (car new-pair) (rear-ptr deque))
 
       \ \ \ \ \ \ \ \ \ \ \ \ (set-cdr! (rear-ptr deque) new-pair)
 
-      \ \ \ \ \ \ \ \ \ \ \ \ (set-rear-ptr! new-pair)
+      \ \ \ \ \ \ \ \ \ \ \ \ (set-rear-ptr! deque new-pair)
 
       \ \ \ \ \ \ \ \ \ \ \ \ deque))))
     </scm-code>
 
-    <hspace|3ex>To delete the item at the front of the double-ended queue, we
-    first modify the front pointer so that it now points at the second item
-    in the queue. Then, we set the <scm|cdr> of the subordinated pair of the
-    second pair of the queue to the empty list (see figure
+    <hspace|3ex>To delete the item at the front of the deque, we first modify
+    the front pointer so that it now points at the second item in the deque.
+    Then, we set the <scm|cdr> of the subordinated pair of the second pair of
+    the deque to the empty list (see figure
     <reference|Exercise_3.23-Figure_5><\float|float|tbh>
       <big-figure|<label|Exercise_3.23-Figure_5><with|gr-mode|<tuple|edit|line>|gr-frame|<tuple|scale|1cm|<tuple|0.5gw|0.5gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|rear-ptr>|<point|2.70069913043478|1.86641712642699>>|<line|<point|2.5|0.4854351035474>|<point|3.1|1.0773921035474>>|<with|magnify|0.583914669242297|<line|<point|2.5|1.06934943816855>|<point|2.5|0.48543476892625>>>|<with|magnify|0.583914669242297|<point|2.79195733462115|-0.3>>|<with|magnify|0.583914669242297|<point|2.20804266537885|0.7773921035474>>|<with|magnify|0.583914669242297|<line|<point|2.5|-0.00804266537884998>|<point|2.5|-0.59195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|2.20804|0.7773921035474>|<point|2.2|-0.0226078964526>>>|<with|magnify|0.583914669242297|<cline|<point|1.9160853307577|1.06934943816855>|<point|3.0839146692423|1.06934943816855>|<point|3.0839146692423|0.48543476892625>|<point|1.9160853307577|0.48543476892625>>>|<with|magnify|0.583914669242297|<point|2.20804266537885|-0.3>>|<with|arrow-end|\<gtr\>|<line|<point|2.20804|-0.3>|<point|2.2|-1.1>>>|<text-at|<scm|c>|<point|2.06233627331658|-1.48462677476562>>|<with|magnify|0.583914669242297|<cline|<point|1.9160853307577|-0.00804266537884998>|<point|3.0839146692423|-0.00804266537884998>|<point|3.0839146692423|-0.59195733462115>|<point|1.9160853307577|-0.59195733462115>>>|<with|magnify|0.590117724122821|<cline|<point|1.90494113793859|-1.10494113793859>|<point|2.49505886206141|-1.10494113793859>|<point|2.49505886206141|-1.69505886206141>|<point|1.90494113793859|-1.69505886206141>>>|<with|magnify|0.583914669242297|<point|-1.70804266537885|2.8>>|<with|arrow-end|\<gtr\>|<line|<point|-1.70804|2.8>|<point|2.5|2.8>|<point|2.5|1.06934943816855>>>|<text-at|<scm|front-ptr>|<point|-1.79196|1.8>>|<with|magnify|0.583914669242297|<point|-2.29195733462115|2.8>>|<with|magnify|0.583914669242297|<line|<point|-2.0|3.09195733462115>|<point|-2.0|2.50804266537885>>>|<text-at|<scm|dq>|<point|-3.88565165398442|2.7>>|<with|arrow-end|\<gtr\>|<line|<point|-3.4|2.8>|<point|-2.5839146692423|2.8>>>|<with|magnify|0.583914669242297|<cline|<point|-2.5839146692423|3.09195733462115>|<point|-1.4160853307577|3.09195733462115>|<point|-1.4160853307577|2.50804266537885>|<point|-2.5839146692423|2.50804266537885>>>|<with|arrow-end|\<gtr\>|<line|<point|-1.70804|1.1>|<point|-0.2839146692423|1.1>>>|<with|magnify|0.583914669242297|<point|-1.70804266537885|1.1>>|<with|magnify|0.583914669242297|<point|-2.29195733462115|1.1>>|<with|magnify|0.583914669242297|<line|<point|-2.0|1.39195733462115>|<point|-2.0|0.80804266537885>>>|<with|magnify|0.583914669242297|<cline|<point|-2.5839146692423|1.39195733462115>|<point|-1.4160853307577|1.39195733462115>|<point|-1.4160853307577|0.80804266537885>|<point|-2.5839146692423|0.80804266537885>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.29196|1.1>|<point|-2.3|0.3>>>|<with|magnify|0.583914669242297|<point|-2.29195733462115|1.52655665885959e-16>>|<with|magnify|0.583914669242297|<line|<point|-2.0|0.29195733462115>|<point|-2.0|-0.29195733462115>>>|<with|magnify|0.583914669242297|<cline|<point|-2.5839146692423|0.29195733462115>|<point|-1.4160853307577|0.29195733462115>|<point|-1.4160853307577|-0.29195733462115>|<point|-2.5839146692423|-0.29195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.29196|1.52655665885959e-16>|<point|-2.3|-0.8>>>|<text-at|<scm|a>|<point|-2.43766372668342|-1.18462677476562>>|<with|magnify|0.590117724122821|<cline|<point|-2.59505886206141|-0.80494113793859>|<point|-2.00494113793859|-0.80494113793859>|<point|-2.00494113793859|-1.39505886206141>|<point|-2.59505886206141|-1.39505886206141>>>|<line|<point|-1.4|0.3>|<point|-2.0|-0.29195733462115>>|<with|magnify|0.583914669242297|<point|0.59195733462115|0.9>>|<with|magnify|0.583914669242297|<point|0.00804266537885021|0.9>>|<with|magnify|0.583914669242297|<line|<point|0.3|1.19195733462115>|<point|0.3|0.60804266537885>>>|<with|magnify|0.583914669242297|<cline|<point|-0.2839146692423|1.19195733462115>|<point|0.8839146692423|1.19195733462115>|<point|0.8839146692423|0.60804266537885>|<point|-0.2839146692423|0.60804266537885>>>|<with|arrow-end|\<gtr\>|<line|<point|0.00804000000000021|0.9>|<point|1.97758476261356e-16|0.1>>>|<with|magnify|0.583914669242297|<point|0.00804266537885021|-0.2>>|<with|magnify|0.583914669242297|<line|<point|0.3|0.09195733462115>|<point|0.3|-0.49195733462115>>>|<line|<point|0.9|0.1>|<point|0.3|-0.49195733462115>>|<with|magnify|0.583914669242297|<cline|<point|-0.2839146692423|0.09195733462115>|<point|0.8839146692423|0.09195733462115>|<point|0.8839146692423|-0.49195733462115>|<point|-0.2839146692423|-0.49195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|0.00804000000000021|-0.2>|<point|1.97758476261356e-16|-1.0>>>|<text-at|<scm|b>|<point|-0.13766372668342|-1.38462677476562>>|<with|magnify|0.590117724122821|<cline|<point|-0.29505886206141|-1.00494113793859>|<point|0.29505886206141|-1.00494113793859>|<point|0.29505886206141|-1.59505886206141>|<point|-0.29505886206141|-1.59505886206141>>>|<with|arrow-end|\<gtr\>|<line|<point|0.59196|0.9>|<point|1.9160853307577|0.9>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.29196|2.8>|<point|-2.3|2.2>|<point|0.3|2.2>|<point|0.3|1.2>>>|<with|arrow-end|\<gtr\>|<line|<point|2.79196|-0.3>|<point|2.77414285440574|-2.2>|<point|-0.8|-2.2>|<point|-0.8|0.7>|<point|-0.3|0.7>>>>>|Result
-      of using <scm|(front-delete-deque! dq)> on the queue of figure
+      of using <scm|(front-delete-deque! dq)> on the deque of figure
       <reference|Exercise_3.23-Figure_2>.>
     </float>):
 
@@ -287,43 +293,78 @@
       \ \ (cond ((empty-deque? deque)
 
       \ \ \ \ \ \ \ \ \ (error "FRONT-DELETE-DEQUE! called with an empty
-      queue" deque))
+      deque" deque))
 
-      \ \ \ \ \ \ \ \ (else
+      \ \ \ \ \ \ \ \ ((eq? (front-ptr deque) (rear-ptr deque)) ; the deque
+      contains only 1 item\ 
+
+      \ \ \ \ \ \ \ \ \ (set-front-ptr! deque '())
+
+      \ \ \ \ \ \ \ \ \ (set-rear-ptr! deque '())
+
+      \ \ \ \ \ \ \ \ \ deque)
+
+      \ \ \ \ \ \ \ \ (else ; the deque consists of more than 1 item
 
       \ \ \ \ \ \ \ \ \ \ (set-front-ptr! deque (cdr (front-ptr deque)))
 
-      \ \ \ \ \ \ \ \ \ \ (set! (cadr (front-ptr deque)) '())
+      \ \ \ \ \ \ \ \ \ \ (set-cdr! (car (front-ptr deque)) '())
 
       \ \ \ \ \ \ \ \ \ \ deque)))
     </scm-code>
 
-    <hspace|3ex>Deleting an item at the rear of the double-ended queue can be
-    address in three cases. We simply report an error and exit whenever the
-    delete procedure encounters an empty queue. Otherwise, we just modify the
-    rear pointer to the precursor of the last item, togethre with setting the
-    <scm|cdr> of this new last pair to the empty list. Figure
+    <hspace|3ex>Deleting an item at the rear of the deque can be address in
+    two cases. We simply report an error and exit whenever the delete
+    procedure encounters an empty deque. Otherwise, we just modify the rear
+    pointer of the deque to the precursor of the last item, togethre with
+    setting the <scm|cdr> of this new last pair to the empty list. Figure
     <reference|Exercise_3.23-Figure_6><\float|float|tbh>
       <big-figure|<label|Exercise_3.23-Figure_6><with|gr-mode|<tuple|group-edit|move>|gr-frame|<tuple|scale|1cm|<tuple|0.5gw|0.5gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|<graphics||<text-at|<scm|rear-ptr>|<point|0.50069913043478|1.86641712642699>>|<line|<point|2.5|0.4854351035474>|<point|3.1|1.0773921035474>>|<with|magnify|0.583914669242297|<line|<point|2.5|1.06934943816855>|<point|2.5|0.48543476892625>>>|<with|magnify|0.583914669242297|<point|2.79195733462115|-0.3>>|<with|magnify|0.583914669242297|<point|2.20804266537885|0.7773921035474>>|<with|magnify|0.583914669242297|<line|<point|2.5|-0.00804266537884998>|<point|2.5|-0.59195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|2.20804|0.7773921035474>|<point|2.2|-0.0226078964526>>>|<with|magnify|0.583914669242297|<cline|<point|1.9160853307577|1.06934943816855>|<point|3.0839146692423|1.06934943816855>|<point|3.0839146692423|0.48543476892625>|<point|1.9160853307577|0.48543476892625>>>|<with|magnify|0.583914669242297|<point|2.20804266537885|-0.3>>|<with|arrow-end|\<gtr\>|<line|<point|2.20804|-0.3>|<point|2.2|-1.1>>>|<text-at|<scm|c>|<point|2.06233627331658|-1.48462677476562>>|<with|magnify|0.583914669242297|<cline|<point|1.9160853307577|-0.00804266537884998>|<point|3.0839146692423|-0.00804266537884998>|<point|3.0839146692423|-0.59195733462115>|<point|1.9160853307577|-0.59195733462115>>>|<with|magnify|0.590117724122821|<cline|<point|1.90494113793859|-1.10494113793859>|<point|2.49505886206141|-1.10494113793859>|<point|2.49505886206141|-1.69505886206141>|<point|1.90494113793859|-1.69505886206141>>>|<with|magnify|0.583914669242297|<point|-1.70804266537885|2.8>>|<text-at|<scm|front-ptr>|<point|-2.1|1.9>>|<with|magnify|0.583914669242297|<point|-2.29195733462115|2.8>>|<with|magnify|0.583914669242297|<line|<point|-2.0|3.09195733462115>|<point|-2.0|2.50804266537885>>>|<with|magnify|0.583914669242297|<line|<point|0.299999999999997|1.19195733462115>|<point|0.299999999999997|0.60804266537885>>>|<text-at|<scm|dq>|<point|-3.88565165398442|2.7>>|<with|magnify|0.583914669242297|<point|0.00804266537884796|0.9>>|<with|arrow-end|\<gtr\>|<line|<point|-3.4|2.8>|<point|-2.5839146692423|2.8>>>|<with|magnify|0.583914669242297|<point|0.59195733462115|-0.2>>|<with|magnify|0.583914669242297|<cline|<point|-2.5839146692423|3.09195733462115>|<point|-1.4160853307577|3.09195733462115>|<point|-1.4160853307577|2.50804266537885>|<point|-2.5839146692423|2.50804266537885>>>|<with|magnify|0.583914669242297|<cline|<point|-0.2839146692423|1.19195733462115>|<point|0.8839146692423|1.19195733462115>|<point|0.8839146692423|0.60804266537885>|<point|-0.2839146692423|0.60804266537885>>>|<with|arrow-end|\<gtr\>|<line|<point|0.00803999999999795|0.9>|<point|-2.02615701994091e-15|0.1>>>|<with|magnify|0.583914669242297|<line|<point|0.299999999999996|0.09195733462115>|<point|0.299999999999996|-0.49195733462115>>>|<with|magnify|0.583914669242297|<point|0.00804266537884696|-0.2>>|<with|arrow-end|\<gtr\>|<line|<point|-1.70804|1.1>|<point|-0.2839146692423|1.1>>>|<with|magnify|0.583914669242297|<point|-1.70804266537885|1.1>>|<with|magnify|0.583914669242297|<cline|<point|-0.2839146692423|0.09195733462115>|<point|0.8839146692423|0.09195733462115>|<point|0.8839146692423|-0.49195733462115>|<point|-0.2839146692423|-0.49195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|0.00803999999999695|-0.2>|<point|-3.02535774210355e-15|-1.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.29196|2.8>|<point|-2.3|1.39195733462115>>>|<text-at|<scm|b>|<point|-0.13766372668342|-1.38462677476562>>|<with|magnify|0.583914669242297|<point|-2.29195733462115|1.1>>|<with|magnify|0.583914669242297|<line|<point|-2.0|1.39195733462115>|<point|-2.0|0.80804266537885>>>|<with|magnify|0.590117724122821|<cline|<point|-0.29505886206141|-1.00494113793859>|<point|0.295058862061406|-1.00494113793859>|<point|0.295058862061406|-1.59505886206141>|<point|-0.29505886206141|-1.59505886206141>>>|<with|magnify|0.583914669242297|<cline|<point|-2.5839146692423|1.39195733462115>|<point|-1.4160853307577|1.39195733462115>|<point|-1.4160853307577|0.80804266537885>|<point|-2.5839146692423|0.80804266537885>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.29196|1.1>|<point|-2.3|0.3>>>|<with|magnify|0.583914669242297|<point|-2.29195733462115|1.52655665885959e-16>>|<with|magnify|0.583914669242297|<line|<point|-2.0|0.29195733462115>|<point|-2.0|-0.29195733462115>>>|<line|<point|2.79196|-0.3>|<point|2.8|-2.8>|<point|-0.8|-2.8>|<point|-0.8|-2.5>>|<with|magnify|0.155581968316883|<arc|<point|-0.74961888401734|-2.17726597713928>|<point|-0.90371663691297|-2.33431813498255>|<point|-0.7466644790697|-2.48841588787818>>>|<with|magnify|0.583914669242297|<cline|<point|-2.5839146692423|0.29195733462115>|<point|-1.4160853307577|0.29195733462115>|<point|-1.4160853307577|-0.29195733462115>|<point|-2.5839146692423|-0.29195733462115>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.29196|1.52655665885959e-16>|<point|-2.3|-0.8>>>|<text-at|<scm|a>|<point|-2.43766372668342|-1.18462677476562>>|<with|magnify|0.590117724122821|<cline|<point|-2.59505886206141|-0.80494113793859>|<point|-2.00494113793859|-0.80494113793859>|<point|-2.00494113793859|-1.39505886206141>|<point|-2.59505886206141|-1.39505886206141>>>|<with|arrow-end|\<gtr\>|<line|<point|-0.8|-2.2>|<point|-0.8|0.7>|<point|-0.3|0.7>>>|<line|<point|-1.4|0.3>|<point|-2.0|-0.29195733462115>>|<with|arrow-end|\<gtr\>|<line|<point|0.59196|-0.2>|<point|0.6|-2.3>|<point|-3.7|-2.3>|<point|-3.7|1.0>|<point|-2.6|1.0>>>|<line|<point|0.910958|1.2>|<point|0.3|0.6>>|<with|arrow-end|\<gtr\>|<line|<point|-1.70804|2.8>|<point|0.3|2.8>|<point|0.3|1.2>>>>>|Result
-      of using <scm|(rear-delete-deque! dq)> on the queue of figure
+      of using <scm|(rear-delete-deque! dq)> on the deque of figure
       <reference|Exercise_3.23-Figure_2>.>
-    </float> illustrate the evolution of the double-ended queue in a more
-    intuitive way.
+    </float> illustrate the evolution of the deque in a more intuitive way.
 
     <\scm-code>
-      (define (delete-rear-deque! deque)
+      (define (rear-delete-deque! deque)
 
       \ \ (cond ((empty-deque? deque)
 
-      \ \ \ \ \ \ \ \ \ (error "FIND-ONE-BEFORE-LAST empty list" L))
+      \ \ \ \ \ \ \ \ \ (error "REAR-DELETE-DEQUE! called with an empty
+      deque" deque))
 
-      \ \ \ \ \ \ \ \ (else
+      \ \ \ \ \ \ \ \ ((eq? (front-ptr deque) (rear-ptr deque)) ; the deque
+      contains only 1 item\ 
 
-      \ \ \ \ \ \ \ \ \ \ (set-rear-ptr! deque (cadr (rear-ptr deque)))
+      \ \ \ \ \ \ \ \ \ (set-front-ptr! deque '())
+
+      \ \ \ \ \ \ \ \ \ (set-rear-ptr! deque '())
+
+      \ \ \ \ \ \ \ \ \ deque)
+
+      \ \ \ \ \ \ \ \ (else ; the deque consists of more than 1 item
+
+      \ \ \ \ \ \ \ \ \ \ (set-rear-ptr! deque (cdr (car (rear-ptr deque))))
 
       \ \ \ \ \ \ \ \ \ \ (set-cdr! (rear-ptr deque) '())
 
       \ \ \ \ \ \ \ \ \ \ deque)))
+    </scm-code>
+
+    <hspace|3ex>Finally, we have to implement the procedure for printing the
+    deque in a user-friendly way:
+
+    <\scm-code>
+      (define (print-deque deque)
+
+      \ \ (cond ((empty-deque? deque)
+
+      \ \ \ \ \ \ \ \ \ '())
+
+      \ \ \ \ \ \ \ \ (else
+
+      \ \ \ \ \ \ \ \ \ \ (map (lambda (item) (car item))
+
+      \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (front-ptr deque)))))
     </scm-code>
   </render-exercise>
 </body>
@@ -337,23 +378,23 @@
 <\references>
   <\collection>
     <associate|E|<tuple|6|?>>
-    <associate|Exercise_3.23-Figure_1|<tuple|1|2>>
-    <associate|Exercise_3.23-Figure_2|<tuple|2|?>>
+    <associate|Exercise_3.23-Figure_1|<tuple|1|1>>
+    <associate|Exercise_3.23-Figure_2|<tuple|2|2>>
     <associate|Exercise_3.23-Figure_2x|<tuple|3|3>>
-    <associate|Exercise_3.23-Figure_3|<tuple|3|?>>
+    <associate|Exercise_3.23-Figure_3|<tuple|3|3>>
     <associate|Exercise_3.23-Figure_3x|<tuple|4|4>>
-    <associate|Exercise_3.23-Figure_4|<tuple|4|?>>
+    <associate|Exercise_3.23-Figure_4|<tuple|4|4>>
     <associate|Exercise_3.23-Figure_4x|<tuple|4|4>>
-    <associate|Exercise_3.23-Figure_5|<tuple|5|?>>
+    <associate|Exercise_3.23-Figure_5|<tuple|5|4>>
     <associate|Exercise_3.23-Figure_5x|<tuple|5|4>>
-    <associate|Exercise_3.23-Figure_6|<tuple|6|?>>
+    <associate|Exercise_3.23-Figure_6|<tuple|6|5>>
     <associate|Exercise_3.23-Figure_6x|<tuple|6|5>>
-    <associate|auto-1|<tuple|1|2>>
+    <associate|auto-1|<tuple|1|1>>
     <associate|auto-2|<tuple|2|2>>
     <associate|auto-3|<tuple|3|3>>
     <associate|auto-4|<tuple|4|4>>
     <associate|auto-5|<tuple|5|4>>
-    <associate|auto-6|<tuple|6|4>>
+    <associate|auto-6|<tuple|6|5>>
     <associate|auto-7|<tuple|7|5>>
     <associate|footnote-|<tuple|?|?>>
     <associate|footnote-*|<tuple|?|1>>
@@ -365,22 +406,22 @@
 <\auxiliary>
   <\collection>
     <\associate|figure>
-      <tuple|normal|Double-ended queue operations.|<pageref|auto-1>>
+      <tuple|normal|Operations on a deque.|<pageref|auto-1>>
 
-      <tuple|normal|Implementation of a double-ended queue as a doubly linked
-      list with front and rear pointers.|<pageref|auto-2>>
+      <tuple|normal|Implementation of a deque as a doubly linked list with
+      front and rear pointers.|<pageref|auto-2>>
 
       <tuple|normal|Result of using <with|mode|<quote|prog>|prog-language|<quote|scheme>|(front-insert-deque!
-      dq 'z)> on the queue of figure <reference|Exercise_3.23-Figure_2>.|<pageref|auto-3>>
+      dq 'z)> on the deque of figure <reference|Exercise_3.23-Figure_2>.|<pageref|auto-3>>
 
       <tuple|normal|Result of using <with|mode|<quote|prog>|prog-language|<quote|scheme>|(rear-insert-deque!
-      dq 'd)> on the queue of figure <reference|Exercise_3.23-Figure_2>.|<pageref|auto-4>>
+      dq 'd)> on the deque of figure <reference|Exercise_3.23-Figure_2>.|<pageref|auto-4>>
 
       <tuple|normal|Result of using <with|mode|<quote|prog>|prog-language|<quote|scheme>|(front-delete-deque!
-      dq)> on the queue of figure <reference|Exercise_3.23-Figure_2>.|<pageref|auto-5>>
+      dq)> on the deque of figure <reference|Exercise_3.23-Figure_2>.|<pageref|auto-5>>
 
       <tuple|normal|Result of using <with|mode|<quote|prog>|prog-language|<quote|scheme>|(rear-delete-deque!
-      dq)> on the queue of figure <reference|Exercise_3.23-Figure_4x>.|<pageref|auto-6>>
+      dq)> on the deque of figure <reference|Exercise_3.23-Figure_2>.|<pageref|auto-6>>
     </associate>
   </collection>
 </auxiliary>

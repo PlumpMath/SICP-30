@@ -24,10 +24,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define (lookup given-key set-of-records)
-  (cond ((null? set-of-records) false)
-	((= given-key (entry set-of-records)) given-key)
-	((< given-key (entry set-of-records))
-	 (lookup given-key (left-branch set-of-records)))
-	(else
-	 (lookup given-key (right-branch set-of-records)))))
+(define (lookup given-key tree-of-records)
+  (if (null? tree-of-records)
+      false
+      (let ((entry-key (key (entry tree-of-records))))
+	(cond ((= given-key entry-key)
+	       (entry tree-of-records))
+	      ((< given-key entry-key)
+	       (lookup given-key (left-branch tree-of-records)))
+	      (else
+	       (lookup given-key (right-branch tree-of-records)))))))

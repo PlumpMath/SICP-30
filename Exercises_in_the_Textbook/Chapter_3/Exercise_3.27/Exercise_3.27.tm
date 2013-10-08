@@ -78,6 +78,12 @@
     <\answer>
       \;
 
+      We can see in the problem description that <scm|memo-fib> is defined to
+      be a procedure object by applying <scm|memorize> to <scm|memo-fib>
+      itself in a recursive way. This indicates us to transform the
+      application form <scm|(memorize f)> in a more formal way, that is,
+      interprete the <scm|let> syntatic sugar into <scm|lambda> expression:
+
       <\scm-code>
         (define (memorize f)
 
@@ -102,21 +108,22 @@
         \ \ \ (make-table)))
       </scm-code>
 
-      figure <\float|float|tbh>
-        <big-figure|<with|gr-mode|<tuple|group-edit|move>|gr-frame|<tuple|scale|1cm|<tuple|0.539996gw|0.519998gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-arrow-begin|\<less\>|<graphics||<cline|<point|-6|3>|<point|6.0|3.0>|<point|6.0|1.0>|<point|-6.0|1.0>>|<with|arrow-end|\<gtr\>|<line|<point|-6.5|2>|<point|-6.0|2.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.5|1.7>>|<text-at|<scm|global>|<point|-7.5|2.1>>>|<text-at|<scm|memorize:>|<point|-5.9|1.9>>|<point|-4.3|-1.0>|<carc|<point|-4.6|-1.0>|<point|-4.0|-1.0>|<point|-4.3|-0.7>>|<carc|<point|-4.0|-1.0>|<point|-3.4|-1.0>|<point|-3.7|-0.7>>|<point|-3.7|-1.0>|<with|arrow-end|\<gtr\>|<line|<point|-3.7|-1>|<point|-2.5|-1.0>|<point|-2.5|1.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-4.3|-1>|<point|-4.3|-1.8>>>|<text-at|<scm|parameters:
-        f>|<point|-5.2|-2.1>>|<text-at|<scm|body:>|<point|-5.2|-2.5>>|<text-at|<scm|local-table:
-        >|<point|3.5|-0.7>>|<text-at|<scm|assoc:
-        ...>|<point|3.5|-1.1>>|<text-at|<scm|dispatch:
-        ...>|<point|3.5|-2.3>>|<text-at|<scm|lookup:
-        ...>|<point|3.5|-1.5>>|<text-at|<scm|insert!:
-        ...>|<point|3.5|-1.9>>|<cline|<point|3.0|-0.2>|<point|6.0|-0.2>|<point|6.0|-2.7>|<point|3.0|-2.7>>|<text-at|call
-        to <scm|(make-table)>|<point|3.0|-3.1>>|<gr-group|<text-at|<scm|table:>|<point|-0.7|-2.3>>|<cline|<point|-0.9|-1.7>|<point|1.1|-1.7>|<point|1.1|-2.7>|<point|-0.9|-2.7>>>|<gr-group|<text-at|<scm|...>|<point|-1.3|-3.8>>|<text-at|<scm|(lambda
-        (x)>|<point|-2.2|-3.05244>>|<text-at|<scm|(lookup x
-        table))))>|<point|-1.6|-4.2>>|<text-at|<scm|((lambda
-        (previously...)>|<point|-1.8|-3.4>>>|<with|arrow-begin|\<less\>|<line|<point|-0.919615689906072|-2.42282378621511>|<point|-4.36980751422146|-2.40246725757375>>>|<with|arrow-end|\<gtr\>|<line|<point|2.4|-0.6>|<point|2.99624619658685|-0.602477179521101>>>|<text-at|<scm|E1>|<point|-1.93807718375446|-2.06973184283635>>|<text-at|<scm|E2>|<point|1.9|-0.7>>|<with|arrow-end|\<gtr\>|<line|<point|0.286893|-2.21116>|<point|3.39841579574018|-2.21115557613441>>>|<with|arrow-end|\<gtr\>|<line|<point|-4.4121411562376|1.99336883185607>|<point|-4.0|2.0>|<point|-4.0|-0.7>>>|<with|arrow-begin|\<less\>|<line|<point|-0.919616|-2.00716>|<point|-1.5|-2.0>>>>>|>
-      </float>
+      We are now able to transform <scm|memo-fib> in terms of table
+      manipulation by substituting <scm|f> with
 
-      <scm|memo-fib> would be expanded into:
+      <\scm-code>
+        (lambda (n)
+
+        \ \ (cond ((= n 0) 0)
+
+        \ \ \ \ \ \ \ \ ((= n 1) 1)
+
+        \ \ \ \ \ \ \ \ (else (+ (memo-fib (- n 1))
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (memo-fib (- n 2))))))
+      </scm-code>
+
+      in the body of <scm|memorize> we obtained just now:
 
       <\scm-code>
         (define memo-fib
@@ -154,15 +161,108 @@
         \ \ \ (make-table)))
       </scm-code>
 
-      \ \ \ figure \ <\float|float|tbh>
-        <big-figure|<with|gr-mode|<tuple|edit|text-at>|gr-frame|<tuple|scale|1cm|<tuple|0.529997gw|0.629988gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-arrow-end|\<gtr\>|<graphics||<cline|<point|-6|3>|<point|6.0|3.0>|<point|6.0|1.0>|<point|-6.0|1.0>>|<with|arrow-end|\<gtr\>|<line|<point|-6.5|2>|<point|-6.0|2.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.5|1.7>>|<text-at|<scm|global>|<point|-7.5|2.1>>>|<point|0.3|-0.5>|<gr-group|<cline|<point|2.7|-1.2>|<point|4.7|-1.2>|<point|4.7|-2.2>|<point|2.7|-2.2>>|<text-at|<scm|table:
-        ...>|<point|2.9|-1.8>>>|<point|-0.3|-0.5>|<text-at|<scm|parameters:
-        f>|<point|-1.2|-1.6>>|<carc|<point|-1.94289029309402e-16|-0.5>|<point|0.6|-0.5>|<point|0.3|-0.2>>|<with|arrow-end|\<gtr\>|<line|<point|-0.29151|1.99697>|<point|-1.94289029309402e-16|2.0>|<point|-1.94289029309402e-16|-0.2>>>|<text-at|<scm|E1>|<point|1.66634618071173|-1.50583507077656>>|<with|arrow-end|\<gtr\>|<line|<point|-0.3|-0.5>|<point|-0.3|-1.3>>>|<text-at|<scm|body:>|<point|-1.2|-2.0>>|<text-at|<scm|memorize:>|<point|-5.8|2.5>>|<with|arrow-begin|\<less\>|<line|<point|2.69808|-1.4132>|<point|2.1|-1.4>>>|<carc|<point|-0.6|-0.5>|<point|-1.94289029309402e-16|-0.5>|<point|-0.3|-0.2>>|<with|arrow-end|\<gtr\>|<line|<point|0.3|-0.5>|<point|1.5|-0.5>|<point|1.5|1.0>>>|<gr-group|<text-at|<scm|...>|<point|2.3|-3.3>>|<text-at|<scm|(lambda
-        (x)>|<point|1.4|-2.55244>>|<text-at|<scm|(lookup x
-        table))))>|<point|2.0|-3.7>>|<text-at|<scm|((lambda
-        (previously...)>|<point|1.8|-2.9>>>|<with|arrow-end|\<gtr\>|<line|<point|-0.25807|-1.93829>|<point|2.69590885037703|-1.94237002248975>>>|<text-at|<scm|memo-fib:>|<point|-5.8|1.394574>>|<text-at|<scm|f:
-        procedure fib>|<point|-5.6|-3>>>>|>
-      </float>
+      This can be further simplified into:
+
+      <\scm-code>
+        (define memo-fib
+
+        \ \ (lambda (x)
+
+        \ \ \ \ ((lambda (previously-computed-result)
+
+        \ \ \ \ \ \ \ (or previously-computed-result
+
+        \ \ \ \ \ \ \ \ \ \ \ ((lambda (result)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ (insert! x result table)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ result)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ ((lambda (n)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (cond ((= n 0) 0)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((= n 1) 1)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (else (+ (memo-fib (- n 1))
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (memo-fib
+        (- n 2))))))
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ x))))
+
+        \ \ \ \ \ (lookup x table))))
+      </scm-code>
+
+      Therefore, in evaluating <scm|(memo-fib 3)>, we first construct a
+      procedure object of <scm|memorize> with its enclosing environment set
+      to the global environment. Notice that the body of <scm|memorize> is an
+      application rather than a procedure and it performs insertion on a
+      local table according to the memorized value in that table. This was
+      done by constructing an environment E1 in which, the formal paramenter
+      of the procedure object <scm|(memorize f)> was assigned to a local
+      table. The local table was created by invoking the procedure
+      <scm|make-table> in another newly constructed environment E2.
+
+      <hspace|3ex>Later on, another procedure object was created which has
+      its enclosing environment E1 and whose body is the <scm|lambda> that
+      <scm|(memorize f)> returns. It then was associated to <scm|memo-fib> in
+      the global environment. The computing of <scm|(memo-fib 3)> was handle
+      in this framework, figure <reference|Exercise_3.27-Figure_1><\float|float|tbh>
+        <big-figure|<label|Exercise_3.27-Figure_1><with|gr-mode|<tuple|group-edit|move>|gr-frame|<tuple|scale|1cm|<tuple|0.519998gw|0.629988gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-arrow-end|\<gtr\>|gr-auto-crop|true|<graphics||<gr-group|<gr-group|<text-at|<scm|body:>|<point|-5.7|-3.5>>|<text-at|<scm|parameters:
+        x>|<point|-5.7|-3.1>>>|<with|arrow-end|\<gtr\>|<line|<point|-4.83548|-3.4359>|<point|-4.00997155708427|-3.43590422013494>|<point|-4.0|-4.6>|<point|-1.99912356131763|-4.60007937557878>>>|<with|arrow-end|\<gtr\>|<line|<point|-4.8|-2.0>|<point|-4.8|-2.8>>>|<carc|<point|-5.1|-2.0>|<point|-4.5|-2.0>|<point|-4.8|-1.7>>|<point|-4.8|-2.0>|<carc|<point|-4.5|-2.0>|<point|-3.9|-2.0>|<point|-4.2|-1.7>>|<with|arrow-end|\<gtr\>|<line|<point|-4.2|-2>|<point|-3.0|-2.0>|<point|-3.0|-3.5>|<point|-0.700000000000001|-3.5>>>|<point|-4.2|-2.0>|<with|arrow-end|\<gtr\>|<line|<point|-4.30630705119725|1.59711932795343>|<point|-3.6|1.6>|<point|-3.6|0.4>|<point|-4.5|0.4>|<point|-4.5|-1.7>>>|<gr-group|<text-at|<scm|...>|<point|-1.1|-4.8>>|<text-at|<scm|(lambda
+        (x)>|<point|-2.0|-4.05244>>|<text-at|<scm|(lookup x
+        table))))>|<point|-1.4|-5.2>>|<text-at|<scm|((lambda
+        (previously...)>|<point|-1.6|-4.4>>>|<gr-group|<text-at|<scm|body:>|<point|-2.7|-1.5>>|<text-at|<scm|parameters:
+        f>|<point|-2.7|-1.1>>>|<with|arrow-begin|\<less\>|<line|<point|-0.719616000000001|-3.00716>|<point|-1.3|-3.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-1.80862|-1.40389>|<point|-0.411611985712396|-1.40388940336023>|<point|-0.4|-2.7>>>|<text-at|<scm|E1>|<point|-1.33807718375446|-2.86973184283635>>|<cline|<point|-0.700000000000001|-2.7>|<point|0.7|-2.7>|<point|0.680546368567271|-3.70422674957005>|<point|-0.700000000000001|-3.7>>|<with|arrow-end|\<gtr\>|<line|<point|-1.8|0.0>|<point|-1.8|-0.8>>>|<carc|<point|-2.1|0.0>|<point|-1.5|0.0>|<point|-1.8|0.3>>|<with|arrow-end|\<gtr\>|<line|<point|-6.5|2>|<point|-6.0|2.0>>>|<text-at|<scm|memo-fib:>|<point|-5.8|1.5>>|<point|-1.8|0.0>|<carc|<point|-1.5|0.0>|<point|-0.9|0.0>|<point|-1.2|0.3>>|<text-at|<scm|table:>|<point|-0.5|-3.3>>|<with|arrow-end|\<gtr\>|<line|<point|-4.34864|2.49081>|<point|-1.5|2.5>|<point|-1.5|0.3>>>|<with|arrow-end|\<gtr\>|<line|<point|-1.2|0>|<point|-0.2|0.0>|<point|-0.2|1.0>>>|<point|-1.2|0.0>|<with|arrow-end|\<gtr\>|<line|<point|0.608579|-3.203>|<point|1.0|-3.2>|<point|1.0|-2.4>|<point|1.5695528509062|-2.41305066807779>>>|<text-at|<scm|memorize:>|<point|-5.84702010847996|2.43355602592936>>|<with|arrow-end|\<gtr\>|<line|<point|0.8|0.3>|<point|1.37905146183358|0.296302420955153>>>|<text-at|<scm|E2>|<point|0.58556|0.423303>>|<text-at|call
+        to <scm|(make-table)>|<point|2.604058|-3.12607>>|<gr-group|<text-at|<scm|env>|<point|-7.5|1.7>>|<text-at|<scm|global>|<point|-7.5|2.1>>>|<cline|<point|-6|3>|<point|6.0|3.0>|<point|6.0|1.0>|<point|-6.0|1.0>>|<gr-group|<cline|<point|1.4|0.7>|<point|6.8|0.7>|<point|6.8|-2.7>|<point|1.4|-2.7>>|<text-at|<scm|insert!:
+        ...>|<point|1.6|-2.1>>|<text-at|<scm|lookup:
+        ...>|<point|1.6|-1.7>>|<text-at|<scm|dispatch:
+        ...>|<point|1.6|-2.5>>|<text-at|<scm|assoc:
+        ...>|<point|1.6|-1.3>>|<text-at|<scm|(1 .
+        1)>|<point|5.29125|-0.503>>|<text-at|<scm|(0 .
+        0))>|<point|5.3|-0.9>>|<text-at|<scm|(2 .
+        1)>|<point|5.29125|-0.103>>|<text-at|<scm|local-table: (*table* (3 .
+        2)>|<point|1.6|0.3>>>>>>|The environment structure in computing
+        <scm|(memo-fib 3)>.>
+      </float> shows the environment structure in the computing process.
+
+      This environment model perfectly interprets the reason why
+      <scm|memo-fib> computes the <math|n>th Fibonacci number evolves only
+      linear step of <math|n>: the <scm|memo-fib> computes a value only if
+      there was not such a value keyed by the given arguments in the local
+      table and this newly obtained ``<scm|(arg . value)>'' pair was later
+      inserted into the local table. This in fact flattened a duplicated tree
+      into a linear list with unique elements and avoid repeated computation.
+
+      <hspace|3ex>Hence, in this strategy, computing the <math|n>th Fibonacci
+      number requires only an increment of the computing <math|Fib
+      <around*|(|n-1|)>> which is in case the increment of the computing of
+      <math|Fib <around*|(|n-2|)>>, that is
+
+      <\eqnarray*>
+        <tformat|<table|<row|<cell|T <around*|(|Fib
+        <around*|(|n|)>|)>>|<cell|=>|<cell|T <around*|(|Fib
+        <around*|(|n-1|)>|)>+1>>|<row|<cell|>|<cell|=>|<cell|T <around*|(|Fib
+        <around*|(|n-2|)>|)>+1+1>>|<row|<cell|>|<cell|=>|<cell|T
+        <around*|(|Fib <around*|(|n-3|)>|)>+1+1+1>>|<row|<cell|>|<cell|=>|<cell|\<ldots\>>>|<row|<cell|>|<cell|=>|<cell|T
+        <around*|(|Fib <around*|(|n-<around*|(|n-1|)>|\<nobracket\>>|)>+n-1>>|<row|<cell|>|<cell|=>|<cell|T
+        <around*|(|Fib <around*|(|0|)>|)>+n>>|<row|<cell|>|<cell|=>|<cell|\<Theta\>
+        <around*|(|n|)>>>>>
+      </eqnarray*>
+
+      which shows that <scm|memo-fib> computes the <math|n>th Fibonacci
+      number in a number of steps proportional to <math|n>.
+
+      On the other hand, the scheme would fail to accomplish the task in
+      <math|\<Theta\> <around*|(|n|)>> steps if we had simply defined
+      <scm|memo-fib> to be <scm|(memoize fib)>. For this time, <scm|memo-fib>
+      would call <scm|fib> instead of <scm|memo-fib> to address the
+      subproblem. This would not maintain anything, but the pair ``<scm|(n .
+      fib(n))>'' in the local table during the computation, all the result
+      for smaller problems was lost, making the computation degenerate back
+      to evolve an order of growth <math|\<Theta\> <around*|(|Fib
+      <around*|(|n|)>|)>>.
     </answer>
   </render-exercise>
 </body>
@@ -175,8 +275,9 @@
 
 <\references>
   <\collection>
-    <associate|auto-1|<tuple|1|2>>
-    <associate|auto-2|<tuple|2|2>>
+    <associate|Exercise_3.27-Figure_1|<tuple|1|3>>
+    <associate|auto-1|<tuple|1|3>>
+    <associate|auto-2|<tuple|2|3>>
     <associate|footnote-|<tuple|?|?>>
     <associate|footnote-*|<tuple|?|1>>
   </collection>
@@ -185,9 +286,9 @@
 <\auxiliary>
   <\collection>
     <\associate|figure>
-      <tuple|normal||<pageref|auto-1>>
-
-      <tuple|normal||<pageref|auto-2>>
+      <tuple|normal|The environment structure in computing
+      <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|(memo-fib
+      3)>.|<pageref|auto-1>>
     </associate>
   </collection>
 </auxiliary>

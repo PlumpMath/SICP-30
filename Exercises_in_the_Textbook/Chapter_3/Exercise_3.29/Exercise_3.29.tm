@@ -53,12 +53,15 @@
         \ \ \ \ 'ok))
       </scm-code>
 
-      <hspace|3ex>We see that in this implementation of or-gate, the and-gate
-      was invoked for once and the inverter was invoked for three times.
-      Hence, the delay time of the or-gate here is
+      <hspace|3ex>Notice that in this implementation, although the or-gate is
+      built from three inverters and an and-gate, the first two inverters
+      propogate their output to the and-gate parallelly, rather than
+      serially. This indicates that the and-gate waited merely one
+      <scm|inverter-delay> until it began to proceed the signal. \ Hence, the
+      delay time of the or-gate here turn out to be:
 
       <\equation*>
-        <scm|and-gate-delay>+3\<times\><scm|inverter-delay>
+        <scm|or-gate-delay>=2\<times\><scm|inverter-delay>+<scm|and-gate-delay>
       </equation*>
     </answer>
   </render-exercise>

@@ -142,3 +142,24 @@
 
 (define (add-action! wire action-procedure)
   ((wire 'add-action!) action-procedure))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;        The agenda
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (after-delay delay action)
+  (add-to-agenda (+ delay (current-time the-agenda))
+		 action
+		 the-agenda))
+
+(define (propogate)
+  (if (empty-agenda? the-agenda)
+      'done
+      (let ((first-item (first-agenda-item the-agenda)))
+	(first-item)
+	(remove-first-agenda-item! the-agenda)
+	(propogate))))

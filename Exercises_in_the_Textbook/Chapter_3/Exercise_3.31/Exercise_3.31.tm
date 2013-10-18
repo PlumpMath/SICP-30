@@ -24,148 +24,172 @@
     <\answer>
       \;
 
-      <\scm-code>
-        (probe 'sum sum)
-      </scm-code>
+      Once the initializing step <scm|(proc)> has been eliminated from the
+      body of <scm|accept-action-procedure!>, .... Let's try to trace through
+      the half-adder example in the paragraph above in the environment model
+      to see why is that.
 
-      \ \ figure 1 <\float|float|tbh>
-        <big-figure|<with|gr-mode|<tuple|group-edit|move>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-arrow-begin|\<less\>|<graphics||<point|3.3|-1.0>|<point|2.7|-1.0>|<text-at|<scm|probe:>|<point|-5.8|2.31381>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<carc|<point|3.0|-1.0>|<point|3.6|-1.0>|<point|3.3|-0.7>>|<carc|<point|2.4|-1.0>|<point|3.0|-1.0>|<point|2.7|-0.7>>|<text-at|<scm|dispatch>|<point|0.200000000000001|-4.0>>|<text-at|<scm|(define
-        accept-action-procedure! ...)>|<point|0.200000000000001|-3.2>>|<text-at|<scm|parameters:
+      <hspace|3ex>Figure <reference|Exercise_3.31-Figure_1><\float|float|tbh>
+        <big-figure|<label|Exercise_3.31-Figure_1><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-arrow-end|\<gtr\>|gr-auto-crop|true|<graphics||<gr-group|<gr-group|<text-at|<scm|body:
+        (add-action! wire>|<point|-5.9|-2.8>>|<text-at|<scm|...))>|<point|-2.3|-3.6>>|<text-at|<scm|(lambda
+        ()>|<point|-2.7|-3.2>>>|<with|arrow-end|\<gtr\>|<line|<point|-4.3|1.0>|<point|-4.3|-2.0>>>|<gr-group|<text-at|<scm|body:
+        (if (empty-agenda? the-agenda)>|<point|-3.3|-0.6>>|<text-at|<scm|'done>|<point|-1.6|-1.0>>|<text-at|<scm|(let
+        ...))>|<point|-1.6|-1.4>>>|<text-at|<scm|parameters: name
+        wire>|<point|-5.9|-2.4>>|<carc|<point|-4.6|1.0>|<point|-4.0|1.0>|<point|-4.3|1.3>>|<point|-4.3|1.0>|<carc|<point|-4.0|1.0>|<point|-3.4|1.0>|<point|-3.7|1.3>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<with|arrow-end|\<gtr\>|<line|<point|-3.7|1.0>|<point|-2.7|1.0>|<point|-2.7|2.0>>>|<point|-3.7|1.0>|<with|arrow-end|\<gtr\>|<line|<point|-4.5|2.4>|<point|-4.0|2.4>|<point|-4.0|1.3>>>|<gr-group|<text-at|<scm|dispatch>|<point|0.200000000000001|-4.0>>|<text-at|<scm|(define
+        dispatch ...)>|<point|0.200000000000001|-3.6>>|<text-at|<scm|body:
+        (define set-my-signal! ...)>|<point|-0.799999999999999|-2.8>>|<text-at|<scm|(define
+        accept-action-procedure! ...)>|<point|0.200000000000001|-3.2>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|probe:>|<point|-5.8|2.31381>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<text-at|<scm|propagate:>|<point|-5.8|2.9>>|<with|arrow-end|\<gtr\>|<line|<point|-4.0|3.0>|<point|-0.5|3.0>|<point|-0.5|1.3>>>|<with|arrow-end|\<gtr\>|<line|<point|-0.8|1.0>|<point|-0.8|0.2>>>|<carc|<point|-1.1|1.0>|<point|-0.5|1.0>|<point|-0.8|1.3>>|<text-at|<scm|make-wire:>|<point|-5.8|3.5>>|<with|arrow-end|\<gtr\>|<line|<point|-4.02487101468448|3.59698703532213>|<point|3.0|3.6>|<point|3.0|-0.7>>>|<point|-0.8|1.0>|<carc|<point|-0.5|1.0>|<point|0.0999999999999999|1.0>|<point|-0.2|1.3>>|<with|arrow-end|\<gtr\>|<line|<point|-0.2|1.0>|<point|0.8|1.0>|<point|0.8|2.0>>>|<point|-0.2|1.0>|<text-at|<scm|parameters:
         \<less\><with|prog-font-shape|italic|no
-        parameter>\<gtr\>>|<point|-0.799999999999999|-2.4>>|<text-at|<scm|body:
-        (define set-my-signal! ...)>|<point|-0.799999999999999|-2.8>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|propagate:>|<point|-5.8|2.7>>|<text-at|<scm|make-wire:>|<point|-5.8|3.1>>|<text-at|<scm|(define
-        dispatch ...)>|<point|0.200000000000001|-3.6>>|<text-at|<scm|parameters:
+        parameter>\<gtr\>>|<point|-3.3|-0.2>>|<carc|<point|2.4|-1.0>|<point|3.0|-1.0>|<point|2.7|-0.7>>|<with|arrow-end|\<gtr\>|<line|<point|2.7|-1.0>|<point|2.7|-2.0>>>|<point|2.7|-1.0>|<carc|<point|3.0|-1.0>|<point|3.6|-1.0>|<point|3.3|-0.7>>|<text-at|<scm|parameters:
         \<less\><with|prog-font-shape|italic|no
-        parameter>\<gtr\>>|<point|-3.3|-0.2>>|<text-at|<scm|body: (if
-        (empty-agenda? ...))>|<point|-3.3|-0.6>>|<text-at|<scm|'done>|<point|-2.3|-1.0>>|<text-at|<scm|(let
-        ...))>|<point|-2.3|-1.4>>|<with|arrow-end|\<gtr\>|<line|<point|-0.8|1.0>|<point|-0.8|0.2>>>|<point|-0.8|1.0>|<carc|<point|-0.5|1.0>|<point|0.0999999999999999|1.0>|<point|-0.2|1.3>>|<point|-0.2|1.0>|<with|arrow-end|\<gtr\>|<line|<point|-0.2|1.0>|<point|0.8|1.0>|<point|0.8|2.0>>>|<carc|<point|-1.1|1.0>|<point|-0.5|1.0>|<point|-0.8|1.3>>|<with|arrow-end|\<gtr\>|<line|<point|3.3|-1.0>|<point|5.0|-1.0>|<point|5.0|2.0>>>|<text-at|<scm|parameters:
-        name wire>|<point|-6.3|-2.4>>|<text-at|<scm|body: (add-action!
-        ...)>|<point|-6.3|-2.8>>|<carc|<point|-4.9|1.0>|<point|-4.3|1.0>|<point|-4.6|1.3>>|<point|-4.6|1.0>|<carc|<point|-4.3|1.0>|<point|-3.7|1.0>|<point|-4.0|1.3>>|<with|arrow-end|\<gtr\>|<line|<point|-4.0|1.0>|<point|-3.0|1.0>|<point|-3.0|2.0>>>|<point|-4.0|1.0>|<text-at|<scm|\<less\><with|prog-font-shape|italic|operations
-        on agenda>\<gtr\>>|<point|-5.73838|3.52072>>|<with|arrow-end|\<gtr\>|<line|<point|-4.02487101468448|3.19698372800635>|<point|3.0|3.2>|<point|3.0|-0.7>>>|<with|arrow-begin|\<less\>|<line|<point|-0.5|1.3>|<point|-0.5|2.8>|<point|-4.17363407858182|2.79051461833576>>>|<with|arrow-begin|\<less\>|<line|<point|-4.3|1.3>|<point|-4.3|2.4>|<point|-4.80863870882392|2.4095118401905>>>|<with|arrow-end|\<gtr\>|<line|<point|-4.6|1.0>|<point|-4.6|-2.0>>>|<with|arrow-end|\<gtr\>|<line|<point|2.7|-1.0>|<point|2.7|-2.0>>>>>|>
-      </float> \ figure 2 <\float|float|tbh>
+        parameter>\<gtr\>>|<point|-0.799999999999999|-2.4>>|<with|arrow-end|\<gtr\>|<line|<point|3.3|-1>|<point|4.5|-1.0>|<point|4.5|2.0>>>|<point|3.3|-1.0>>>>|Procedure
+        objects of <scm|make-wire>, <scm|propagate> and <scm|probe> in the
+        global environment.>
+      </float> shows the procedure objects of <scm|make-wire>,
+      <scm|propagate> and <scm|probe> created in the global frame. Using
+      these we see how the four wires: <scm|input-1>, <scm|input-2>,
+      <scm|sum> and <scm|carry> were defined, as figure
+      <reference|Exercise_3.31-Figure_2><\float|float|tbh>
         <\big-figure>
-          <with|gr-mode|<tuple|edit|text-at>|gr-frame|<tuple|scale|1cm|<tuple|0.509999gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|<graphics||<text-at|<scm|carry:
-          \<less\><with|prog-font-shape|italic|duplication of
-          input-1>\<gtr\>>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<text-at|<scm|body:
-          (set! action-procedures>|<point|-0.500000000000001|-3.8>>|<with|arrow-end|\<gtr\>|<line|<point|3.79572|-0.0184217>|<point|3.79571702606165|0.489581955285091>>>|<text-at|<scm|(cons
-          proc action-procedures))>|<point|1.5|-4.2>>|<carc|<point|2.0|-2.3>|<point|2.6|-2.3>|<point|2.3|-2.0>>|<text-at|<scm|parameters:
-          proc>|<point|-0.500000000000001|-3.4>>|<with|arrow-end|\<gtr\>|<line|<point|1.7|-2.3>|<point|1.7|-3.1>>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|sum:
-          \<less\><with|prog-font-shape|italic|duplication of
-          input-1>\<gtr\>>|<point|-5.77981|2.920108>>|<text-at|<scm|input-2:
-          \<less\><with|prog-font-shape|italic|duplication of
-          input-1>\<gtr\>>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|input-1:>|<point|-5.77981|3.620108>>|<text-at|<scm|make-wire,
-          propagate, probe: ...>|<point|-5.77981|2.17961970173301>>|<with|arrow-end|\<gtr\>|<line|<point|3.8|1.5>|<point|3.8|2.0>>>|<point|1.7|-2.3>|<point|2.3|-2.3>|<gr-group|<cline|<point|1.7|1.5>|<point|6.0|1.5>|<point|6.0|0.5>|<point|1.7|0.5>>|<text-at|<scm|signal-value:
+          <label|Exercise_3.31-Figure_2><with|gr-mode|<tuple|group-edit|move>|gr-frame|<tuple|scale|1cm|<tuple|0.539996gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<gr-group|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<gr-group|<text-at|<scm|body:
+          (set! action-procedures>|<point|-0.500000000000001|-3.8>>|<text-at|<scm|(cons
+          proc action-procedures))>|<point|1.5|-4.2>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<text-at|<scm|input-1:>|<point|-5.77981|3.620108>>|<with|arrow-end|\<gtr\>|<line|<point|-4.33795806323588|3.68181968514354>|<point|1.0|3.7>|<point|1.0|-1.2>|<point|1.70507011509459|-1.20710411430083>>>|<carc|<point|1.4|-2.3>|<point|2.0|-2.3>|<point|1.7|-2.0>>|<with|arrow-end|\<gtr\>|<line|<point|1.7|-2.3>|<point|1.7|-3.1>>>|<point|1.7|-2.3>|<cline|<point|1.5|-5.55111512312578e-17>|<point|6.2|-5.55111512312578e-17>|<point|6.2|-1.4>|<point|1.5|-1.4>>|<text-at|<scm|make-wire,
+          propagate, probe: ...>|<point|-5.77981|2.17961970173301>>|<carc|<point|2.0|-2.3>|<point|2.6|-2.3>|<point|2.3|-2.0>>|<text-at|<scm|parameters:
+          proc>|<point|-0.500000000000001|-3.4>>|<with|arrow-end|\<gtr\>|<line|<point|5.9807679587247|-0.720267231115227>|<point|6.4|-0.7>|<point|6.4|-1.8>|<point|2.0|-1.8>|<point|2.0|-2.0>>>|<gr-group|<text-at|<scm|set-my-signal!:
+          ...>|<point|1.8|-0.4>>|<text-at|<scm|accept-action-procedure!:>|<point|1.8|-0.8>>|<text-at|<scm|dispatch:
+          ...>|<point|1.80497|-1.2>>>|<text-at|<scm|carry:
+          \<less\><with|prog-font-shape|italic|another copy of
+          input-1>\<gtr\>>|<point|-5.78142570776069|2.55334857685638>>|<text-at|<scm|sum:
+          \<less\><with|prog-font-shape|italic|another copy of
+          input-1>\<gtr\>>|<point|-5.77981|2.920108>>|<line|<point|4.0|-2.0>|<point|4.0|-2.3>|<point|2.3|-2.3>>|<point|2.3|-2.3>|<gr-group|<cline|<point|1.7|1.5>|<point|6.0|1.5>|<point|6.0|0.5>|<point|1.7|0.5>>|<text-at|<scm|signal-value:
           0>|<point|2.0|1.1>>|<text-at|<scm|action-procedures:
-          '()>|<point|2.0|0.7>>>|<carc|<point|1.4|-2.3>|<point|2.0|-2.3>|<point|1.7|-2.0>>|<text-at|<scm|accept-action-procedure!:>|<point|1.8|-0.8>>|<text-at|<scm|set-my-signal!:
-          ...>|<point|1.8|-0.4>>|<text-at|<scm|dispatch:
-          ...>|<point|1.8|-1.2>>|<cline|<point|1.5|-5.55111512312578e-17>|<point|6.2|-5.55111512312578e-17>|<point|6.2|-1.4>|<point|1.5|-1.4>>|<with|arrow-end|\<gtr\>|<line|<point|-4.45447479825374|3.68577192750364>|<point|1.0|3.7>|<point|1.0|-1.2>|<point|1.74740375711073|-1.2037637253605>>>|<line|<point|4.0|-2.0>|<point|4.0|-2.3>|<point|2.3|-2.3>>|<with|arrow-end|\<gtr\>|<line|<point|5.93674758565948|-0.716926842174891>|<point|6.4|-0.7>|<point|6.4|-1.8>|<point|2.0|-1.8>|<point|2.0|-2.0>>>|<with|arrow-end|\<gtr\>|<line|<point|4.0|-1.7>|<point|3.99740375711073|-1.40059862415663>>>>>
+          '()>|<point|2.0|0.7>>>|<text-at|<scm|input-2:
+          \<less\><with|prog-font-shape|italic|another copy of
+          input-1>\<gtr\>>|<point|-5.78142570776069|3.25334857685638>>|<with|arrow-end|\<gtr\>|<line|<point|4.0|-1.7>|<point|3.99740375711073|-1.40059862415663>>>|<with|arrow-end|\<gtr\>|<line|<point|3.79572|-0.0184217>|<point|3.79571702606165|0.489581955285091>>>|<with|arrow-end|\<gtr\>|<line|<point|3.8|1.5>|<point|3.8|2.0>>>>>>
 
           \;
-        </big-figure|>
-      </float> figure 3 <\float|float|tbh>
-        <big-figure|<with|gr-mode|<tuple|edit|text-at>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.519996gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|<graphics||<text-at|<scm|carry:
-        ...>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<text-at|<scm|accept-action-procedure!:
-        ...>|<point|-4.0|-0.8>>|<point|1.19348975147204e-15|-6.0>|<text-at|<scm|(cons
-        proc action-procedures))>|<point|-0.8|-7.9>>|<text-at|<scm|set-my-signal!:
-        ...>|<point|-4.0|-0.4>>|<cline|<point|-4.3|1.94289029309402e-16>|<point|1.0|1.94289029309402e-16>|<point|1.0|-1.4>|<point|-4.3|-1.4>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|input-2:
+        </big-figure|Environments created by defining <scm|input-1>,
+        <scm|input-2>, <scm|sum> and <scm|carry>.>
+      </float> shows.\ 
+
+      <hspace|3ex>In placing probes on <scm|sum> and <scm|carry>, we first
+      bound the arguments <scm|'sum> and <scm|sum> with the formal parameters
+      <scm|name> and <scm|wire> correspondingly in a newly constructed
+      environment E2 whose enclosing environment is E1, which was set up in
+      evaluating the procedure <scm|sum>, and then evaluated the body of
+      <scm|probe>. The procedure <scm|probe> accomplished its job by calling
+      to <scm|add-action!>, this was in turns done in a new environment E3
+      whose enclosing environment is E2. This was followed by calling another
+      procedure <scm|accept-action-procedure!> in a newly constructed
+      environment E4, which has its enclosing environment E3. Notice that we
+      have erase <scm|(proc)>, the step of running a procedure whenever it is
+      added to a wire. Hence, in evaluating <scm|(accept-action-procedure!
+      (lambda () (newline)...))> the <scm|lambda> expression was simpliy
+      <scm|cons>ing onto the list of procedure in a wire, without running. So
+      what returned by <scm|(accept-action-procedure! (lambda ()
+      (newline)...))> is the value of the side effect of expression
+
+      <\scm-code>
+        (set! action-procedures \ ;; the value of action-procedures here is
+        '()
+
+        \ \ \ \ \ \ (cons (lambda ()
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ (newline)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ ...
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ (display (get-signal sum)))
+
+        \ \ \ \ \ \ \ \ \ \ \ \ action-procedures))\ 
+      </scm-code>
+
+      which is the value of <scm|(display (get-signal sum))>, that is, 0.
+      This in turns give rise to the situation
+
+      <\scm-code>
+        (probe 'sum sum)
+
+        <with|prog-font-shape|italic|value: ()>
+      </scm-code>
+
+      while interacting with the interpreter. Figure
+      <reference|Exercise_3.31-Figure_3><\float|float|tbh>
+        <big-figure|<label|Exercise_3.31-Figure_3><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.519996gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<gr-group|<cline|<point|-6.5|-2.0>|<point|-1.0|-2.0>|<point|-1.0|-4.0>|<point|-6.5|-4.0>>|<text-at|<scm|E3>|<point|-7.5|-2.39728>>|<with|arrow-end|\<gtr\>|<line|<point|-7|-2.3>|<point|-6.5|-2.3>>>|<text-at|<scm|wire:
+        sum>|<point|-6.2|-2.5>>|<cline|<point|-6|1>|<point|-2.7|1.0>|<point|-2.7|-0.4>|<point|-6.0|-0.4>>|<gr-group|<text-at|<scm|...)>|<point|-4.4|-0.2>>|<text-at|<scm|proc:
+        (lambda ()>|<point|-5.8|0.6>>|<text-at|<scm|(newline)>|<point|-4.4|0.2>>>|<text-at|call
+        to <scm|add-action!>|<point|-5.5|-4.4>>|<with|arrow-end|\<gtr\>|<line|<point|-6.6|0.7>|<point|-6.0|0.7>>>|<text-at|<scm|E4>|<point|-6.82857|0.8>>|<text-at|<scm|...)>|<point|-2.8|-3.7>>|<text-at|<scm|action-procedure:
+        (lambda ()>|<point|-6.2|-2.9>>|<text-at|<scm|(newline)>|<point|-2.8|-3.3>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<with|arrow-end|\<gtr\>|<line|<point|-2.71479|-0.0123363>|<point|-1.5|0.0>|<point|-1.5|-2.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-1.0|-2.8>|<point|-0.3|-2.8>>>|<text-at|call
+        to <scm|accept-action-procedure!>|<point|-6.8|-0.8>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<with|arrow-end|\<gtr\>|<line|<point|-0.7|-2.2>|<point|-0.3|-2.2>>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-5.02197711337478|2.58107884640826>|<point|-0.8|2.6>|<point|-0.8|-1.22354295508165>|<point|0.94740375711073|-1.2037637253605>>>|<text-at|<scm|sum:
+        >|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-0.3|-2.0>|<point|2.0|-2.0>|<point|2.0|-3.0>|<point|-0.3|-3.0>>|<text-at|<scm|E2>|<point|-0.8|-2.1>>|<text-at|<scm|input-2:
+        ...>|<point|-5.77981|2.920108>>|<text-at|<scm|carry:
+        \<less\><with|prog-font-shape|italic|akin to
+        sum>\<gtr\>>|<point|-5.77981|2.17961970173301>>|<text-at|<scm|input-1:
+        ...>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|E1>|<point|-0.25701754651577|-0.4>>|<with|arrow-end|\<gtr\>|<line|<point|0.2|-0.3>|<point|0.7|-0.3>>>|<cline|<point|0.7|-2.77555756156289e-17>|<point|6.0|-2.77555756156289e-17>|<point|6.0|-1.4>|<point|0.7|-1.4>>|<with|arrow-end|\<gtr\>|<line|<point|1.1|-2.0>|<point|1.1|-1.4>>>|<text-at|<scm|wire:
+        sum>|<point|-8.32667268468867e-17|-2.8>>|<text-at|call to
+        <scm|probe>.|<point|-0.0999999999999999|-3.4>>|<text-at|<scm|name:
+        'sum>|<point|-8.32667268468867e-17|-2.4>>|<gr-group|<cline|<point|0.9|1.5>|<point|5.2|1.5>|<point|5.2|0.5>|<point|0.9|0.5>>|<text-at|<scm|signal-value:
+        0>|<point|1.2|1.1>>|<text-at|<scm|action-procedures:
+        '()>|<point|1.2|0.7>>>|<text-at|<scm|make-wire, propagate, probe:
+        ...>|<point|-5.77981|3.620108>>|<text-at|<scm|dispatch:
+        ...>|<point|1.0|-1.2>>|<with|arrow-end|\<gtr\>|<line|<point|2.99572|-0.0184217000000001>|<point|2.99571702606165|0.489581955285091>>>|<with|arrow-end|\<gtr\>|<line|<point|3.0|1.5>|<point|3.0|2.0>>>|<text-at|<scm|set-my-signal!:
+        ...>|<point|1.0|-0.4>>|<text-at|<scm|accept-action-procedure!:
+        ...>|<point|1.0|-0.8>>>>>|Environment created by evaluating
+        <scm|(probe 'sum sum)>.>
+      </float> shows the evolution of environment structure in evaluating
+      <scm|(probe 'sum sum)>. Another expression of placing probes, the
+      <scm|(probe 'carry carry)> was evaluated in the same way. Figure
+      <reference|Exercise_3.31-Figure_4><\float|float|tbh>
+        <big-figure|<label|Exercise_3.31-Figure_4><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.489999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<gr-group|<cline|<point|-7.304958|-1.781142>|<point|-2.004958|-1.781142>|<point|-2.004958|-3.181142>|<point|-7.304958|-3.181142>>|<with|arrow-end|\<gtr\>|<line|<point|-4.5|2.3>|<point|-3.5|2.3>|<point|-3.5|1.5>|<point|-7.5|1.5>|<point|-7.5|-3.0>|<point|-7.05755424288927|-2.9849057253605>>>|<cline|<point|-7.0|1.0>|<point|-1.2|1.0207236>|<point|-1.2|-1.0>|<point|-7.0|-1.0>>|<text-at|<scm|dispatch:
+        ...>|<point|-7.004958|-2.981142>>|<with|arrow-end|\<gtr\>|<line|<point|-5.009238|-1.7995637>|<point|-5.0|-1.0>>>|<text-at|<scm|set-my-signal!:
+        ...>|<point|-7.004958|-2.181142>>|<text-at|<scm|signal-value:
+        0>|<point|-6.7|0.5207236>>|<text-at|<scm|accept-action-procedure!:
+        ...>|<point|-7.004958|-2.581142>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<text-at|<scm|...))>|<point|-3.0|-0.6792764>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|carry:>|<point|-5.77981|2.17961970173301>>|<text-at|<scm|sum:>|<point|-5.78142570776069|2.55334857685638>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-5.00613507077656|2.62169268421749>|<point|-0.6|2.6>|<point|-0.6|-3.0>|<point|-0.0575542428892703|-2.9849057253605>>>|<text-at|<scm|(newline)>|<point|-3.0|-0.2792764>>|<text-at|<scm|action-procedures:
+        ((lambda ()>|<point|-6.7|0.1207236>>|<cline|<point|-0.304958000000001|-1.781142>|<point|4.995042|-1.781142>|<point|4.995042|-3.181142>|<point|-0.304958000000001|-3.181142>>|<with|arrow-end|\<gtr\>|<line|<point|-2.0|1.0207236>|<point|-2.0|2.0>>>|<text-at|<scm|input-2:
         ...>|<point|-5.77981|2.920108>>|<text-at|<scm|input-1:
-        ...>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|make-wire,
-        propagate, probe: ...>|<point|-5.77981|3.620108>>|<text-at|<scm|sum:>|<point|-5.77981|2.17961970173301>>|<text-at|<scm|body:
-        (set! action-procedures>|<point|-2.8|-7.5>>|<text-at|<scm|dispatch:
-        ...>|<point|-4.0|-1.2>>|<gr-group|<cline|<point|-4.1|1.5>|<point|0.2|1.5>|<point|0.2|0.5>|<point|-4.1|0.5>>|<text-at|<scm|signal-value:
-        0>|<point|-3.8|1.1>>|<text-at|<scm|action-procedures:
-        '()>|<point|-3.8|0.7>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.00428|-0.0184216999999999>|<point|-2.00428297393835|0.489581955285091>>>|<text-at|<scm|parameters:
-        proc>|<point|-2.8|-7.1>>|<carc|<point|-0.9|-6.0>|<point|-0.299999999999999|-6.0>|<point|-0.6|-5.7>>|<point|-0.6|-6.0>|<carc|<point|-0.299999999999999|-6.0>|<point|0.300000000000001|-6.0>|<point|1.19348975147204e-15|-5.7>>|<with|arrow-end|\<gtr\>|<line|<point|-0.6|-6.0>|<point|-0.6|-6.8>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.0|1.5>|<point|-2.0|2.0>>>|<cline|<point|-5.3|-2.0>|<point|-3.0|-2.0>|<point|-3.0|-3.0>|<point|-5.3|-3.0>>|<text-at|<scm|wire:
-        sum>|<point|-5.0|-2.8>>|<text-at|<scm|name:
-        'sum>|<point|-5.0|-2.4>>|<text-at|call to
-        <scm|probe>.|<point|-5.1|-3.4>>|<with|arrow-end|\<gtr\>|<line|<point|-3.9|-2>|<point|-3.9|-1.4>>>|<text-at|<scm|action-procedure:
-        (lambda ()>|<point|-1.7|-2.9>>|<text-at|<scm|wire:
-        sum>|<point|-1.7|-2.5>>|<text-at|<scm|(newline)>|<point|1.7|-3.3>>|<text-at|<scm|...)>|<point|1.7|-3.7>>|<cline|<point|-2.0|-2.0>|<point|3.5|-2.0>|<point|3.5|-4.0>|<point|-2.0|-4.0>>|<with|arrow-end|\<gtr\>|<line|<point|-2|-2.7>|<point|-3.0|-2.7>>>|<text-at|call
-        to <scm|add-action!>|<point|-1|-4.4>>|<with|arrow-end|\<gtr\>|<line|<point|-5.2|2.3>|<point|-4.6|2.3>|<point|-4.6|-1.2>|<point|-4.05259624288927|-1.2037637253605>>>>>|>
-      </float> figure 4 <\float|float|tbh>
-        <big-figure|<with|gr-mode|<tuple|edit|line>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.489999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|<graphics||<text-at|<scm|carry:
-        ...>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<cline|<point|-4.304958|-1.781142>|<point|0.995042|-1.781142>|<point|0.995042|-3.181142>|<point|-4.304958|-3.181142>>|<text-at|<scm|accept-action-procedure!:
-        ...>|<point|-4.004958|-2.581142>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|input-2:
-        ...>|<point|-5.77981|2.920108>>|<text-at|<scm|input-1:
-        ...>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|make-wire,
-        propagate, probe: ...>|<point|-5.77981|3.620108>>|<text-at|<scm|sum:>|<point|-5.77981|2.17961970173301>>|<text-at|<scm|dispatch:
-        ...>|<point|-4.004958|-2.981142>>|<with|arrow-end|\<gtr\>|<line|<point|-2.009238|-1.7995637>|<point|-2.00924097393835|-1.29156004471491>>>|<text-at|<scm|set-my-signal!:
-        ...>|<point|-4.004958|-2.181142>>|<text-at|<scm|signal-value:
-        0>|<point|-3.7|0.5207236>>|<text-at|<scm|action-procedures: ((lambda
-        ()>|<point|-3.7|0.1207236>>|<cline|<point|-4.0|1.0207236>|<point|1.8|1.0207236>|<point|1.8|-1.2792764>|<point|-4.0|-1.2792764>>|<text-at|<scm|'())>|<point|-0.299999999999998|-1.0792764>>|<text-at|<scm|(newline)>|<point|5.27355936696949e-16|-0.2792764>>|<text-at|<scm|...)>|<point|5.27355936696949e-16|-0.6792764>>|<with|arrow-end|\<gtr\>|<line|<point|-2.0|1.0207236>|<point|-2.0|2.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-5.12949794946421|2.30853948935044>|<point|-4.6|2.3>|<point|-4.6|-3.0>|<point|-4.05755424288927|-2.9849057253605>>>>>|Evaluate
-        <scm|(probe 'sum sum)> without any output>
-      </float> figure 5<\float|float|tbh>
-        <big-figure|<with|gr-mode|<tuple|edit|line>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.489999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|sum:
-        ...>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<text-at|<scm|action-procedures:
-        ((lambda ()>|<point|-2.7|0.1207236>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|input-2:
-        ...>|<point|-5.77981|2.920108>>|<text-at|<scm|input-1:
-        ...>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|make-wire,
-        propagate, probe: ...>|<point|-5.77981|3.620108>>|<text-at|<scm|carry:>|<point|-5.77981|2.17961970173301>>|<text-at|<scm|...)>|<point|1.0|-0.6792764>>|<text-at|<scm|'())>|<point|0.7|-1.0792764>>|<gr-group|<cline|<point|-3.304958|-1.781142>|<point|1.995042|-1.781142>|<point|1.995042|-3.181142>|<point|-3.304958|-3.181142>>|<text-at|<scm|dispatch:
-        ...>|<point|-3.004958|-2.981142>>|<text-at|<scm|set-my-signal!:
-        ...>|<point|-3.004958|-2.181142>>|<text-at|<scm|accept-action-procedure!:
-        ...>|<point|-3.004958|-2.581142>>>|<with|arrow-end|\<gtr\>|<line|<point|-1.0|1.0207236>|<point|-1.0|2.0>>>|<text-at|<scm|(newline)>|<point|1.0|-0.2792764>>|<with|arrow-end|\<gtr\>|<line|<point|-1.009238|-1.7995637>|<point|-1.00924097393835|-1.29156004471491>>>|<cline|<point|-3.0|1.0207236>|<point|2.8|1.0207236>|<point|2.8|-1.2792764>|<point|-3.0|-1.2792764>>|<text-at|<scm|signal-value:
-        0>|<point|-2.7|0.5207236>>|<with|arrow-end|\<gtr\>|<line|<point|-4.81030890329409|2.29445032411695>|<point|-4.0|2.3>|<point|-4.0|-3.0>|<point|-3.1169632226485|-2.99725492790052>>>>>|Evaluate
-        <scm|(probe 'carry carry)> without any output>
-      </float> figure 6 <\float|float|tbh>
-        <big-figure|<with|gr-mode|<tuple|edit|line>|gr-frame|<tuple|scale|1cm|<tuple|0.539996gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|carry:
-        ...>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<text-at|<scm|body:
-        (set! action-procedures>|<point|-0.500000000000001|-3.8>>|<with|arrow-end|\<gtr\>|<line|<point|3.79572|-0.0184217>|<point|3.79571702606165|0.489581955285091>>>|<text-at|<scm|(cons
-        proc action-procedures))>|<point|1.5|-4.2>>|<carc|<point|2.0|-2.3>|<point|2.6|-2.3>|<point|2.3|-2.0>>|<text-at|<scm|parameters:
-        proc>|<point|-0.500000000000001|-3.4>>|<with|arrow-end|\<gtr\>|<line|<point|1.7|-2.3>|<point|1.7|-3.1>>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|sum:
-        ...>|<point|-5.77981|2.920108>>|<text-at|<scm|input-1, input-2:
-        ...>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|make-wire,
-        propogate, probe: ...>|<point|-5.77981|3.620108>>|<text-at|<scm|half-adder:>|<point|-5.77981|2.17961970173301>>|<with|arrow-end|\<gtr\>|<line|<point|3.8|1.5>|<point|3.8|2.0>>>|<point|1.7|-2.3>|<point|2.3|-2.3>|<gr-group|<cline|<point|1.7|1.5>|<point|6.0|1.5>|<point|6.0|0.5>|<point|1.7|0.5>>|<text-at|<scm|signal-value:
-        0>|<point|2.0|1.1>>|<text-at|<scm|action-procedures:
-        '()>|<point|2.0|0.7>>>|<carc|<point|1.4|-2.3>|<point|2.0|-2.3>|<point|1.7|-2.0>>|<with|arrow-end|\<gtr\>|<line|<point|5.93674758565948|-0.716926842174891>|<point|6.4|-0.7>|<point|6.4|-1.7>|<point|2.0|-1.7>|<point|2.0|-2.0>>>|<gr-group|<cline|<point|1.5|-5.55111512312578e-17>|<point|6.2|-5.55111512312578e-17>|<point|6.2|-1.4>|<point|1.5|-1.4>>|<text-at|<scm|dispatch:
+        ...>|<point|-5.78142570776069|3.25334857685638>>|<cline|<point|1.45716771982052e-15|1.0>|<point|5.8|1.0207236>|<point|5.8|-1.0>|<point|1.45716771982052e-15|-1.0>>|<with|arrow-end|\<gtr\>|<line|<point|1.990762|-1.7995637>|<point|2.0|-1.0>>>|<text-at|<scm|dispatch:
+        ...>|<point|-0.00495800000000035|-2.981142>>|<text-at|<scm|make-wire,
+        propagate, probe: ...>|<point|-5.77981|3.620108>>|<with|arrow-end|\<gtr\>|<line|<point|2.0|1.0207236>|<point|2.0|2.0>>>|<text-at|<scm|set-my-signal!:
+        ...>|<point|-0.00495800000000035|-2.181142>>|<text-at|<scm|signal-value:
+        0>|<point|0.300000000000001|0.5207236>>|<text-at|<scm|accept-action-procedure!:
+        ...>|<point|-0.00495800000000035|-2.581142>>|<text-at|<scm|...))>|<point|4.0|-0.6792764>>|<text-at|<scm|action-procedures:
+        ((lambda ()>|<point|0.300000000000001|0.1207236>>|<text-at|<scm|(newline)>|<point|4.0|-0.2792764>>>>>|The
+        resulting environment structure in the completion of evaluating
+        <scm|(probe 'sum sum)> and <scm|(probe 'carry carry)>.>
+      </float> shows the resulting environment structure in the completion of
+      evaluating <scm|(probe 'sum sum)> and <scm|(probe 'carry carry)>.
+
+      Next we connect the wires in a half-adder circuit, by evaluating the
+      expression <scm|(half-adder input-1 input-2 sum carry)>.\ 
+
+      \ figure 5 <\float|float|tbh>
+        <big-figure|<with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.539996gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<gr-group|<text-at|<scm|'ok>|<point|-6.5|-1.7>>|<cline|<point|-3.3|-2.0>|<point|-0.9|-2.0>|<point|-0.9|-3.9>|<point|-3.3|-3.9>>|<with|arrow-end|\<gtr\>|<line|<point|-6.30346|1.008334>|<point|-6.30346|0.208334>>>|<text-at|<scm|(add-action!
+        ...)>|<point|-6.5|-1.3>>|<carc|<point|-6.60346|1.008334>|<point|-6.00346|1.008334>|<point|-6.30346|1.308334>>|<text-at|<scm|(add-action!
+        ...)>|<point|-6.5|-0.9>>|<carc|<point|-6.00346|1.008334>|<point|-5.40346|1.008334>|<point|-5.70346|1.308334>>|<point|-6.30346|1.008334>|<with|arrow-end|\<gtr\>|<line|<point|-5.70346|1.008334>|<point|-2.5|1.0>|<point|-2.5|2.0>>>|<point|-5.70346|1.008334>|<text-at|<scm|s:
+        sum>|<point|-2.9|-3.2>>|<with|arrow-end|\<gtr\>|<line|<point|-4.0|3.0>|<point|-3.0|3.0>|<point|-3.0|1.7>|<point|-6.0|1.7>|<point|-6.0|1.3>>>|<text-at|<scm|c:
+        carry>|<point|-2.9|-3.6>>|<text-at|<scm|parameters: a1, a2,
+        output>|<point|-7.50346|-0.0916660000000001>>|<text-at|<scm|body:
+        (define (or-action) ...)>|<point|-7.50346|-0.491666>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<with|arrow-end|\<gtr\>|<line|<point|-1.5|-2.0>|<point|-1.5|-1.7>|<point|0.7|-1.7>|<point|0.7|0.500000000000001>>>|<text-at|<scm|b:
+        input-2>|<point|-2.9|-2.8>>|<text-at|<scm|body:
+        ...>|<point|-3.1|-1.5>>|<text-at|<scm|a:
+        input-1>|<point|-2.9|-2.4>>|<with|arrow-end|\<gtr\>|<line|<point|-1.9|1.38777878078145e-16>|<point|-1.9|-0.8>>>|<carc|<point|-2.2|1.38777878078145e-16>|<point|-1.6|1.38777878078145e-16>|<point|-1.9|0.3>>|<text-at|call
+        to <scm|half-adder>|<point|-3.4|-4.3>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<point|-1.9|1.38777878078145e-16>|<carc|<point|-1.6|1.38777878078145e-16>|<point|-1.0|1.38777878078145e-16>|<point|-1.3|0.3>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-3.6|3.3>|<point|-1.6|3.3>|<point|-1.6|0.3>>>|<text-at|<scm|inverter:
+        ...>|<point|-5.77981|2.17961970173301>>|<point|-1.3|1.38777878078145e-16>|<with|arrow-end|\<gtr\>|<line|<point|-1.3|1.38777878078145e-16>|<point|-0.6|1.38777878078145e-16>|<point|-0.6|0.5>>>|<text-at|<scm|or-gate:>|<point|-5.77981|2.920108>>|<text-at|<scm|and-gate:
+        ...>|<point|-5.78554570776069|2.50737219849726>>|<cline|<point|-0.799999999999999|1.5>|<point|0.9|1.5>|<point|0.9|0.5>|<point|-0.799999999999999|0.5>>|<text-at|<scm|half-adder:>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|parameters:
+        a, b, s, c>|<point|-3.1|-1.1>>|<carc|<point|1.4|-2.3>|<point|2.0|-2.3>|<point|1.7|-2.0>>|<text-at|<scm|d:>|<point|-0.399999999999998|1.1>>|<with|arrow-end|\<gtr\>|<line|<point|0.0420194470168012|1.19698372800635>|<point|1.23739196851638|1.2>|<point|1.2|-1.2>|<point|1.74740375711073|-1.2037637253605>>>|<with|arrow-end|\<gtr\>|<line|<point|1.7|-2.3>|<point|1.7|-3.1>>>|<point|1.7|-2.3>|<gr-group|<cline|<point|1.5|-5.55111512312578e-17>|<point|6.2|-5.55111512312578e-17>|<point|6.2|-1.4>|<point|1.5|-1.4>>|<text-at|<scm|dispatch:
         ...>|<point|1.8|-1.2>>|<text-at|<scm|set-my-signal!:
-        ...>|<point|1.8|-0.4>>|<text-at|<scm|accept-action-procedure!:>|<point|1.8|-0.8>>>|<with|arrow-end|\<gtr\>|<line|<point|4|-1.6>|<point|3.99740375711073|-1.40059862415663>>>|<line|<point|4.01857|-1.80277>|<point|4.0|-2.3>|<point|2.3|-2.3>>|<text-at|<scm|'ok))>|<point|-3.0|-3.3>>|<carc|<point|-3.1|-1.0>|<point|-2.5|-1.0>|<point|-2.8|-0.7>>|<with|arrow-end|\<gtr\>|<line|<point|-2.8|-1.0>|<point|-2.8|-1.8>>>|<point|-2.8|-1.0>|<text-at|<scm|d:>|<point|-0.8|0.6>>|<with|arrow-end|\<gtr\>|<line|<point|-2.2|-1.0>|<point|-0.499999999999999|-1.0>|<point|-0.499999999999999|-5.55111512312578e-17>>>|<text-at|<scm|body:
-        (or-gate a b d)>|<point|-4.0|-2.5>>|<text-at|<scm|parameters: a, b,
-        s, c>|<point|-4.0|-2.1>>|<carc|<point|-2.5|-1.0>|<point|-1.9|-1.0>|<point|-2.2|-0.7>>|<cline|<point|-1.2|1.0>|<point|0.5|1.0>|<point|0.5|-5.55111512312578e-17>|<point|-1.2|-5.55111512312578e-17>>|<with|arrow-begin|\<less\>|<line|<point|-0.499999999999999|2.0>|<point|-0.499999999999999|1.0>>>|<text-at|<scm|e:
-        ...>|<point|-0.8|0.2>>|<point|-2.2|-1.0>|<text-at|<scm|...>|<point|-3.0|-2.9>>|<with|arrow-end|\<gtr\>|<line|<point|-3.96481016007408|2.30982934250562>|<point|-2.5|2.3>|<point|-2.5|-0.7>>>|<with|arrow-end|\<gtr\>|<line|<point|-0.357983860298981|0.69698372800635>|<point|1.0|0.7>|<point|1.0|-1.2>|<point|1.74740375711073|-1.2037637253605>>>>>|Evaluate
-        <scm|half-adder>.>
-      </float> \ figure 7 <\float|float|tbh>
-        <big-figure|<with|gr-mode|<tuple|edit|line>|gr-frame|<tuple|scale|1cm|<tuple|0.539996gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|carry:
-        ...>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<text-at|<scm|body:
-        (set! action-procedures>|<point|-0.500000000000001|-3.8>>|<with|arrow-end|\<gtr\>|<line|<point|3.79572|-0.0184217>|<point|3.79571702606165|0.489581955285091>>>|<text-at|<scm|(cons
-        proc action-procedures))>|<point|1.5|-4.2>>|<carc|<point|2.0|-2.3>|<point|2.6|-2.3>|<point|2.3|-2.0>>|<text-at|<scm|parameters:
-        proc>|<point|-0.500000000000001|-3.4>>|<with|arrow-end|\<gtr\>|<line|<point|1.7|-2.3>|<point|1.7|-3.1>>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|sum:
-        ...>|<point|-5.77981|2.920108>>|<text-at|<scm|input-1, input-2:
-        ...>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|make-wire,
-        propogate, probe: ...>|<point|-5.77981|3.620108>>|<text-at|<scm|half-adder:>|<point|-5.77981|2.17961970173301>>|<with|arrow-end|\<gtr\>|<line|<point|3.8|1.5>|<point|3.8|2.0>>>|<point|1.7|-2.3>|<point|2.3|-2.3>|<gr-group|<cline|<point|1.7|1.5>|<point|6.0|1.5>|<point|6.0|0.5>|<point|1.7|0.5>>|<text-at|<scm|signal-value:
+        ...>|<point|1.8|-0.4>>|<text-at|<scm|accept-action-procedure!:>|<point|1.8|-0.8>>>|<with|arrow-begin|\<less\>|<line|<point|1.80411241501588e-15|2.0>|<point|8.04911692853238e-16|1.5>>>|<text-at|<scm|e:
+        ...>|<point|-0.399999999999998|0.7>>|<carc|<point|2.0|-2.3>|<point|2.6|-2.3>|<point|2.3|-2.0>>|<text-at|<scm|parameters:
+        proc>|<point|-0.500000000000001|-3.4>>|<with|arrow-end|\<gtr\>|<line|<point|5.93674758565948|-0.716926842174891>|<point|6.4|-0.7>|<point|6.4|-1.7>|<point|2.0|-1.7>|<point|2.0|-2.0>>>|<line|<point|4.01857|-1.80277>|<point|4.0|-2.3>|<point|2.3|-2.3>>|<point|2.3|-2.3>|<gr-group|<cline|<point|1.7|1.5>|<point|6.0|1.5>|<point|6.0|0.5>|<point|1.7|0.5>>|<text-at|<scm|signal-value:
         0>|<point|2.0|1.1>>|<text-at|<scm|action-procedures:
-        '()>|<point|2.0|0.7>>>|<carc|<point|1.4|-2.3>|<point|2.0|-2.3>|<point|1.7|-2.0>>|<with|arrow-end|\<gtr\>|<line|<point|5.93674758565948|-0.716926842174891>|<point|6.4|-0.7>|<point|6.4|-1.7>|<point|2.0|-1.7>|<point|2.0|-2.0>>>|<gr-group|<cline|<point|1.5|-5.55111512312578e-17>|<point|6.2|-5.55111512312578e-17>|<point|6.2|-1.4>|<point|1.5|-1.4>>|<text-at|<scm|dispatch:
-        ...>|<point|1.8|-1.2>>|<text-at|<scm|set-my-signal!:
-        ...>|<point|1.8|-0.4>>|<text-at|<scm|accept-action-procedure!:>|<point|1.8|-0.8>>>|<with|arrow-end|\<gtr\>|<line|<point|4|-1.6>|<point|3.99740375711073|-1.40059862415663>>>|<line|<point|4.01857|-1.80277>|<point|4.0|-2.3>|<point|2.3|-2.3>>|<text-at|<scm|body:
-        ...>|<point|-4.0|-1.5>>|<with|arrow-end|\<gtr\>|<line|<point|-2.8|-8.32667268468867e-17>|<point|-2.8|-0.8>>>|<point|-2.8|-8.32667268468867e-17>|<text-at|<scm|d:>|<point|-0.9|1.1>>|<carc|<point|-3.1|-8.32667268468867e-17>|<point|-2.5|-8.32667268468867e-17>|<point|-2.8|0.3>>|<text-at|<scm|parameters:
-        a, b, s, c>|<point|-4.0|-1.1>>|<carc|<point|-2.5|-8.32667268468867e-17>|<point|-1.9|-8.32667268468867e-17>|<point|-2.2|0.3>>|<cline|<point|-1.3|1.5>|<point|0.4|1.5>|<point|0.4|0.5>|<point|-1.3|0.5>>|<text-at|<scm|e:
-        ...>|<point|-0.9|0.7>>|<with|arrow-begin|\<less\>|<line|<point|-0.499999999999999|2.0>|<point|-0.5|1.5>>>|<point|-2.2|-8.32667268468867e-17>|<with|arrow-end|\<gtr\>|<line|<point|-3.83804074613044|2.27659081889139>|<point|-2.5|2.3>|<point|-2.5|0.3>>>|<with|arrow-end|\<gtr\>|<line|<point|-0.457980552983199|1.19698372800635>|<point|1.0|1.2>|<point|1.0|-1.2>|<point|1.74740375711073|-1.2037637253605>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.2|-8.32667268468867e-17>|<point|-0.8|0.0>|<point|-0.8|0.5>>>|<cline|<point|-7.0|-2.0>|<point|-4.6|-2.0>|<point|-4.6|-3.9>|<point|-7.0|-3.9>>|<text-at|<scm|s:
-        sum>|<point|-6.6|-3.2>>|<text-at|<scm|b:
-        input-2>|<point|-6.6|-2.8>>|<text-at|call to
-        <scm|half-adder>|<point|-7.1|-4.3>>|<text-at|<scm|a:
-        input-1>|<point|-6.6|-2.4>>|<text-at|<scm|c:
-        carry>|<point|-6.6|-3.6>>|<with|arrow-end|\<gtr\>|<line|<point|-5.5|-2>|<point|-5.5|-1.7>|<point|0.0|-1.7>|<point|0.0|0.5>>>>>|Call
-        to <scm|half-adder>>
-      </float> \ figure 8 <\float|float|tbh>
-        <big-figure|<with|gr-mode|<tuple|edit|text-at>|gr-frame|<tuple|scale|1cm|<tuple|0.539996gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|and-gate:
-        ...>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|or-gate:>|<point|-5.77981|2.920108>>|<text-at|<scm|half-adder:>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|make-wire,
-        propogate, probe, input-1, input-2, sum, carry:
-        ...>|<point|-5.77981|3.620108>>|<text-at|<scm|inverter:
-        ...>|<point|-5.77981|2.17961970173301>>|<text-at|call to
-        <scm|half-adder>|<point|3.9|-3.0>>|<with|arrow-begin|\<less\>|<line|<point|3.5|2.0>|<point|3.5|1.5>>>|<point|1.8|-8.32667268468867e-17>|<with|arrow-end|\<gtr\>|<line|<point|1.8|-8.32667268468867e-17>|<point|3.2|2.77555756156289e-17>|<point|3.2|0.5>>>|<point|1.2|-8.32667268468867e-17>|<gr-group|<cline|<point|2.7|1.5>|<point|4.4|1.5>|<point|4.4|0.5>|<point|2.7|0.5>>|<text-at|<scm|e:
-        ...>|<point|3.1|0.7>>|<text-at|<scm|d:
-        ...>|<point|3.1|1.1>>>|<text-at|<scm|parameters: a, b, s,
-        c>|<point|-2.77555756156289e-17|-1.1>>|<text-at|<scm|body:
-        ...>|<point|-2.77555756156289e-17|-1.5>>|<carc|<point|0.9|-8.32667268468867e-17>|<point|1.5|-8.32667268468867e-17>|<point|1.2|0.3>>|<with|arrow-end|\<gtr\>|<line|<point|1.2|-8.32667268468867e-17>|<point|1.2|-0.8>>>|<text-at|<scm|'ok)>|<point|-3.5|-4.170294>>|<with|arrow-end|\<gtr\>|<line|<point|-3.3|-1.5>|<point|-3.3|-2.3>>>|<text-at|<scm|parameters:
-        a1, a2, output>|<point|-4.5|-2.6>>|<carc|<point|-3.6|-1.5>|<point|-3.0|-1.5>|<point|-3.3|-1.2>>|<text-at|<scm|body:
-        (define (or-action-procedure) ...)>|<point|-4.5|-3.0>>|<carc|<point|-3.0|-1.5>|<point|-2.4|-1.5>|<point|-2.7|-1.2>>|<text-at|<scm|(add-action!
-        ...)>|<point|-3.5|-3.370294>>|<carc|<point|1.5|-8.32667268468867e-17>|<point|2.1|-8.32667268468867e-17>|<point|1.8|0.3>>|<with|arrow-end|\<gtr\>|<line|<point|-3.96763791506813|3.30050271199894>|<point|1.5|3.3>|<point|1.5|0.3>>>|<text-at|<scm|(add-action!
-        ...)>|<point|-3.5|-3.770294>>|<point|-2.7|-1.5>|<gr-group|<cline|<point|4.0|-0.7>|<point|6.4|-0.7>|<point|6.4|-2.6>|<point|4.0|-2.6>>|<text-at|<scm|s:
-        sum>|<point|4.4|-1.9>>|<text-at|<scm|c:
-        carry>|<point|4.4|-2.3>>|<text-at|<scm|b:
-        input-2>|<point|4.4|-1.5>>|<text-at|<scm|a:
-        input-1>|<point|4.4|-1.1>>>|<point|-3.3|-1.5>|<with|arrow-end|\<gtr\>|<line|<point|-4.33795806323588|2.97302883979362>|<point|-3.0|3.0>|<point|-3.0|-1.2>>>|<with|arrow-begin|\<less\>|<line|<point|4.16042135203069|0.485315517925652>|<point|4.15989218150549|-0.701521365259955>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.7|-1.5>|<point|-1.0|-1.5>|<point|-1.0|2.0>>>>>|evaluate
-        <scm|or-gate>, <scm|and-gate> and <scm|inverter>.>
-      </float> figure 9 <\float|float|tbh>
+        '()>|<point|2.0|0.7>>>|<with|arrow-end|\<gtr\>|<line|<point|4|-1.6>|<point|3.99740375711073|-1.40059862415663>>>|<text-at|<scm|body:
+        (set! action-procedures>|<point|-0.500000000000001|-3.8>>|<with|arrow-end|\<gtr\>|<line|<point|3.79572|-0.0184217>|<point|3.79571702606165|0.489581955285091>>>|<with|arrow-end|\<gtr\>|<line|<point|3.8|1.5>|<point|3.8|2.0>>>|<text-at|<scm|(cons
+        proc action-procedures))>|<point|1.5|-4.2>>|<text-at|<scm|make-wire,
+        propogate, probe, input-1, input-2, sum, carry
+        ...>|<point|-5.77981|3.620108>>>>>|Call to <scm|half-adder>>
+      </float> \ 
+
+      \ figure 6 <\float|float|tbh>
         <big-figure|<with|gr-mode|<tuple|edit|line>|gr-frame|<tuple|scale|1cm|<tuple|0.589991gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|and-gate:
         ...>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|or-gate:
         ...>|<point|-5.77981|2.920108>>|<text-at|<scm|half-adder:>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|make-wire,
@@ -185,7 +209,7 @@
         <scm|or-gate>|<point|2.3|-1.38679721047977>>|<text-at|<scm|output:
         d>|<point|2.5|-0.7>>|<with|arrow-end|\<gtr\>|<line|<point|2.2|0.3>|<point|1.40757706045773|0.292730519910041>>>>>|call
         to <scm|or-gate>>
-      </float> \ figure 10 <\float|float|tbh>
+      </float> \ figure 7 <\float|float|tbh>
         <big-figure|<with|gr-mode|<tuple|edit|text-at>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.529997gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|and-gate:
         ...>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|or-gate:
         ...>|<point|-5.77981|2.920108>>|<text-at|<scm|half-adder:>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|make-wire,
@@ -210,7 +234,7 @@
         <scm|add-action!>|<point|1.314913|-4.37258>>|<text-at|<scm|action-procedure:
         or-action-procedure>|<point|-0.44076981570484|-3.76212>>|<with|arrow-end|\<gtr\>|<line|<point|2.5|-1.4>|<point|2.5|-1.0>>>|<with|arrow-end|\<gtr\>|<line|<point|4|-2.97258>|<point|4.0|-1.0>>>>>|call
         to <scm|add-action!>>
-      </float> \ figure 11 <\float|float|tbh>
+      </float> \ figure 8 <\float|float|tbh>
         <big-figure|<with|gr-mode|<tuple|edit|line>|gr-frame|<tuple|scale|1cm|<tuple|0.539996gw|0.529997gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|carry:
         ...>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|input-2:>|<point|-5.77981|2.920108>>|<text-at|<scm|input-1:>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|make-wire,
         propogate, probe: ...>|<point|-5.77981|3.620108>>|<text-at|<scm|half-adder:
@@ -226,7 +250,7 @@
         (or-act-proc)>|<point|-3.9872485087956|0.2>>|<cline|<point|-4.2872485087956|1.0>|<point|0.0127514912043993|1.0>|<point|0.0127514912043993|-2.77555756156289e-17>|<point|-4.2872485087956|-2.77555756156289e-17>>|<text-at|<scm|signal-value:
         0>|<point|-3.9872485087956|0.6>>|<with|arrow-end|\<gtr\>|<line|<point|4|1.7>|<point|4.0|2.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.5872485087956|-0.5>|<point|-2.5872485087956|-2.77555756156289e-17>>>|<with|arrow-end|\<gtr\>|<line|<point|3.5|0.2>|<point|3.5|0.7>>>|<with|arrow-end|\<gtr\>|<line|<point|-4.33958|3.31505>|<point|1.0|3.3>|<point|1.0|-1.0>|<point|2.1919069982802|-1.00623429025003>>>|<with|arrow-end|\<gtr\>|<line|<point|-4.33796|2.98181>|<point|-2.5|3.0>|<point|-2.5|1.5>|<point|-5.0|1.5>|<point|-5.0|-1.6>|<point|-3.86180381002778|-1.60952176213785>>>|<with|arrow-end|\<gtr\>|<line|<point|-1|1>|<point|-1.0|2.0>>>>>|In
         finishing calling <scm|(or-gate a b d)>>
-      </float> \ figure 12<\float|float|tbh>
+      </float> \ figure 9<\float|float|tbh>
         <big-figure|<with|gr-mode|<tuple|edit|line>|gr-frame|<tuple|scale|1cm|<tuple|0.450005gw|0.529997gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|carry:
         ...>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|input-2:>|<point|-5.77981|2.920108>>|<text-at|<scm|input-1:>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|make-wire,
         propogate, probe: ...>|<point|-5.77981|3.620108>>|<text-at|<scm|half-adder:
@@ -242,7 +266,7 @@
         (or-act-proc>|<point|-4.1|0.2>>|<text-at|<scm|signal-value:
         0>|<point|-4.1|0.6>>|<cline|<point|-4.3|1.0>|<point|-5.27355936696949e-16|1.0>|<point|-5.27355936696949e-16|-0.5>|<point|-4.3|-0.5>>|<with|arrow-end|\<gtr\>|<line|<point|-4.33796|2.98181>|<point|-3.0|3.0>|<point|-3.0|1.5>|<point|-5.0|1.5>|<point|-5.0|-2.2>|<point|-3.85548683688319|-2.21481016007408>>>>>|In
         finishing calling <scm|(and-gate a b c)>>
-      </float> \ figure 13 <\float|float|tbh>
+      </float> \ figure 10 <\float|float|tbh>
         <big-figure|<with|gr-mode|<tuple|edit|line>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.460004gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|<graphics||<text-at|<scm|carry:>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|input-2:>|<point|-5.77981|2.920108>>|<text-at|<scm|input-1:>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|make-wire,
         propogate, probe: ...>|<point|-5.77981|3.620108>>|<text-at|<scm|half-adder:
         ...>|<point|-5.77981|2.17961970173301>>|<with|arrow-end|\<gtr\>|<line|<point|0.95013044382013|-0.5>|<point|0.95013044382013|-5.55111512312578e-17>>>|<gr-group|<cline|<point|-0.549869556179867|-0.5>|<point|3.65013044382013|-0.5>|<point|3.65013044382013|-2.0>|<point|-0.549869556179867|-2.0>>|<text-at|<scm|dispatch:
@@ -252,7 +276,7 @@
         0>|<point|-0.399999999999998|0.6>>|<text-at|<scm|act-proc:
         (invert-input)>|<point|-0.399999999999998|0.2>>>|<with|arrow-end|\<gtr\>|<line|<point|1.4|1.0>|<point|1.4|2.0>>>|<cline|<point|-0.599999999999998|1.0>|<point|3.7|1.0>|<point|3.7|0.0>|<point|-0.6|0.0>>|<with|arrow-end|\<gtr\>|<line|<point|-4.67285685937293|2.58642016139701>|<point|-2.0|2.6>|<point|-2.0|-1.6>|<point|-0.320627728535521|-1.60303942320413>>>>>|In
         finishing calling <scm|(inverter c e)>>
-      </float> figure 14 <\float|float|tbh>
+      </float> figure \ 11<\float|float|tbh>
         <big-figure|<with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.539996gw|0.529997gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|carry:
         ...>|<point|-5.78142570776069|2.55334857685638>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<cline|<point|-0.5|2.77555756156289e-17>|<point|3.5|2.77555756156289e-17>|<point|3.5|-1.4>|<point|-0.5|-1.4>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|sum:
         ...>|<point|-5.77981|2.920108>>|<text-at|<scm|input-1, input-2:
@@ -271,9 +295,7 @@
         ...>|<point|2.21905|-4.246792>>|<text-at|<scm|signal-value:
         0>|<point|1.91905|-1.946792>>|<with|arrow-end|\<gtr\>|<line|<point|4.21477|-3.0652137>|<point|4.21476702606165|-2.55721004471491>>>|<cline|<point|1.61905|-1.546792>|<point|6.21905|-1.546792>|<point|6.21905|-2.546792>|<point|1.61905|-2.546792>>|<cline|<point|1.91905|-3.046792>|<point|5.91905|-3.046792>|<point|5.91905|-4.446792>|<point|1.91905|-4.446792>>|<with|arrow-end|\<gtr\>|<line|<point|4.21905|-1.546792>|<point|4.2|2.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-2.39613374785024|0.290746130440535>|<point|-1.3|0.3>|<point|-1.3|-1.6>|<point|-0.6|-1.6>|<point|-0.6|-4.2>|<point|2.11239912686863|-4.21778674427834>>>>>|In
         finishing calling <scm|(and-gate d e s)>>
-      </float> figure 15 <\float|float|tbh>
-        <big-figure||>
-      </float>
+      </float>\ 
     </answer>
   </render-exercise>
 </body>
@@ -286,13 +308,18 @@
 
 <\references>
   <\collection>
+    <associate|Exercise_3.31-Figure_1|<tuple|1|1>>
+    <associate|Exercise_3.31-Figure_2|<tuple|2|2>>
+    <associate|Exercise_3.31-Figure_3|<tuple|3|2>>
+    <associate|Exercise_3.31-Figure_4|<tuple|4|3>>
+    <associate|Exercise_3.31-Figure_5|<tuple|3|?>>
     <associate|auto-1|<tuple|1|1>>
     <associate|auto-10|<tuple|10|6>>
     <associate|auto-11|<tuple|11|6>>
-    <associate|auto-12|<tuple|12|?>>
-    <associate|auto-13|<tuple|13|?>>
-    <associate|auto-14|<tuple|14|?>>
-    <associate|auto-15|<tuple|15|?>>
+    <associate|auto-12|<tuple|12|7>>
+    <associate|auto-13|<tuple|13|7>>
+    <associate|auto-14|<tuple|14|7>>
+    <associate|auto-15|<tuple|15|8>>
     <associate|auto-2|<tuple|2|2>>
     <associate|auto-3|<tuple|3|2>>
     <associate|auto-4|<tuple|4|3>>
@@ -309,41 +336,51 @@
 <\auxiliary>
   <\collection>
     <\associate|figure>
-      <tuple|normal||<pageref|auto-1>>
+      <tuple|normal|Procedure objects of <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|make-wire>,
+      <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|propagate>
+      and <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|probe>
+      in the global environment.|<pageref|auto-1>>
 
-      <tuple|normal||<pageref|auto-2>>
+      <tuple|normal|Environments created by defining
+      <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|input-1>,
+      <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|input-2>,
+      <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|sum>
+      and <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|carry>.|<pageref|auto-2>>
 
-      <tuple|normal||<pageref|auto-3>>
+      <tuple|normal|Environment created by evaluating
+      <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|(probe
+      'sum sum)>.|<pageref|auto-3>>
 
-      <tuple|normal|Evaluate <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|(probe
-      'sum sum)> without any output|<pageref|auto-4>>
+      <tuple|normal|The resulting environment structure in the completion of
+      evaluating <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|(probe
+      'sum sum)> and <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|(probe
+      'carry carry)>.|<pageref|auto-4>>
 
-      <tuple|normal|Evaluate <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|(probe
-      'carry carry)> without any output|<pageref|auto-5>>
+      <tuple|normal|Evaluate <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|half-adder>.|<pageref|auto-5>>
 
-      <tuple|normal|Evaluate <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|half-adder>.|<pageref|auto-6>>
-
-      <tuple|normal|Call to <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|half-adder>|<pageref|auto-7>>
+      <tuple|normal|Call to <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|half-adder>|<pageref|auto-6>>
 
       <tuple|normal|evaluate <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|or-gate>,
       <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|and-gate>
-      and <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|inverter>.|<pageref|auto-8>>
+      and <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|inverter>.|<pageref|auto-7>>
 
-      <tuple|normal|call to <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|or-gate>|<pageref|auto-9>>
+      <tuple|normal|call to <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|or-gate>|<pageref|auto-8>>
 
-      <tuple|normal|call to <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|add-action!>|<pageref|auto-10>>
+      <tuple|normal|call to <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|add-action!>|<pageref|auto-9>>
 
       <tuple|normal|In finishing calling <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|(or-gate
-      a b d)>|<pageref|auto-11>>
+      a b d)>|<pageref|auto-10>>
 
       <tuple|normal|In finishing calling <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|(and-gate
-      a b c)>|<pageref|auto-12>>
+      a b c)>|<pageref|auto-11>>
 
       <tuple|normal|In finishing calling <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|(inverter
-      c e)>|<pageref|auto-13>>
+      c e)>|<pageref|auto-12>>
 
       <tuple|normal|In finishing calling <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|(and-gate
-      d e s)>|<pageref|auto-14>>
+      d e s)>|<pageref|auto-13>>
+
+      <tuple|normal||<pageref|auto-14>>
     </associate>
   </collection>
 </auxiliary>

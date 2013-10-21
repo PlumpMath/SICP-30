@@ -24,10 +24,14 @@
     <\answer>
       \;
 
-      Once the initializing step <scm|(proc)> has been eliminated from the
-      body of <scm|accept-action-procedure!>, .... Let's try to trace through
-      the half-adder example in the paragraph above in the environment model
-      to see why is that.
+      Running the action procedure as soon as it is added to a wire makes
+      sure that the output signal of the function box the wire related get
+      initialized in term of all its input signal.
+
+      Let's try to trace through the half-adder example in the paragraph
+      above in the environment model to see how the system's response would
+      differ if we had eliminated <scm|(proc)> from the body of
+      <scm|accept-action-procedure>.
 
       <hspace|3ex>Figure <reference|Exercise_3.31-Figure_1><\float|float|tbh>
         <big-figure|<label|Exercise_3.31-Figure_1><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-arrow-end|\<gtr\>|gr-auto-crop|true|<graphics||<gr-group|<gr-group|<text-at|<scm|body:
@@ -72,17 +76,7 @@
         <scm|input-2>, <scm|sum> and <scm|carry>.>
       </float> shows.\ 
 
-      <hspace|3ex>In placing probes on <scm|sum> and <scm|carry>, we first
-      bound the arguments <scm|'sum> and <scm|sum> with the formal parameters
-      <scm|name> and <scm|wire> correspondingly in a newly constructed
-      environment E2 whose enclosing environment is E1, which was set up in
-      evaluating the procedure <scm|sum>, and then evaluated the body of
-      <scm|probe>. The procedure <scm|probe> accomplished its job by calling
-      to <scm|add-action!>, this was in turns done in a new environment E3
-      whose enclosing environment is E2. This was followed by calling another
-      procedure <scm|accept-action-procedure!> in a newly constructed
-      environment E4, which has its enclosing environment E3. Figure
-      <reference|Exercise_3.31-Figure_3><\float|float|tbh>
+      <hspace|3ex>As figure <reference|Exercise_3.31-Figure_3><\float|float|tbh>
         <big-figure|<label|Exercise_3.31-Figure_3><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.519996gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<gr-group|<cline|<point|-6.5|-2.0>|<point|-1.0|-2.0>|<point|-1.0|-4.0>|<point|-6.5|-4.0>>|<text-at|<scm|E3>|<point|-7.5|-2.39728>>|<with|arrow-end|\<gtr\>|<line|<point|-7|-2.3>|<point|-6.5|-2.3>>>|<text-at|<scm|wire:
         sum>|<point|-6.2|-2.5>>|<cline|<point|-6|1>|<point|-2.7|1.0>|<point|-2.7|-0.4>|<point|-6.0|-0.4>>|<gr-group|<text-at|<scm|...)>|<point|-4.4|-0.2>>|<text-at|<scm|proc:
         (lambda ()>|<point|-5.8|0.6>>|<text-at|<scm|(newline)>|<point|-4.4|0.2>>>|<text-at|call
@@ -104,14 +98,22 @@
         ...>|<point|1.0|-0.4>>|<text-at|<scm|accept-action-procedure!:
         ...>|<point|1.0|-0.8>>>>>|Environment created by evaluating
         <scm|(probe 'sum sum)>.>
-      </float> shows the evolution of environment structure in evaluating
-      <scm|(probe 'sum sum)>. Notice that we have erase <scm|(proc)>, the
-      step of running a procedure whenever it is added to a wire. Hence, in
-      evaluating <scm|(accept-action-procedure! (lambda () (newline)...))>
-      the <scm|lambda> expression was simpliy <scm|cons>ing onto the list of
-      procedure in a wire, without running. So what returned by
-      <scm|(accept-action-procedure! (lambda () (newline)...))> is the side
-      effect of expression
+      </float> shows, to place a probe on <scm|sum>, we first bound the
+      arguments <scm|'sum> and <scm|sum> onto the formal parameters
+      <scm|name> and <scm|wire> respectively in E2 whose enclosing
+      environment is E1, which was set up in evaluating the procedure
+      <scm|sum>, and then evaluated the body of <scm|probe>. The procedure
+      <scm|probe> accomplished its job by calling to <scm|add-action!>, this
+      was in turns done in a new environment E3 whose enclosing environment
+      is E2. This was followed by calling another procedure
+      <scm|accept-action-procedure!> in a newly constructed environment E4,
+      which had its enclosing environment E3. Since we have erase
+      <scm|(proc)>, the step of running a procedure whenever it is added to a
+      wire. Hence, in evaluating <scm|(accept-action-procedure! (lambda ()
+      (newline)...))> the <scm|lambda> expression was simpliy <scm|cons>ing
+      onto the list of procedure in a wire, without running. So what returned
+      by <scm|(accept-action-procedure! (lambda () (newline)...))> was the
+      side effect of expression
 
       <\scm-code>
         (set! action-procedures \ ;; the value of action-procedures here is
@@ -128,8 +130,8 @@
         \ \ \ \ \ \ \ \ \ \ \ \ action-procedures))\ 
       </scm-code>
 
-      which is the value of <scm|(display (get-signal sum))>, that is, 0.
-      This in turns give rise to the situation:
+      which was the value of <scm|(display (get-signal sum))>, that is, 0.
+      This in turns gave rise to the situation:
 
       <\scm-code>
         (probe 'sum sum)
@@ -137,9 +139,9 @@
         <with|prog-font-shape|italic|;Value: ()>
       </scm-code>
 
-      while interacting with the interpreter. Another expression for placing
-      probes<emdash><scm|(probe 'carry carry)><emdash>was evaluated in the
-      same way and the interpreter response with the same thing:
+      while one interacting with the interpreter. Another expression for
+      placing probes<emdash><scm|(probe 'carry carry)><emdash>was evaluated
+      in the same way and the interpreter responsed with the same thing:
 
       <\scm-code>
         (probe 'carry carry)
@@ -148,20 +150,20 @@
       </scm-code>
 
       Figure <reference|Exercise_3.31-Figure_4><\float|float|tbh>
-        <big-figure|<label|Exercise_3.31-Figure_4><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.489999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<gr-group|<cline|<point|-7.304958|-1.781142>|<point|-2.004958|-1.781142>|<point|-2.004958|-3.181142>|<point|-7.304958|-3.181142>>|<with|arrow-end|\<gtr\>|<line|<point|-4.5|2.3>|<point|-3.5|2.3>|<point|-3.5|1.5>|<point|-7.5|1.5>|<point|-7.5|-3.0>|<point|-7.05755424288927|-2.9849057253605>>>|<cline|<point|-7.0|1.0>|<point|-1.2|1.0207236>|<point|-1.2|-1.0>|<point|-7.0|-1.0>>|<text-at|<scm|dispatch:
-        ...>|<point|-7.004958|-2.981142>>|<with|arrow-end|\<gtr\>|<line|<point|-5.009238|-1.7995637>|<point|-5.0|-1.0>>>|<text-at|<scm|set-my-signal!:
-        ...>|<point|-7.004958|-2.181142>>|<text-at|<scm|signal-value:
-        0>|<point|-6.7|0.5207236>>|<text-at|<scm|accept-action-procedure!:
-        ...>|<point|-7.004958|-2.581142>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<text-at|<scm|...))>|<point|-3.0|-0.6792764>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|carry:>|<point|-5.77981|2.17961970173301>>|<text-at|<scm|sum:>|<point|-5.78142570776069|2.55334857685638>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<with|arrow-end|\<gtr\>|<line|<point|-5.00613507077656|2.62169268421749>|<point|-0.6|2.6>|<point|-0.6|-3.0>|<point|-0.0575542428892703|-2.9849057253605>>>|<text-at|<scm|(newline)>|<point|-3.0|-0.2792764>>|<text-at|<scm|action-procedures:
-        ((lambda ()>|<point|-6.7|0.1207236>>|<cline|<point|-0.304958000000001|-1.781142>|<point|4.995042|-1.781142>|<point|4.995042|-3.181142>|<point|-0.304958000000001|-3.181142>>|<with|arrow-end|\<gtr\>|<line|<point|-2.0|1.0207236>|<point|-2.0|2.0>>>|<text-at|<scm|input-2:
-        ...>|<point|-5.77981|2.920108>>|<text-at|<scm|input-1:
-        ...>|<point|-5.78142570776069|3.25334857685638>>|<cline|<point|1.45716771982052e-15|1.0>|<point|5.8|1.0207236>|<point|5.8|-1.0>|<point|1.45716771982052e-15|-1.0>>|<with|arrow-end|\<gtr\>|<line|<point|1.990762|-1.7995637>|<point|2.0|-1.0>>>|<text-at|<scm|dispatch:
-        ...>|<point|-0.00495800000000035|-2.981142>>|<text-at|<scm|make-wire,
-        propagate, probe: ...>|<point|-5.77981|3.620108>>|<with|arrow-end|\<gtr\>|<line|<point|2.0|1.0207236>|<point|2.0|2.0>>>|<text-at|<scm|set-my-signal!:
-        ...>|<point|-0.00495800000000035|-2.181142>>|<text-at|<scm|signal-value:
-        0>|<point|0.300000000000001|0.5207236>>|<text-at|<scm|accept-action-procedure!:
-        ...>|<point|-0.00495800000000035|-2.581142>>|<text-at|<scm|...))>|<point|4.0|-0.6792764>>|<text-at|<scm|action-procedures:
-        ((lambda ()>|<point|0.300000000000001|0.1207236>>|<text-at|<scm|(newline)>|<point|4.0|-0.2792764>>>>>|The
+        <big-figure|<label|Exercise_3.31-Figure_4><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.489999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<text-at|<scm|(newline)>|<point|4.0|-0.2792764>>|<text-at|<scm|action-procedures:
+        ((lambda ()>|<point|0.300000000000001|0.1207236>>|<text-at|<scm|...))>|<point|4.0|-0.6792764>>|<text-at|<scm|accept-action-procedure!:
+        ...>|<point|-0.00495800000000035|-2.581142>>|<text-at|<scm|signal-value:
+        0>|<point|0.300000000000001|0.5207236>>|<text-at|<scm|set-my-signal!:
+        ...>|<point|-0.00495800000000035|-2.181142>>|<with|arrow-end|\<gtr\>|<line|<point|2.0|1.0207236>|<point|2.0|2.0>>>|<text-at|<scm|make-wire,
+        propagate, probe: ...>|<point|-5.77981|3.620108>>|<text-at|<scm|dispatch:
+        ...>|<point|-0.00495800000000035|-2.981142>>|<with|arrow-end|\<gtr\>|<line|<point|1.990762|-1.7995637>|<point|2.0|-1.0>>>|<cline|<point|1.45716771982052e-15|1.0>|<point|5.8|1.0207236>|<point|5.8|-1.0>|<point|1.45716771982052e-15|-1.0>>|<text-at|<scm|input-1:
+        ...>|<point|-5.78142570776069|3.25334857685638>>|<text-at|<scm|input-2:
+        ...>|<point|-5.77981|2.920108>>|<with|arrow-end|\<gtr\>|<line|<point|-2.0|1.0207236>|<point|-2.0|2.0>>>|<cline|<point|-0.304958000000001|-1.781142>|<point|4.995042|-1.781142>|<point|4.995042|-3.181142>|<point|-0.304958000000001|-3.181142>>|<text-at|<scm|action-procedures:
+        ((lambda ()>|<point|-6.7|0.1207236>>|<text-at|<scm|(newline)>|<point|-3.0|-0.2792764>>|<with|arrow-end|\<gtr\>|<line|<point|-5.00613507077656|2.62169268421749>|<point|-0.6|2.6>|<point|-0.6|-3.0>|<point|-0.0575542428892703|-2.9849057253605>>>|<with|arrow-end|\<gtr\>|<line|<point|-6.7|3>|<point|-6.0|3.0>>>|<text-at|<scm|sum:>|<point|-5.78142570776069|2.55334857685638>>|<text-at|<scm|carry:>|<point|-5.77981|2.17961970173301>>|<gr-group|<text-at|<scm|env>|<point|-7.6|2.81205945553411>>|<text-at|<scm|global>|<point|-7.6|3.11205945553411>>>|<text-at|<scm|...))>|<point|-3.0|-0.6792764>>|<cline|<point|-6.0|4.0>|<point|6.0|4.0>|<point|6.0|2.0>|<point|-6.0|2.0>>|<text-at|<scm|accept-action-procedure!:
+        ...>|<point|-7.004958|-2.581142>>|<text-at|<scm|signal-value:
+        0>|<point|-6.7|0.5207236>>|<text-at|<scm|set-my-signal!:
+        ...>|<point|-7.004958|-2.181142>>|<with|arrow-end|\<gtr\>|<line|<point|-5.009238|-1.7995637>|<point|-5.0|-1.0>>>|<text-at|<scm|dispatch:
+        ...>|<point|-7.004958|-2.981142>>|<cline|<point|-7.0|1.0>|<point|-1.2|1.0207236>|<point|-1.2|-1.0>|<point|-7.0|-1.0>>|<with|arrow-end|\<gtr\>|<line|<point|-4.5|2.3>|<point|-3.5|2.3>|<point|-3.5|1.5>|<point|-7.5|1.5>|<point|-7.5|-3.0>|<point|-7.05755424288927|-2.9849057253605>>>|<cline|<point|-7.304958|-1.781142>|<point|-2.004958|-1.781142>|<point|-2.004958|-3.181142>|<point|-7.304958|-3.181142>>>>|The
         resulting environment structure in the completion of evaluating
         <scm|(probe 'sum sum)> and <scm|(probe 'carry carry)>.>
       </float> shows the resulting environment structure in the completion of
@@ -196,24 +198,24 @@
         ...>|<point|-5.77981|3.620108>>>>>|Environments created by applying
         <scm|half-adder> to <scm|input-1>, <scm|input-2>, <scm|sum> and
         <scm|carry>.>
-      </float>, we created the procedure object <scm|half-adder> whose
-      environment is E5 where we initialized local variable <scm|d> and
-      <scm|e>. We then bound the arguments <scm|input-1>, <scm|input-2>,
-      <scm|sum> and <scm|carry> onto the formal parameters of
-      <scm|half-adder> in E6 and evaluated <scm|(or-gate input-1 input-2 d)>
-      etc.
+      </float>, this created the procedure object <scm|half-adder> whose
+      environment was E5 where the local variable <scm|d> and <scm|e> are
+      initialized. Then the arguments <scm|input-1>, <scm|input-2>, <scm|sum>
+      and <scm|carry> were bound onto the formal parameters of
+      <scm|half-adder> in E6 and evaluated the body of <scm|half-adder>, that
+      is, things like <scm|(or-gate input-1 input-2 d)> etc.
 
       <hspace|3ex>In applying <scm|or-gate> to <scm|input-1>, <scm|input-2>
       and <scm|d>, we set up a new environment E7 whose enclosing environment
-      is E6 and evaluated the body of <scm|or-gate> in E7. To get its job
+      was E6 and evaluated the body of <scm|or-gate> in E7. To get its job
       done, <scm|or-gate> in turns called to <scm|add-action!> twice with
       <scm|input-1> and <scm|input-2> passed as their arguments respectively.
-      In terms of <scm|add-action!>, it simply added the
+      The <scm|add-action!> procedure at this point simply added the
       <scm|or-action-procedure> to the <scm|action-procedures> of
-      <scm|input-1> and <scm|input-2> without running, thus nothing yet has
-      been added into the agenda. In other words, the <scm|or-gate> was
-      plugged into the <scm|half-adder> without initializing its output.
-      Figure <reference|Exercise_3.31-Figure_6><\float|float|tbh>
+      <scm|input-1> and <scm|input-2> without running them, thus nothing yet
+      has been added into the agenda. In other words, the or-gate was plugged
+      into the half-adder without initializing its output. Figure
+      <reference|Exercise_3.31-Figure_6><\float|float|tbh>
         <big-figure|<label|Exercise_3.31-Figure_6><with|gr-mode|<tuple|edit|line>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.529997gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<gr-group|<text-at|<scm|E8>|<point|-4.67822909569079|-2.3>>|<with|arrow-end|\<gtr\>|<line|<point|-4.3|-2.2>|<point|-3.8|-2.2>>>|<text-at|<scm|body:
         ...>|<point|-6.0|-1.5>>|<cline|<point|-3.8|-1.4>|<point|2.9|-1.4>|<point|2.9|-2.4>|<point|-3.8|-2.4>>|<with|arrow-end|\<gtr\>|<line|<point|-4.8|2.77555756156289e-17>|<point|-4.8|-0.8>>>|<carc|<point|-5.1|2.77555756156289e-17>|<point|-4.5|2.77555756156289e-17>|<point|-4.8|0.3>>|<point|-4.8|2.77555756156289e-17>|<carc|<point|-4.5|2.77555756156289e-17>|<point|-3.9|2.77555756156289e-17>|<point|-4.2|0.3>>|<with|arrow-end|\<gtr\>|<line|<point|-4.2|2.77555756156289e-17>|<point|-2.8|2.77555756156289e-17>|<point|-2.8|0.5>>>|<point|-4.2|2.77555756156289e-17>|<with|arrow-end|\<gtr\>|<line|<point|-3.70963421087445|3.31275631697314>|<point|-3.0|3.3>|<point|-3.0|1.8>|<point|-4.5|1.8>|<point|-4.5|0.3>>>|<text-at|<scm|wire:
         a1>|<point|-3.55568281570484|-1.78954>>|<text-at|<scm|parameters: a,
@@ -280,15 +282,17 @@
         propogate, probe, sum, or-gate, and-gate, inverter:
         ...>|<point|-5.77981|3.620108>>>>>|Environments after the call to
         <scm|half-adder>. (continued)>
-      </float> shows the situation after the call to <scm|half-adder>. Note
-      that the value of the wire <scm|e> has gone wrong to stay at 0, which
-      is supposed to be 1 at this point. Because when the <scm|inverter> was
-      connected to its input wire, the <scm|carry>, it simply added the
-      <scm|invert-input> procedure to the <scm|action-procedures> of the
-      latter one without running. This is precisely the case we encountered
-      in wiring with the <scm|or-gate> into the <scm|half-adder>. We shall
-      see the problem it arises soon, although nothing exceptional appeals
-      when we interact with the interpreter at present:
+      </float> shows the situation after the call to <scm|half-adder>.
+
+      <hspace|3ex>Notice that the signal on the wire <scm|e> had gone wrong
+      to stay at 0, which was supposed to be 1 at this point. Because when
+      the <scm|inverter> was connected to the <scm|carry>, it simply added
+      the <scm|invert-input> procedure to the <scm|action-procedures> of the
+      latter one without running. This was precisely the same case we
+      encountered in hooking the or-gate up to the half-adder. We shall see
+      the problems arised by this non-initialization wiring soon, although
+      nothing exceptional appeals when we interact with the interpreter at
+      present:
 
       <\scm-code>
         (half-adder input-1 input-2 sum carry)
@@ -296,9 +300,9 @@
         <with|prog-font-shape|italic|;Value: ok>
       </scm-code>
 
-      Another thing to notice is that so far the agenda still remains empty.
+      So far, the agenda still remains empty.
 
-      As we change the signal on <scm|input-1> in figure
+      <hspace|3ex>As we change the signal on <scm|input-1> in figure
       <reference|Exercise_3.31-Figure_7> from 0 to 1:
 
       <\scm-code>
@@ -307,16 +311,19 @@
         <with|prog-font-shape|italic|;Value: done>
       </scm-code>
 
-      The <scm|action-procedures> it possesses are run, dued to what stated
-      by <scm|set-my-signal!>, one of the internal procedures of
-      <scm|make-wire>. Note that it is at this juncture that the actions of
-      setting the value of <scm|d> and <scm|carry> are added into the agenda.
-      So the <scm|carry> signal is reset to 0 at time 3 and <scm|d> changes
-      to 1 at time 5. Hence the <scm|inverter> will not be triggered and the
-      signal on <scm|e> stays to be 0, for in the process the value of the
-      signal on <scm|carry> keeps invariant with the value 0. The mutation of
-      the signal on <scm|d> further trigger the <scm|sum> to reset its signal
-      to 0 at time 8. Figure <reference|Exercise_3.31-Figure_9><\float|float|tbh>
+      All the <scm|action-procedures> it possessed were run, dued to what
+      stated by <scm|set-my-signal!>, one of the internal procedures of
+      <scm|make-wire>. Note that it was at this juncture that the actions of
+      setting the signal on <scm|d> and <scm|carry> were added into the
+      agenda. The signal on <scm|carry> would stay at 0 even its signal was
+      reset by the and-gate after an <scm|and-gate-delay>, for the value of
+      <scm|input-2> remained to be 0. Hence, the <scm|>inverter would not be
+      triggered and the signal on <scm|e> stayed to be 0. However, <scm|D>
+      would change its signal from 0 to 1 at time 5 for the sake of the
+      or-gate. This mutation further triggered <scm|sum> to reset its signal
+      at one <scm|and-gate-delay> later, that is, at time 8, since the signal
+      on <scm|e> remained 0, the signal on <scm|sum> stayed at 0. Figure
+      <reference|Exercise_3.31-Figure_9><\float|float|tbh>
         <big-figure|<label|Exercise_3.31-Figure_9><with|gr-mode|<tuple|edit|line>|gr-frame|<tuple|scale|1cm|<tuple|0.5gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-point-style|round|gr-dash-style|10|gr-arrow-end|\<gtr\>|gr-auto-crop|true|<graphics||<gr-group|<cspline|<point|-6.3585|-2.1>|<point|-6.3585|-3.69210928002397>|<point|-2.7585|-3.7>|<point|-2.7585|-2.08542052891906>>|<text-at|<scm|value:
         0>|<point|-6.56725|-2.49989>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|-4.00875|-0.738276>|<point|-5.0|-1.0>|<point|-5.3|-1.8>>>|<text-at|<scm|act-procs:
         (or-act-proc>|<point|-6.5585|-2.87483352181779>>|<text-at|<scm|and-act-proc)>|<point|-4.5585|-3.27483352181779>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|-3.9868|0.557498>|<point|-5.2|0.8>|<point|-5.3|1.8>>>|<cspline|<point|-1.41751|-1.69718>|<point|1.3|-1.7>|<point|1.36884177801296|-2.95410768620188>|<point|-1.4|-3.0>>|<text-at|<scm|Input-2>|<point|-3.9|-0.8>>|<line|<point|-2.6|-0.7>|<point|-1.12723894017719|-0.7>>|<cline|<point|-2.2|1.0>|<point|2.1|1.0>|<point|2.1|-1.0>|<point|-2.2|-1.0>>|<with|arrow-begin|o|<line|<point|-1.8|-0.7>|<point|-1.8|0.4>|<point|-1.6|0.4>>>|<text-at|<scm|Input-1>|<point|-3.87805352309021|0.49579>>|<with|magnify|0.924131073254627|<line|<point|-0.77122447668385|0.59230238782702>|<point|-2.6|0.6>>>|<line|<point|-1.5|-0.5>|<point|-1.12723894017719|-0.5>>|<with|arrow-end|o|<line|<point|-1.5|-0.5>|<point|-1.5|0.59536992196017>>>|<with|magnify|0.420149462497845|<line|<point|-0.791119370178907|-0.38992526875108>|<point|-1.12723894017719|-0.38992526875108>|<point|-1.12723894017719|-0.81007473124892>|<point|-0.791119370178907|-0.81007473124892>>>|<with|magnify|0.420149462497845|<arc|<point|-0.791119370178907|-0.38992526875108>|<point|-0.581044638929989|-0.6>|<point|-0.791119370178907|-0.81007473124892>>>|<with|magnify|0.924131073254627|<line|<point|-0.770438965271588|0.4074761731761>|<point|-1.4|0.4>>>|<text-at|<scm|value:
@@ -331,7 +338,7 @@
         of wires after evaluating <scm|(set-signal! input-1 1)>.>
       </float> shows the states of wires after evaluating <scm|(set-signal!
       input-1 1)> and figure <reference|Exercise_3.31-Figure_10><\float|float|tbh>
-        <big-figure|<label|Exercise_3.31-Figure_10><with|gr-mode|<tuple|group-edit|move>|gr-frame|<tuple|scale|1cm|<tuple|0.470003gw|0.539996gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-point-style|round|gr-arrow-end|\<gtr\>|gr-auto-crop|true|<graphics||<gr-group|<text-at|<scm|current-time>|<point|-5.6|-2.3>>|<with|arrow-end|\<gtr\>|<line|<point|-3.5|-2.2>|<point|-3.0|-2.2>>>|<cline|<point|-2.95959979013217|3.0>|<point|-2.95959979013217|-2.7>|<point|3.04040020986783|-2.7>|<point|3.04040020986783|3.0>>|<line|<point|-2.95959979013217|-1.7>|<point|3.04040020986783|-1.7>>|<text-at|<scm|8>|<point|-2.45959979013217|-2.3>>|<line|<point|-2.95959979013217|-0.7>|<point|3.04040020986783|-0.7>>|<text-at|<scm|5>|<point|-2.45959979013217|-1.3>>|<line|<point|-1.65959979013217|2.0>|<point|-1.65959979013217|-2.7>>|<text-at|<scm|3>|<point|-2.45959979013217|-0.299999999999999>>|<line|<point|-2.95959979013217|0.4>|<point|3.04040020986783|0.4>>|<text-at|<scm|0>|<point|-2.45959979013217|0.8>>|<line|<point|-2.95959979013217|1.4>|<point|3.04040020986783|1.4>>|<line|<point|-2.95959979013217|2.0>|<point|3.04040020986783|2.0>>|<text-at|<scm|Time>|<point|-2.65959979013217|1.6>>|<text-at|<scm|(lambda
+        <big-figure|<label|Exercise_3.31-Figure_10><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.470003gw|0.539996gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-point-style|round|gr-arrow-end|\<gtr\>|gr-auto-crop|false|<graphics||<gr-group|<cline|<point|-2.95959979013217|3.0>|<point|-2.95959979013217|-2.7>|<point|3.04040020986783|-2.7>|<point|3.04040020986783|3.0>>|<line|<point|-2.95959979013217|-1.7>|<point|3.04040020986783|-1.7>>|<text-at|<scm|8>|<point|-2.45959979013217|-2.3>>|<line|<point|-2.95959979013217|-0.7>|<point|3.04040020986783|-0.7>>|<text-at|<scm|5>|<point|-2.45959979013217|-1.3>>|<line|<point|-1.65959979013217|2.0>|<point|-1.65959979013217|-2.7>>|<text-at|<scm|3>|<point|-2.45959979013217|-0.299999999999999>>|<text-at|<scm|current-time>|<point|-5.6|0.8>>|<line|<point|-2.95959979013217|0.4>|<point|3.04040020986783|0.4>>|<with|arrow-end|\<gtr\>|<line|<point|-3.5|0.9>|<point|-3.0|0.9>>>|<text-at|<scm|0>|<point|-2.45959979013217|0.8>>|<line|<point|-2.95959979013217|1.4>|<point|3.04040020986783|1.4>>|<line|<point|-2.95959979013217|2.0>|<point|3.04040020986783|2.0>>|<text-at|<scm|Time>|<point|-2.65959979013217|1.6>>|<text-at|<scm|(lambda
         ()>|<point|-1.05959979013217|-2.1>>|<text-at|<scm|(lambda
         ()>|<point|-1.05959979013217|-1.1>>|<text-at|<scm|(lambda
         ()>|<point|-1.02231979013217|-0.0999999999999988>>|<text-at|<scm|(set-signal!
@@ -341,8 +348,8 @@
         action procedure>\<gtr\>>|<point|-0.959599790132169|0.8>>>>>|Contents
         of <scm|the-agenda> after evaluating <scm|(set-signal! input-1 1)>.>
       </float> shows contents of agenda at this point. Since neither the sum
-      nor the carry changes its value during the propagation, the interpreter
-      simply responses with:
+      nor the carry changes its value during the propagation, nothing more
+      than <scm|'done> is prompted when we run the simulation:
 
       <\scm-code>
         (propagate)
@@ -350,9 +357,53 @@
         <with|prog-font-shape|italic|;Value: done>
       </scm-code>
 
-      which is far from what we originally desired. However, this is not the
-      end, we can go on with setting the signal on <scm|input-2> to 1 and run
-      the simulation to see what it will present to us:
+      Currently, we are 8 time units from the begining of the simulation.
+
+      <hspace|3ex>Finally, let's come to analyse how the process evolves when
+      we set the signal on <scm|input-2> to 1. Figure
+      <reference|Exercise_3.31-Figure_11><\float|float|tbh>
+        <big-figure|<label|Exercise_3.31-Figure_11><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.5gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-point-style|round|gr-dash-style|10|gr-arrow-end|\<gtr\>|gr-auto-crop|true|<graphics||<gr-group|<cspline|<point|-6.3585|-2.1>|<point|-6.3585|-3.69210928002397>|<point|-2.7585|-3.7>|<point|-2.7585|-2.08542052891906>>|<text-at|<scm|value:
+        1>|<point|-6.56725|-2.49989>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|-4.00875|-0.738276>|<point|-5.0|-1.0>|<point|-5.3|-1.8>>>|<text-at|<scm|act-procs:
+        (or-act-proc>|<point|-6.5585|-2.87483352181779>>|<text-at|<scm|and-act-proc)>|<point|-4.5585|-3.27483352181779>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|-3.9868|0.557498>|<point|-5.2|0.8>|<point|-5.3|1.8>>>|<text-at|<scm|Input-2>|<point|-3.9|-0.8>>|<cspline|<point|-1.41751|-1.69718>|<point|1.3|-1.7>|<point|1.36884177801296|-2.95410768620188>|<point|-1.4|-3.0>>|<line|<point|-2.6|-0.7>|<point|-1.12723894017719|-0.7>>|<cline|<point|-2.2|1.0>|<point|2.1|1.0>|<point|2.1|-1.0>|<point|-2.2|-1.0>>|<with|arrow-begin|o|<line|<point|-1.8|-0.7>|<point|-1.8|0.4>|<point|-1.6|0.4>>>|<text-at|<scm|Input-1>|<point|-3.87805352309021|0.49579>>|<with|magnify|0.924131073254627|<line|<point|-0.77122447668385|0.59230238782702>|<point|-2.6|0.6>>>|<line|<point|-1.5|-0.5>|<point|-1.12723894017719|-0.5>>|<with|arrow-end|o|<line|<point|-1.5|-0.5>|<point|-1.5|0.59536992196017>>>|<with|magnify|0.420149462497845|<line|<point|-0.791119370178907|-0.38992526875108>|<point|-1.12723894017719|-0.38992526875108>|<point|-1.12723894017719|-0.81007473124892>|<point|-0.791119370178907|-0.81007473124892>>>|<with|magnify|0.420149462497845|<arc|<point|-0.791119370178907|-0.38992526875108>|<point|-0.581044638929989|-0.6>|<point|-0.791119370178907|-0.81007473124892>>>|<with|magnify|0.924131073254627|<line|<point|-0.770438965271588|0.4074761731761>|<point|-1.4|0.4>>>|<line|<point|-0.5810446|-0.6>|<point|2.6|-0.6>>|<text-at|<scm|value:
+        0>|<point|-1.30875|-1.99989>>|<with|magnify|0.437215563714201|<spline|<point|-0.842643127165358|0.28012293262588>|<point|-0.492870676193998|0.32284174307422>|<point|-0.30992688254147|0.49925572184414>>>|<with|magnify|0.437215563714201|<spline|<point|-0.842643127165358|0.71733849634009>|<point|-0.755200014422527|0.49873071448298>|<point|-0.842643127165358|0.28012293262588>>>|<text-at|<scm|value:
+        1>|<point|-6.60875|3.30011>>|<with|arrow-end|o|<line|<point|-0.0185249225750403|-2.77555756156289e-17>|<point|-0.299999999999998|-2.77555756156289e-17>|<point|-0.299999999999998|-0.6>>>|<text-at|<scm|act-procs:>|<point|-1.3|-2.37483352181779>>|<with|magnify|0.437215563714201|<spline|<point|-0.842643127165358|0.71733849634009>|<point|-0.492870676193998|0.66525689550021>|<point|-0.30992688254147|0.49925572184203>>>|<with|magnify|0.502438777132578|<cline|<point|-0.0185249225750403|0.25123055672357>|<point|-0.0185249225750403|-0.251208220409>|<point|0.38342609913102|1.11681572899786e-5>>>|<cspline|<point|-1.41751|3.00282>|<point|1.3|3.0>|<point|1.36884177801296|1.74589231379812>|<point|-1.4|1.7>>|<text-at|<scm|and-act-proc)>|<point|-4.6|2.52516647818221>>|<with|magnify|0.924131073254627|<line|<point|-0.314026650364|0.49988928050157>|<point|1.0|0.5>>>|<text-at|<scm|act-procs:
+        (or-act-proc>|<point|-6.6|2.92516647818221>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|0.87538|0.196984>|<point|1.6|-0.4>|<point|0.7|-1.4>>>|<text-at|<scm|D>|<point|-0.27538034131499|0.60874123561318>>|<text-at|<scm|(invert-input)>|<point|-1.07283668543792|-2.77483352181779>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|0.0|0.705715041672179>|<point|0.4|1.0>|<point|0.3|1.4>>>|<with|magnify|0.502438777132578|point-style|round|<point|0.43366997684427|1.11681572899786e-5>>|<with|magnify|0.949998672699424|<line|<point|0.512465426990237|-7.7293413652002e-4>|<point|1.0|-2.77555756156289e-17>>>|<text-at|<scm|E>|<point|0.6|0.1>>|<line|<point|1.0|0.3>|<point|1.0|-2.77555756156289e-17>>|<line|<point|1.0|0.3>|<point|1.37276105982281|0.3>>|<line|<point|1.0|0.5>|<point|1.37276105982281|0.5>>|<cspline|<point|2.7415|-2.1>|<point|2.7415|-3.69210928002397>|<point|6.3415|-3.7>|<point|6.3415|-2.08542052891906>>|<with|magnify|0.420149462497845|<line|<point|1.70888062982109|0.61007473124892>|<point|1.37276105982281|0.61007473124892>|<point|1.37276105982281|0.18992526875108>|<point|1.70888062982109|0.18992526875108>>>|<with|magnify|0.420149462497845|<arc|<point|1.70888062982109|0.61007473124892>|<point|1.91895536107001|0.4>|<point|1.70888062982109|0.18992526875108>>>|<text-at|<scm|value:
+        1>|<point|-1.30875|2.70011>>|<text-at|<scm|act-procs:>|<point|-1.3|2.32516647818221>>|<line|<point|1.9189554|0.4>|<point|2.6|0.4>>|<text-at|<scm|(and-act-proc)>|<point|-1.07283668543792|1.92516647818221>>|<text-at|<scm|value:
+        1>|<point|2.53275|-2.49989>>|<text-at|<scm|Carry>|<point|2.71485200208124|-0.7>>|<text-at|<scm|Sum>|<point|2.7|0.3>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|3.65678|-0.638279>|<point|4.7|-0.8>|<point|5.0|-1.7>>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|3.30866|0.396977>|<point|4.3|0.7>|<point|4.6|1.7>>>|<text-at|<scm|...))>|<point|4.82515|-3.6>>|<text-at|<scm|value:
+        0>|<point|2.63275|3.30011>>|<text-at|<scm|act-procs: ((lambda
+        ()>|<point|2.5415|-2.87483352181779>>|<text-at|<scm|(newline)>|<point|4.8415|-3.27483352181779>>|<text-at|<scm|...))>|<point|4.92515|2.2>>|<text-at|<scm|(newline)>|<point|4.9415|2.52516647818221>>|<text-at|<scm|act-procs:
+        ((lambda ()>|<point|2.6415|2.92516647818221>>|<cspline|<point|-6.4|3.7>|<point|-6.4|2.10789071997603>|<point|-2.8|2.1>|<point|-2.8|3.71457947108094>>|<cspline|<point|2.8415|3.7>|<point|2.8415|2.10789071997603>|<point|6.4415|2.1>|<point|6.4415|3.71457947108094>>>>>|States
+        of wires after evaluating <scm|(set-signal! input-2 1)>>
+      </float> gives us a clear view of the evolution of process after we
+      changed the signal on <scm|input-2>. See that when the signal on
+      <scm|input-2> was altered, the <scm|action-procedures> it contained
+      would be run immediately. Evaluating <scm|or-action-procedure> added
+      <scm|(lambda () (set-signal d 1))> into the agenda, and by scheduling,
+      it set the signal on <scm|d> to be 1 after an <scm|or-gate-delay>.
+      Likewise, evaluating <scm|and-action-procedure> caused the agenda to
+      extend with an action procedure <scm|(lambda () (set-signal carry 1))>
+      which changed the signal on <scm|carry> from 0 to 1 after an
+      <scm|and-gate-delay>. In other words, <scm|carry> changed its signal to
+      1 at time 11 and <scm|d> regenerate the signal of 1 at time 13. The
+      mutation of the signal on <scm|carry> further trigger the
+      <scm|inverter> to reset its output, <scm|e>, to be 0 also at time 13.
+      Since neither of <scm|d> and <scm|e> changes its value in this process,
+      the and-gate connected to <scm|sum> won't be triggered. Figure
+      <reference|Exercise_3.31-Figure_12><\float|float|tbh>
+        <big-figure|<label|Exercise_3.31-Figure_12><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.5gw|0.5gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-point-style|round|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<gr-group|<cline|<point|-1.8|3.5>|<point|-1.8|-3.5>|<point|4.2|-3.5>|<point|4.2|3.5>>|<line|<point|-1.75959979013217|-1.48623864495184>|<point|4.2|-1.5>>|<text-at|<scm|13>|<point|-1.35959979013217|-2.58623864495184>>|<line|<point|-0.500000000000001|2.6>|<point|-0.500000000000001|-3.5>>|<with|dash-style|10|<line|<point|-0.500000000000001|-2.5>|<point|4.2|-2.5>>>|<text-at|<scm|11>|<point|-1.35959979013217|-0.18623864495184>>|<text-at|<scm|current-time>|<point|-4.50367802551643|1.60992>>|<with|arrow-end|\<gtr\>|<line|<point|-2.4|1.7>|<point|-1.8|1.7>>>|<line|<point|-1.75959979013217|1.41376135504816>|<point|4.2|1.4>>|<with|dash-style|10|<line|<point|-0.459600000000001|0.41376135504816>|<point|4.2|0.4>>>|<text-at|<scm|...)>|<point|0.447981960430391|-1.25704864495184>>|<line|<point|-1.75959979013217|2.01376135504816>|<point|4.2|2.0>>|<text-at|<scm|8>|<point|-1.24999693830128|1.610736>>|<text-at|<scm|(lambda
+        ()>|<point|0.177680209867829|-2.88623864495184>>|<text-at|<scm|(lambda
+        ()>|<point|0.140400209867829|-1.88623864495184>>|<line|<point|-1.8|2.6>|<point|4.2|2.6>>|<text-at|<scm|Time>|<point|-1.45959979013217|2.19371775238637>>|<text-at|<scm|(newline)>|<point|0.466700209867831|-0.39048864495184>>|<text-at|<scm|(lambda
+        ()>|<point|0.166700209867829|0.00951135504816009>>|<text-at|<scm|(set-signal!
+        e 0)>|<point|0.47768020986783|-3.28623864495184>>|<text-at|<scm|(lambda
+        ()>|<point|0.177680209867829|1.01376135504816>>|<text-at|<scm|(set-signal!
+        d 1)>|<point|0.440400209867831|-2.28623864495184>>|<text-at|<scm|(display
+        'carry)>|<point|0.439208000000001|-0.78243387311125>>|<text-at|<scm|Action>|<point|1.54040020986783|2.19371775238637>>|<text-at|<scm|The-agenda>|<point|0.391744022945439|2.98496775238637>>|<text-at|<scm|(set-signal!
+        carry 1)>|<point|0.477680209867831|0.61376135504816>>|<text-at|<scm|\<less\><with|prog-font-shape|italic|no
+        action procedure>\<gtr\>>|<point|0.0392079999999995|1.618551>>>>>|Contents
+        of <scm|the-agenda> before running the simulation for a second time.>
+      </float> shows the contents of the agenda just before we run the
+      simulation. To confirm our prediction, we just set the signal of
+      input-2 and allow the value to propagate:
 
       <\scm-code>
         (set-signal! input-2 1)
@@ -367,67 +418,8 @@
 
         carry 11 \ New-value = 1
 
-        <with|prog-font-shape|italic|;Value: done>
+        <with|prog-font-shape|italic|;Value: done >
       </scm-code>
-
-      It just disappointed us again. Why is this weird phenomenon? Well,
-      figure <reference|Exercise_3.31-Figure_11><\float|float|tbh>
-        <big-figure|<label|Exercise_3.31-Figure_11><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.5gw|0.509999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-point-style|round|gr-dash-style|10|gr-arrow-end|\<gtr\>|gr-auto-crop|true|<graphics||<gr-group|<cspline|<point|-6.3585|-2.1>|<point|-6.3585|-3.69210928002397>|<point|-2.7585|-3.7>|<point|-2.7585|-2.08542052891906>>|<text-at|<scm|value:
-        1>|<point|-6.56725|-2.49989>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|-4.00875|-0.738276>|<point|-5.0|-1.0>|<point|-5.3|-1.8>>>|<text-at|<scm|act-procs:
-        (or-act-proc>|<point|-6.5585|-2.87483352181779>>|<text-at|<scm|and-act-proc)>|<point|-4.5585|-3.27483352181779>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|-3.9868|0.557498>|<point|-5.2|0.8>|<point|-5.3|1.8>>>|<text-at|<scm|Input-2>|<point|-3.9|-0.8>>|<cspline|<point|-1.41751|-1.69718>|<point|1.3|-1.7>|<point|1.36884177801296|-2.95410768620188>|<point|-1.4|-3.0>>|<line|<point|-2.6|-0.7>|<point|-1.12723894017719|-0.7>>|<cline|<point|-2.2|1.0>|<point|2.1|1.0>|<point|2.1|-1.0>|<point|-2.2|-1.0>>|<with|arrow-begin|o|<line|<point|-1.8|-0.7>|<point|-1.8|0.4>|<point|-1.6|0.4>>>|<text-at|<scm|Input-1>|<point|-3.87805352309021|0.49579>>|<with|magnify|0.924131073254627|<line|<point|-0.77122447668385|0.59230238782702>|<point|-2.6|0.6>>>|<line|<point|-1.5|-0.5>|<point|-1.12723894017719|-0.5>>|<with|arrow-end|o|<line|<point|-1.5|-0.5>|<point|-1.5|0.59536992196017>>>|<with|magnify|0.420149462497845|<line|<point|-0.791119370178907|-0.38992526875108>|<point|-1.12723894017719|-0.38992526875108>|<point|-1.12723894017719|-0.81007473124892>|<point|-0.791119370178907|-0.81007473124892>>>|<with|magnify|0.420149462497845|<arc|<point|-0.791119370178907|-0.38992526875108>|<point|-0.581044638929989|-0.6>|<point|-0.791119370178907|-0.81007473124892>>>|<with|magnify|0.924131073254627|<line|<point|-0.770438965271588|0.4074761731761>|<point|-1.4|0.4>>>|<line|<point|-0.5810446|-0.6>|<point|2.6|-0.6>>|<text-at|<scm|value:
-        0>|<point|-1.30875|-1.99989>>|<with|magnify|0.437215563714201|<spline|<point|-0.842643127165358|0.28012293262588>|<point|-0.492870676193998|0.32284174307422>|<point|-0.30992688254147|0.49925572184414>>>|<with|magnify|0.437215563714201|<spline|<point|-0.842643127165358|0.71733849634009>|<point|-0.755200014422527|0.49873071448298>|<point|-0.842643127165358|0.28012293262588>>>|<text-at|<scm|value:
-        1>|<point|-6.60875|3.30011>>|<with|arrow-end|o|<line|<point|-0.0185249225750403|-2.77555756156289e-17>|<point|-0.299999999999998|-2.77555756156289e-17>|<point|-0.299999999999998|-0.6>>>|<text-at|<scm|act-procs:>|<point|-1.3|-2.37483352181779>>|<with|magnify|0.437215563714201|<spline|<point|-0.842643127165358|0.71733849634009>|<point|-0.492870676193998|0.66525689550021>|<point|-0.30992688254147|0.49925572184203>>>|<with|magnify|0.502438777132578|<cline|<point|-0.0185249225750403|0.25123055672357>|<point|-0.0185249225750403|-0.251208220409>|<point|0.38342609913102|1.11681572899786e-5>>>|<cspline|<point|-1.41751|3.00282>|<point|1.3|3.0>|<point|1.36884177801296|1.74589231379812>|<point|-1.4|1.7>>|<text-at|<scm|and-act-proc)>|<point|-4.6|2.52516647818221>>|<with|magnify|0.924131073254627|<line|<point|-0.314026650364|0.49988928050157>|<point|1.0|0.5>>>|<text-at|<scm|act-procs:
-        (or-act-proc>|<point|-6.6|2.92516647818221>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|0.87538|0.196984>|<point|1.6|-0.4>|<point|0.7|-1.4>>>|<text-at|<scm|D>|<point|-0.27538034131499|0.60874123561318>>|<text-at|<scm|(invert-input)>|<point|-1.07283668543792|-2.77483352181779>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|0.0|0.705715041672179>|<point|0.4|1.0>|<point|0.3|1.4>>>|<with|magnify|0.502438777132578|point-style|round|<point|0.43366997684427|1.11681572899786e-5>>|<with|magnify|0.949998672699424|<line|<point|0.512465426990237|-7.7293413652002e-4>|<point|1.0|-2.77555756156289e-17>>>|<text-at|<scm|E>|<point|0.6|0.1>>|<line|<point|1.0|0.3>|<point|1.0|-2.77555756156289e-17>>|<line|<point|1.0|0.3>|<point|1.37276105982281|0.3>>|<line|<point|1.0|0.5>|<point|1.37276105982281|0.5>>|<cspline|<point|2.7415|-2.1>|<point|2.7415|-3.69210928002397>|<point|6.3415|-3.7>|<point|6.3415|-2.08542052891906>>|<with|magnify|0.420149462497845|<line|<point|1.70888062982109|0.61007473124892>|<point|1.37276105982281|0.61007473124892>|<point|1.37276105982281|0.18992526875108>|<point|1.70888062982109|0.18992526875108>>>|<with|magnify|0.420149462497845|<arc|<point|1.70888062982109|0.61007473124892>|<point|1.91895536107001|0.4>|<point|1.70888062982109|0.18992526875108>>>|<text-at|<scm|value:
-        1>|<point|-1.30875|2.70011>>|<text-at|<scm|act-procs:>|<point|-1.3|2.32516647818221>>|<line|<point|1.9189554|0.4>|<point|2.6|0.4>>|<text-at|<scm|(and-act-proc)>|<point|-1.07283668543792|1.92516647818221>>|<text-at|<scm|value:
-        1>|<point|2.53275|-2.49989>>|<text-at|<scm|Carry>|<point|2.71485200208124|-0.7>>|<text-at|<scm|Sum>|<point|2.7|0.3>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|3.65678|-0.638279>|<point|4.7|-0.8>|<point|5.0|-1.7>>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|3.30866|0.396977>|<point|4.3|0.7>|<point|4.6|1.7>>>|<text-at|<scm|...))>|<point|4.82515|-3.6>>|<text-at|<scm|value:
-        0>|<point|2.63275|3.30011>>|<text-at|<scm|act-procs: ((lambda
-        ()>|<point|2.5415|-2.87483352181779>>|<text-at|<scm|(newline)>|<point|4.8415|-3.27483352181779>>|<text-at|<scm|...))>|<point|4.92515|2.2>>|<text-at|<scm|(newline)>|<point|4.9415|2.52516647818221>>|<text-at|<scm|act-procs:
-        ((lambda ()>|<point|2.6415|2.92516647818221>>|<cspline|<point|-6.4|3.7>|<point|-6.4|2.10789071997603>|<point|-2.8|2.1>|<point|-2.8|3.71457947108094>>|<cspline|<point|2.8415|3.7>|<point|2.8415|2.10789071997603>|<point|6.4415|2.1>|<point|6.4415|3.71457947108094>>>>>|States
-        of wires after evaluating <scm|(set-signal! input-2 1)>>
-      </float> gives us a clear view of the evolution of process after we
-      changed the signal on <scm|input-2>. See that whenever the signal on
-      <scm|input-2> be altered, the <scm|action-procedures> it contains will
-      be run immediately. Also notice that the current simulation time is 8.
-      Evaluating <scm|or-action-procedure> adds the action <scm|(lambda ()
-      (set-signal d 1))> after an or gate delay and evaluating
-      <scm|and-action-procedure> place the agenda an action of setting
-      carry-\<gtr\>1 after an and-agte-delay. In other word, carry changes
-      its value to 1 at time 11 and d regenerate the signal of 1 at time 13.
-      Further trigger the inverter to set its output, e, to be 0 also at time
-      13. But neither of d and e changes its value in this process. Hence,
-      the and-gate connected to <scm|sum> won't be triggered. to set that
-      \ figure <\float|float|tbh>
-        <big-figure|<with|gr-mode|<tuple|group-edit|move>|gr-frame|<tuple|scale|1cm|<tuple|0.5gw|0.5gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-point-style|round|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<gr-group|<text-at|<scm|current-time>|<point|-4.50367802551643|-2.59008>>|<with|arrow-end|\<gtr\>|<line|<point|-2.4|-2.5>|<point|-1.8|-2.5>>>|<cline|<point|-1.8|3.5>|<point|-1.8|-3.5>|<point|4.2|-3.5>|<point|4.2|3.5>>|<line|<point|-1.75959979013217|-1.48623864495184>|<point|4.2|-1.5>>|<text-at|<scm|13>|<point|-1.35959979013217|-2.58623864495184>>|<line|<point|-0.500000000000001|2.6>|<point|-0.500000000000001|-3.5>>|<with|dash-style|10|<line|<point|-0.500000000000001|-2.5>|<point|4.2|-2.5>>>|<text-at|<scm|11>|<point|-1.35959979013217|-0.18623864495184>>|<with|dash-style|10|<line|<point|-0.459600000000001|0.41376135504816>|<point|4.2|0.4>>>|<line|<point|-1.75959979013217|1.41376135504816>|<point|4.2|1.4>>|<text-at|<scm|...)>|<point|0.447981960430391|-1.25704864495184>>|<text-at|<scm|8>|<point|-1.24999693830128|1.610736>>|<text-at|<scm|(lambda
-        ()>|<point|0.177680209867829|-2.88623864495184>>|<line|<point|-1.75959979013217|2.01376135504816>|<point|4.2|2.0>>|<text-at|<scm|(lambda
-        ()>|<point|0.140400209867829|-1.88623864495184>>|<line|<point|-1.8|2.6>|<point|4.2|2.6>>|<text-at|<scm|Time>|<point|-1.45959979013217|2.19371775238637>>|<text-at|<scm|(newline)>|<point|0.466700209867831|-0.39048864495184>>|<text-at|<scm|(lambda
-        ()>|<point|0.166700209867829|0.00951135504816009>>|<text-at|<scm|(set-signal!
-        e 0)>|<point|0.47768020986783|-3.28623864495184>>|<text-at|<scm|(set-signal!
-        d 1)>|<point|0.440400209867831|-2.28623864495184>>|<text-at|<scm|(lambda
-        ()>|<point|0.177680209867829|1.01376135504816>>|<text-at|<scm|(display
-        'carry)>|<point|0.439208000000001|-0.78243387311125>>|<text-at|<scm|Action>|<point|1.54040020986783|2.19371775238637>>|<text-at|<scm|The-agenda>|<point|0.391744022945439|2.98496775238637>>|<text-at|<scm|(set-signal!
-        carry 1)>|<point|0.477680209867831|0.61376135504816>>|<text-at|<scm|\<less\><with|prog-font-shape|italic|no
-        action procedure>\<gtr\>>|<point|0.0392079999999995|1.618551>>>>>|Contents
-        of <scm|the-agenda> after evaluating <scm|(set-signal! input-2 1)>.>
-      </float>
-
-      Now, we have seen how the minor adjustment on
-      <scm|accept-action-procedure!> makes the program fail to interact
-      correctly. However, this is not the end, \ continue to figure
-      <\float|float|tbh>
-        <big-figure|<with|gr-mode|<tuple|group-edit|move>|gr-frame|<tuple|scale|1cm|<tuple|0.579992gw|0.59999gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-point-style|round|gr-arrow-end|\<gtr\>|gr-dash-style|10|<graphics||<line|<point|6.32113|-6.2>|<point|6.0|-6.2>>|<with|magnify|0.502438777132578|<cline|<point|6.32113029980265|-5.94876944327643>|<point|6.32113029980265|-6.451208220409>|<point|6.72308132150871|-6.19998883184271>>>|<with|magnify|0.949998672699424|<line|<point|6.85212064936793|-6.20077293413652>|<point|7.2|-6.2>>>|<with|magnify|0.420149462497845|<arc|<point|4.40888062982109|-5.98992526875108>|<point|4.61895536107001|-6.2>|<point|4.40888062982109|-6.41007473124892>>>|<line|<point|3.7|-6.3>|<point|4.07276105982281|-6.3>>|<with|magnify|0.924131073254627|<line|<point|2.485973349636|-6.20011071949843>|<point|2.85562577893785|-6.20011071949843>>>|<with|magnify|0.420149462497845|<line|<point|4.40888062982109|-5.98992526875108>|<point|4.07276105982281|-5.98992526875108>|<point|4.07276105982281|-6.41007473124892>|<point|4.40888062982109|-6.41007473124892>>>|<line|<point|4.6189554|-6.2>|<point|5.0|-6.2>>|<with|magnify|0.502438777132578|point-style|round|<point|6.77332519922196|-6.19998883184271>>|<with|magnify|0.437215563714201|<spline|<point|1.95735687283464|-6.41987706737412>|<point|2.307129323806|-6.37715825692578>|<point|2.49007311745853|-6.20074427815586>>>|<with|magnify|0.437215563714201|<spline|<point|1.95735687283464|-5.98266150365991>|<point|2.04479998557747|-6.20126928551702>|<point|1.95735687283464|-6.41987706737412>>>|<with|magnify|0.924131073254627|<line|<point|2.02956103472841|-6.2925238268239>|<point|1.69766860107975|-6.2925238268239>>>|<with|magnify|0.437215563714201|<spline|<point|1.95735687283464|-5.98266150365991>|<point|2.307129323806|-6.03474310449979>|<point|2.49007311745853|-6.20074427815797>>>|<line|<point|3.7|-6.1>|<point|4.07276105982281|-6.1>>|<with|magnify|0.420149462497845|<line|<point|-1.09111937017891|-0.58992526875108>|<point|-1.42723894017719|-0.58992526875108>|<point|-1.42723894017719|-1.01007473124892>|<point|-1.09111937017891|-1.01007473124892>>>|<cspline|<point|-6.4|1.9>|<point|-6.4|0.30789071997603>|<point|-2.8|0.3>|<point|-2.8|1.91457947108094>>|<line|<point|-0.8810446|-0.8>|<point|-0.2|-0.8>>|<line|<point|-1.8|-0.9>|<point|-1.42723894017719|-0.9>>|<text-at|<scm|5>|<point|1.5|-1.5>>|<text-at|<scm|0>|<point|1.5|0.6>>|<line|<point|1.0|1.8>|<point|7.0|1.8>>|<with|magnify|0.502438777132578|point-style|round|<point|-2.36633002315573|-1.19998883184271>>|<with|magnify|0.949998672699424|<line|<point|-2.28753457300976|-1.20077293413652>|<point|-1.8|-1.2>>>|<text-at|<scm|E>|<point|-2.2|-1.1>>|<line|<point|-1.8|-0.9>|<point|-1.8|-1.2>>|<line|<point|1.0|-0.9>|<point|7.0|-0.9>>|<text-at|<scm|Sum>|<point|-0.1|-0.9>>|<with|magnify|0.420149462497845|<arc|<point|-1.09111937017891|-0.58992526875108>|<point|-0.88104463892999|-0.8>|<point|-1.09111937017891|-1.01007473124892>>>|<text-at|<scm|Carry>|<point|-0.08514799791876|-1.9>>|<with|magnify|0.924131073254627|<line|<point|2.02877552331615|-6.10769761217298>|<point|1.69766860107975|-6.10769761217298>>>|<text-at|<scm|Time>|<point|1.3|1.4>>|<line|<point|1.0|1.2>|<point|7.0|1.2>>|<text-at|<scm|\<less\><with|prog-font-shape|italic|no
-        action procedure>\<gtr\>>|<point|3.0|0.6>>|<text-at|<scm|(lambda
-        ()>|<point|2.9|-1.3>>|<with|magnify|0.924131073254627|<line|<point|-3.114026650364|-0.70011071949843>|<point|-1.8|-0.7>>>|<line|<point|1.0|0.2>|<point|7.0|0.2>>|<text-at|<scm|D>|<point|-3.07538034131499|-0.59125876438682>>|<text-at|<scm|value:
-        1>|<point|-6.60875|1.50011>>|<line|<point|-1.8|-0.7>|<point|-1.42723894017719|-0.7>>|<text-at|<scm|Input-2>|<point|-6.7|-2.0>>|<text-at|<scm|(set-signal!
-        d 1)>|<point|3.2|-1.7>>|<text-at|<scm|Action>|<point|4.3|1.4>>|<text-at|<scm|(set-signal!
-        carry 0)>|<point|3.23728|-0.7>>|<text-at|<scm|3>|<point|1.5|-0.5>>|<text-at|<scm|and-act-proc)>|<point|-4.6|0.72516647818221>>|<text-at|<scm|The-agenda>|<point|3.15134381307761|2.19125>>|<text-at|<scm|(lambda
-        ()>|<point|2.93728|-0.3>>|<text-at|<scm|act-procs:
-        (or-act-proc>|<point|-6.6|1.12516647818221>>|<with|magnify|0.437215563714201|<spline|<point|-3.64264312716536|-0.48266150365991>|<point|-3.55520001442253|-0.70126928551702>|<point|-3.64264312716536|-0.91987706737412>>>|<with|arrow-end|o|<line|<point|-2.81852492257504|-1.2>|<point|-3.1|-1.2>|<point|-3.1|-1.8>>>|<with|magnify|0.420149462497845|<arc|<point|-3.59111937017891|-1.58992526875108>|<point|-3.38104463892999|-1.8>|<point|-3.59111937017891|-2.01007473124892>>>|<with|arrow-begin|o|<line|<point|-4.6|-1.9>|<point|-4.6|-0.8>|<point|-4.4|-0.8>>>|<with|magnify|0.924131073254627|<line|<point|-3.57043896527159|-0.7925238268239>|<point|-4.2|-0.8>>>|<with|magnify|0.437215563714201|<spline|<point|-3.64264312716536|-0.48266150365991>|<point|-3.292870676194|-0.53474310449979>|<point|-3.10992688254147|-0.70074427815797>>>|<with|arrow-end|o|<line|<point|-4.3|-1.7>|<point|-4.3|-0.60463007803983>>>|<line|<point|-4.3|-1.7>|<point|-3.92723894017719|-1.7>>|<line|<point|-3.3810446|-1.8>|<point|-0.2|-1.8>>|<with|magnify|0.420149462497845|<line|<point|-3.59111937017891|-1.58992526875108>|<point|-3.92723894017719|-1.58992526875108>|<point|-3.92723894017719|-2.01007473124892>|<point|-3.59111937017891|-2.01007473124892>>>|<with|magnify|0.437215563714201|<spline|<point|-3.64264312716536|-0.91987706737412>|<point|-3.292870676194|-0.87715825692578>|<point|-3.10992688254147|-0.70074427815586>>>|<with|magnify|0.924131073254627|<line|<point|-3.57122447668385|-0.60769761217298>|<point|-5.4|-0.6>>>|<with|magnify|0.502438777132578|<cline|<point|-2.81852492257504|-0.94876944327643>|<point|-2.81852492257504|-1.451208220409>|<point|-2.41657390086898|-1.19998883184271>>>|<line|<point|-5.4|-1.9>|<point|-3.92723894017719|-1.9>>|<text-at|<scm|Input-1>|<point|-6.67805352309021|-0.70421>>|<cline|<point|-5.0|-0.2>|<point|-0.7|-0.2>|<point|-0.7|-2.2>|<point|-5.0|-2.2>>|<text-at|<scm|8>|<point|1.5|-2.5>>|<text-at|<scm|(set-signal!
-        sum 0)>|<point|3.2|-2.7>>|<text-at|<scm|(lambda
-        ()>|<point|2.9|-2.3>>|<cline|<point|1.0|2.8>|<point|1.0|-2.9>|<point|7.0|-2.9>|<point|7.0|2.8>>|<line|<point|2.3|1.8>|<point|2.3|-2.9>>|<line|<point|1.0|-1.9>|<point|7.0|-1.9>>|<text-at|<scm|(and-act-proc)>|<point|-1.8|1.92516647818221>>|<text-at|<scm|act-procs:>|<point|-2.1|2.32516647818221>>|<text-at|<scm|value:
-        1>|<point|-2.10875|2.70011>>|<cspline|<point|-2.21750892975261|3.0028178330467>|<point|-2.2|1.7>|<point|0.4|1.7>|<point|0.4|3.0>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|-6.7|-0.6>|<point|-7.2|-0.2>|<point|-6.6|0.3>>>|<with|arrow-end|\<gtr\>|dash-style|10|<spline|<point|-2.80001|-0.494262>|<point|-1.0|0.0>|<point|-1.0|1.4>>>|<text-at|<scm|and-act-proc)>|<point|-4.6|-3.87483352181779>>|<text-at|<scm|act-procs:
-        (or-act-proc>|<point|-6.6|-3.47483352181779>>|<text-at|<scm|value:
-        1>|<point|-6.60875|-3.09989>>|<cspline|<point|-6.4|-2.7>|<point|-6.4|-4.29210928002397>|<point|-2.8|-4.3>|<point|-2.8|-2.68542052891906>>>>|>
-      </float>
     </answer>
   </render-exercise>
 </body>
@@ -443,6 +435,7 @@
     <associate|Exercise_3.31-Figure_1|<tuple|1|1>>
     <associate|Exercise_3.31-Figure_10|<tuple|10|?>>
     <associate|Exercise_3.31-Figure_11|<tuple|11|?>>
+    <associate|Exercise_3.31-Figure_12|<tuple|12|?>>
     <associate|Exercise_3.31-Figure_2|<tuple|2|2>>
     <associate|Exercise_3.31-Figure_3|<tuple|3|2>>
     <associate|Exercise_3.31-Figure_4|<tuple|4|3>>
@@ -526,10 +519,7 @@
       input-2 1)>|<pageref|auto-11>>
 
       <tuple|normal|Contents of <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|the-agenda>
-      after evaluating <with|mode|<quote|prog>|prog-language|<quote|scheme>|font-family|<quote|rm>|(set-signal!
-      input-2 1)>.|<pageref|auto-12>>
-
-      <tuple|normal||<pageref|auto-13>>
+      before running the simulation for a second time.|<pageref|auto-12>>
     </associate>
   </collection>
 </auxiliary>

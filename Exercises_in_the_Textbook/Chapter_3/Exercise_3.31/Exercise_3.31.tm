@@ -338,7 +338,7 @@
         of wires after evaluating <scm|(set-signal! input-1 1)>.>
       </float> shows the states of wires after evaluating <scm|(set-signal!
       input-1 1)> and figure <reference|Exercise_3.31-Figure_10><\float|float|tbh>
-        <big-figure|<label|Exercise_3.31-Figure_10><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.470003gw|0.539996gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-point-style|round|gr-arrow-end|\<gtr\>|gr-auto-crop|false|<graphics||<gr-group|<cline|<point|-2.95959979013217|3.0>|<point|-2.95959979013217|-2.7>|<point|3.04040020986783|-2.7>|<point|3.04040020986783|3.0>>|<line|<point|-2.95959979013217|-1.7>|<point|3.04040020986783|-1.7>>|<text-at|<scm|8>|<point|-2.45959979013217|-2.3>>|<line|<point|-2.95959979013217|-0.7>|<point|3.04040020986783|-0.7>>|<text-at|<scm|5>|<point|-2.45959979013217|-1.3>>|<line|<point|-1.65959979013217|2.0>|<point|-1.65959979013217|-2.7>>|<text-at|<scm|3>|<point|-2.45959979013217|-0.299999999999999>>|<text-at|<scm|current-time>|<point|-5.6|0.8>>|<line|<point|-2.95959979013217|0.4>|<point|3.04040020986783|0.4>>|<with|arrow-end|\<gtr\>|<line|<point|-3.5|0.9>|<point|-3.0|0.9>>>|<text-at|<scm|0>|<point|-2.45959979013217|0.8>>|<line|<point|-2.95959979013217|1.4>|<point|3.04040020986783|1.4>>|<line|<point|-2.95959979013217|2.0>|<point|3.04040020986783|2.0>>|<text-at|<scm|Time>|<point|-2.65959979013217|1.6>>|<text-at|<scm|(lambda
+        <big-figure|<label|Exercise_3.31-Figure_10><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.470003gw|0.539996gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-point-style|round|gr-arrow-end|\<gtr\>|gr-auto-crop|true|<graphics||<gr-group|<cline|<point|-2.95959979013217|3.0>|<point|-2.95959979013217|-2.7>|<point|3.04040020986783|-2.7>|<point|3.04040020986783|3.0>>|<line|<point|-2.95959979013217|-1.7>|<point|3.04040020986783|-1.7>>|<text-at|<scm|8>|<point|-2.45959979013217|-2.3>>|<line|<point|-2.95959979013217|-0.7>|<point|3.04040020986783|-0.7>>|<text-at|<scm|5>|<point|-2.45959979013217|-1.3>>|<line|<point|-1.65959979013217|2.0>|<point|-1.65959979013217|-2.7>>|<text-at|<scm|3>|<point|-2.45959979013217|-0.299999999999999>>|<text-at|<scm|current-time>|<point|-5.6|0.8>>|<line|<point|-2.95959979013217|0.4>|<point|3.04040020986783|0.4>>|<with|arrow-end|\<gtr\>|<line|<point|-3.5|0.9>|<point|-3.0|0.9>>>|<text-at|<scm|0>|<point|-2.45959979013217|0.8>>|<line|<point|-2.95959979013217|1.4>|<point|3.04040020986783|1.4>>|<line|<point|-2.95959979013217|2.0>|<point|3.04040020986783|2.0>>|<text-at|<scm|Time>|<point|-2.65959979013217|1.6>>|<text-at|<scm|(lambda
         ()>|<point|-1.05959979013217|-2.1>>|<text-at|<scm|(lambda
         ()>|<point|-1.05959979013217|-1.1>>|<text-at|<scm|(lambda
         ()>|<point|-1.02231979013217|-0.0999999999999988>>|<text-at|<scm|(set-signal!
@@ -347,9 +347,9 @@
         carry 0)>|<point|-0.722319790132169|-0.499999999999998>>|<text-at|<scm|\<less\><with|prog-font-shape|italic|no
         action procedure>\<gtr\>>|<point|-0.959599790132169|0.8>>>>>|Contents
         of <scm|the-agenda> after evaluating <scm|(set-signal! input-1 1)>.>
-      </float> shows contents of agenda at this point. Since neither the sum
-      nor the carry changes its value during the propagation, nothing more
-      than <scm|'done> is prompted when we run the simulation:
+      </float> shows contents of agenda at this point. Since neither the
+      <scm|sum> nor the <scm|carry> changes its value during the propagation,
+      nothing more than <scm|'done> is prompted when we run the simulation:
 
       <\scm-code>
         (propagate)

@@ -390,17 +390,18 @@
       Since neither of <scm|d> and <scm|e> changes its value in this process,
       the and-gate connected to <scm|sum> won't be triggered. Figure
       <reference|Exercise_3.31-Figure_12><\float|float|tbh>
-        <big-figure|<label|Exercise_3.31-Figure_12><with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.5gw|0.5gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-point-style|round|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<gr-group|<cline|<point|-1.8|3.5>|<point|-1.8|-3.5>|<point|4.2|-3.5>|<point|4.2|3.5>>|<line|<point|-1.75959979013217|-1.48623864495184>|<point|4.2|-1.5>>|<text-at|<scm|13>|<point|-1.35959979013217|-2.58623864495184>>|<line|<point|-0.500000000000001|2.6>|<point|-0.500000000000001|-3.5>>|<with|dash-style|10|<line|<point|-0.500000000000001|-2.5>|<point|4.2|-2.5>>>|<text-at|<scm|11>|<point|-1.35959979013217|-0.18623864495184>>|<text-at|<scm|current-time>|<point|-4.50367802551643|1.60992>>|<with|arrow-end|\<gtr\>|<line|<point|-2.4|1.7>|<point|-1.8|1.7>>>|<line|<point|-1.75959979013217|1.41376135504816>|<point|4.2|1.4>>|<with|dash-style|10|<line|<point|-0.459600000000001|0.41376135504816>|<point|4.2|0.4>>>|<text-at|<scm|...)>|<point|0.447981960430391|-1.25704864495184>>|<line|<point|-1.75959979013217|2.01376135504816>|<point|4.2|2.0>>|<text-at|<scm|8>|<point|-1.24999693830128|1.610736>>|<text-at|<scm|(lambda
-        ()>|<point|0.177680209867829|-2.88623864495184>>|<text-at|<scm|(lambda
-        ()>|<point|0.140400209867829|-1.88623864495184>>|<line|<point|-1.8|2.6>|<point|4.2|2.6>>|<text-at|<scm|Time>|<point|-1.45959979013217|2.19371775238637>>|<text-at|<scm|(newline)>|<point|0.466700209867831|-0.39048864495184>>|<text-at|<scm|(lambda
-        ()>|<point|0.166700209867829|0.00951135504816009>>|<text-at|<scm|(set-signal!
-        e 0)>|<point|0.47768020986783|-3.28623864495184>>|<text-at|<scm|(lambda
-        ()>|<point|0.177680209867829|1.01376135504816>>|<text-at|<scm|(set-signal!
-        d 1)>|<point|0.440400209867831|-2.28623864495184>>|<text-at|<scm|(display
-        'carry)>|<point|0.439208000000001|-0.78243387311125>>|<text-at|<scm|Action>|<point|1.54040020986783|2.19371775238637>>|<text-at|<scm|The-agenda>|<point|0.391744022945439|2.98496775238637>>|<text-at|<scm|(set-signal!
-        carry 1)>|<point|0.477680209867831|0.61376135504816>>|<text-at|<scm|\<less\><with|prog-font-shape|italic|no
-        action procedure>\<gtr\>>|<point|0.0392079999999995|1.618551>>>>>|Contents
-        of <scm|the-agenda> before running the simulation for a second time.>
+        <big-figure|<label|Exercise_3.31-Figure_12><with|gr-mode|<tuple|group-edit|move>|gr-frame|<tuple|scale|1cm|<tuple|0.450005gw|0.5gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-point-style|round|gr-auto-crop|true|<graphics||<gr-group|<cline|<point|-3.0|2.82619>|<point|-3.0|-2.67381>|<point|3.0|-2.67381>|<point|3.0|2.82619>>|<text-at|<scm|13>|<point|-2.55959979013217|-1.76004864495184>>|<line|<point|-2.95959979013217|-0.66004864495184>|<point|3.0|-0.67381>>|<line|<point|-1.7|1.92619>|<point|-1.7|-2.67381>>|<with|dash-style|10|<line|<point|-1.7|-1.67381>|<point|3.0|-1.67381>>>|<text-at|<scm|current-time>|<point|-5.70367802551643|0.93611>>|<text-at|<scm|11>|<point|-2.55959979013217|0.0399513550481597>>|<with|arrow-end|\<gtr\>|<line|<point|-3.6|1.02619>|<point|-3.0|1.02619>>>|<line|<point|-2.95959979013217|0.73995135504816>|<point|3.0|0.72619>>|<line|<point|-2.95959979013217|1.33995135504816>|<point|3.0|1.32619>>|<gr-group|<text-at|<scm|(lambda
+        ()>|<point|-1.22231979013217|0.33995135504816>>|<text-at|<scm|(set-signal!
+        carry 1)>|<point|-0.92231979013217|-0.0600486449518402>>>|<text-at|<scm|8>|<point|-2.44999693830128|0.936926>>|<line|<point|-3.0|1.92619>|<point|3.0|1.92619>>|<text-at|<scm|Time>|<point|-2.65959979013217|1.51990775238637>>|<text-at|<scm|(lambda
+        ()>|<point|-1.22231979013217|-2.06004864495184>>|<text-at|<scm|(lambda
+        ()>|<point|-1.25959979013217|-1.06004864495184>>|<text-at|<scm|(set-signal!
+        e 0)>|<point|-0.92231979013217|-2.46004864495184>>|<text-at|<scm|(set-signal!
+        d 1)>|<point|-0.95959979013217|-1.46004864495184>>|<text-at|<scm|Action>|<point|0.34040020986783|1.51990775238637>>|<text-at|<scm|The-agenda>|<point|-0.80825597705456|2.31115775238637>>|<text-at|<scm|\<less\><with|prog-font-shape|italic|no
+        action procedure>\<gtr\>>|<point|-1.160792|0.944741>>|<with|arrow-end|\<gtr\>|<line|<point|3.0|-0.27381>|<point|5.3|-0.27381>|<point|5.3|-1.07381>>>|<text-at|<scm|...)>|<point|4.7056647793145|-2.73085864495184>>|<text-at|call
+        to <scm|probe>|<point|3.25768281888411|-0.17381>>|<text-at|<scm|(lambda
+        ()>|<point|4.42438302875194|-1.46429864495184>>|<text-at|<scm|(newline)>|<point|4.72438302875194|-1.86429864495184>>|<text-at|<scm|(display
+        'carry)>|<point|4.69689081888411|-2.25624387311125>>>>>|Contents of
+        <scm|the-agenda> before running the simulation for a second time.>
       </float> shows the contents of the agenda just before we run the
       simulation. To confirm our prediction, we just set the signal of
       input-2 and allow the value to propagate:

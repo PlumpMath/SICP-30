@@ -70,8 +70,13 @@
       On the other hand, this <scm|exchange> program always takes the
       difference from one account and add it to the other one. Hence, the sum
       of the balances in the accounts will be preserved.<new-line>
-      <hspace|2ex>Figure <reference|Exercise_3.43-Figure_2><\float|float|tbh>
-        <big-figure|<label|Exercise_3.43-Figure_2><with|gr-mode|<tuple|edit|text-at>|gr-frame|<tuple|scale|1cm|<tuple|0.519998gw|1.25995gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|cartesian|<point|0|0>|1>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|false|gr-arrow-end|\<gtr\>|<graphics||<carc|<point|-3.0|3.0>|<point|-2.0|3.0>|<point|-2.5|3.5>>|<text-at|<math|a3>|<point|3.3|3.9>>|<text-at|<math|a1>
+      <hspace|2ex>If we did not serialize the transaction on individual
+      accounts, then the two concurrent operations might interleave the order
+      in which they access <scm|balance>. This indicates that they would
+      probably make modification on the account based on the outdated
+      information and thus yield undesired result. Figure
+      <reference|Exercise_3.43-Figure_2><\float|float|tbh>
+        <big-figure|<label|Exercise_3.43-Figure_2><with|gr-mode|<tuple|edit|text-at>|gr-frame|<tuple|scale|1cm|<tuple|0.519998gw|1.25995gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-auto-crop|true|gr-arrow-end|\<gtr\>|<graphics||<carc|<point|-3.0|3.0>|<point|-2.0|3.0>|<point|-2.5|3.5>>|<text-at|<math|a3>|<point|3.3|3.9>>|<text-at|<math|a1>
         new value: <math|10-<around*|(|-20|)>=30>|<point|-0.0683100000000001|-1.72577>>|<arc|<point|4.1|-1.32577>|<point|4.4|-1.62577>|<point|4.1|-1.92577>>|<arc|<point|-2.8|2.02742>|<point|-2.5|1.72742>|<point|-2.8|1.42742>>|<text-at|Access
         <math|a1> balance: <math|$10>|<point|-6.26831|1.62742>>|<line|<point|-6.2|2.02742>|<point|-2.8|2.02742>>|<arc|<point|0.28901|-2.38505504528978>|<point|-0.0109900000000001|-2.68505504528978>|<point|0.28901|-2.98505504528978>>|<line|<point|0.28901|-2.98505504528978>|<point|3.68901|-2.98505504528978>>|<line|<point|-8.32667268468867e-17|-1.32577>|<point|4.1|-1.32577>>|<line|<point|-6.2|1.42742>|<point|-2.8|1.42742>>|<arc|<point|3.68901|-2.38505504528978>|<point|3.98901|-2.68505504528978>|<point|3.68901|-2.98505504528978>>|<arc|<point|-8.32667268468867e-17|-1.32577>|<point|-0.3|-1.62577>|<point|-8.32667268468867e-17|-1.92577>>|<line|<point|-8.32667268468867e-17|-1.92577>|<point|4.1|-1.92577>>|<arc|<point|-6.2|2.02742>|<point|-6.5|1.72742>|<point|-6.2|1.42742>>|<text-at|time|<point|-7.34066|-12.3>>|<text-at|Peter|<point|-4.9|3.9>>|<text-at|Paul|<point|5.2|3.9>>|<text-at|<math|a1>|<point|-2.65243|3.89334765282429>>|<text-at|<math|a2>|<point|0.3|3.9>>|<text-at|$10|<point|-2.77435758385107|2.88004034925255>>|<text-at|$30|<point|3.26292241614893|2.88004034925255>>|<carc|<point|3.03728|3.0>|<point|4.03728|3.0>|<point|3.53728|3.5>>|<carc|<point|2.77555756156289e-17|3.0>|<point|1.0|3.0>|<point|0.5|3.5>>|<text-at|$20|<point|0.22564241614893|2.88004034925255>>|<arc|<point|-5.3|0.92742>|<point|-5.6|0.62742>|<point|-5.3|0.32742>>|<line|<point|-5.3|0.32742>|<point|-1.9|0.32742>>|<line|<point|-5.3|0.92742>|<point|-1.9|0.92742>>|<text-at|Access
         <math|a2> balance: <math|$20>|<point|-5.36831|0.52742>>|<arc|<point|-1.9|0.92742>|<point|-1.6|0.62742>|<point|-1.9|0.32742>>|<arc|<point|-3.4|-0.2>|<point|-3.1|-0.5>|<point|-3.4|-0.8>>|<text-at|difference:
@@ -89,8 +94,9 @@
         daigram showing how the condition of conserved sum on balances would
         be violated if we did not serialize the transactions on individual
         accounts.>
-      </float> shows how even this condition would be violated if we did not
-      serialize the transactions on individual accounts.
+      </float> presents a particular example illustrating how the transaction
+      of Peter interrupted by that of Paul can lead to the inconsistence of
+      the sum in the accounts after concurrent exchanges.
     </answer>
   </render-exercise>
 </body>
@@ -103,20 +109,29 @@
 
 <\references>
   <\collection>
-    <associate|Exercise_3.43-Figure_1|<tuple|1|?>>
-    <associate|Exercise_3.43-Figure_2|<tuple|2|?>>
-    <associate|auto-1|<tuple|1|?>>
-    <associate|auto-2|<tuple|2|?>>
+    <associate|Exercise_3.43-Figure_1|<tuple|1|2>>
+    <associate|Exercise_3.43-Figure_2|<tuple|2|3>>
+    <associate|auto-1|<tuple|1|2>>
+    <associate|auto-2|<tuple|2|3>>
     <associate|auto-3|<tuple|3|?>>
     <associate|footnote-|<tuple|?|?>>
-    <associate|footnote-*|<tuple|?|?>>
+    <associate|footnote-*|<tuple|?|1>>
   </collection>
 </references>
 
 <\auxiliary>
   <\collection>
     <\associate|figure>
-      <tuple|normal||<pageref|auto-1>>
+      <tuple|normal|Timing daigram showing how the first version of the
+      account-exchange program in this section can violate the condition that
+      account balances would always be <with|mode|<quote|math>|$10>,
+      <with|mode|<quote|math>|$20> and <with|mode|<quote|math>|$30> in some
+      order after some number of concurrent exchanges if the processes are
+      run sequentially.|<pageref|auto-1>>
+
+      <tuple|normal|Timing daigram showing how the condition of conserved sum
+      on balances would be violated if we did not serialize the transactions
+      on individual accounts.|<pageref|auto-2>>
     </associate>
   </collection>
 </auxiliary>

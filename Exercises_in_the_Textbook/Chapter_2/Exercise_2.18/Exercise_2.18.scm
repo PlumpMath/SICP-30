@@ -1,12 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;                       Exercise_2.18.scm
-;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       by Lawrence X. Amlord(颜序, aka 颜世敏)
 ;;                       informlarry@gmail.com
 ;;                       May 27th, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2013 Lawrence X. Amlord(颜序, aka 颜世敏)
 ;; <informlarry@gmail.com>
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -25,21 +25,33 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (reverse items)
-  (cond ((null? items) nil)
+  (cond ((null? items) '())
 	((null? (cdr items)) items)
 	(else
 	 (cons (last-element items)
 	       (reverse (former-elements items))))))
 
 (define (last-element items)
+  (let ((list-length (length items)))
+    (list-ref items (- list-length 1))))
+
+(define (former-elements items)
+  (if (or (null? items)
+	  (null? (cdr items)))
+      '()
+      (cons (car items)
+	    (former-elements (cdr items)))))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;     Another implementation of last-element
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (last-element items)
   (cond ((null? items) '())
 	((null? (cdr items)) (car items))
 	(else
 	 (last-element (cdr items)))))
-
-(define (former-elements items)
-  (if (or (null? items)
-	   (null? (cdr items)))
-      '()
-      (cons (car items)
-	    (former-elements (cdr items)))))

@@ -110,7 +110,7 @@
 
         (define (select-elements pred items)
 
-        \ \ (cond ((null? items) '())
+        \ \ (cond ((null? items) nil)
 
         \ \ \ \ \ \ \ \ ((pred (car items))
 

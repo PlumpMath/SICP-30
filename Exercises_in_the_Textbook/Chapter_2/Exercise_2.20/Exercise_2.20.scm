@@ -1,12 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;                       Exercise_2.20.scm
-;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       by Lawrence X. Amlord(颜序, aka 颜世敏)
 ;;                       informlarry@gmail.com
 ;;                       May 28th, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2013 Lawrence X. Amlord(颜序, aka 颜世敏)
 ;; <informlarry@gmail.com>
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -25,23 +25,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (same-parity x . y)
-  (cons x (build-sp-sublist x y)))
-
-(define (build-sp-sublist x items)
   (if (odd? x)
-      (parity-sublist odd? items)
-      (parity-sublist even? items)))
+      (cons x
+	    (select-elements odd? y))
+      (cons x
+	    (select-elements even? y))))
 
-(define (parity-sublist parity? items)
+(define (select-elements pred items)
   (cond ((null? items) '())
-	((parity? (car items))
+	((pred (car items))
 	 (cons (car items)
-	       (parity-sublist parity? (cdr items))))
+	       (select-elements pred (cdr items))))
 	(else
-	 (parity-sublist parity? (cdr items)))))
-
-(define (even? n)
-  (= (remainder n 2) 0))
-
-(define (odd? n)
-  (not (even? n)))
+	 (select-elements pred (cdr items)))))

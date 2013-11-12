@@ -1,12 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;                       Exercise_2.27.scm
-;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       by Lawrence X. Amlord(颜序, aka 颜世敏)
 ;;                       informlarry@gmail.com
 ;;                       May 30th, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2013 Lawrence X. Amlord(颜序, aka 颜世敏)
 ;; <informlarry@gmail.com>
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -25,17 +25,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (deep-reverse items)
-  (cond ((null? items) '()) ; empty list
-	((not (pair? items)) items) ; reach actual numbers
-	(else                ; the list contains more than one sublists
+  (cond ((null? items) '())          ; empty list
+	((not (pair? items)) items)  ; reach the actual elements
+	(else                        ; the list contains more than one sublists
 	 (cons (deep-reverse (last-sublist items))
 	       (deep-reverse (former-sublists items))))))
 
 (define (last-sublist items)
-  (cond ((null? items) '())
-	((null? (cdr items)) (car items))
-	(else
-	 (last-sublist (cdr items)))))
+  (let ((list-length (length items)))
+    (list-ref items (- list-length 1))))
 
 (define (former-sublists items)
   (if (or (null? items)
@@ -44,3 +42,16 @@
       (cons (car items)
 	    (former-sublists (cdr items)))))
 
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;     Another implementation of last-sublist
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (last-sublist items)
+  (cond ((null? items) '())
+	((null? (cdr items)) (car items))
+	(else
+	 (last-sublist (cdr items)))))

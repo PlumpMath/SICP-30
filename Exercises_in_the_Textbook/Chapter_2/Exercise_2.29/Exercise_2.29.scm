@@ -1,12 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;                       Exercise_2.29.scm
-;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       by Lawrence X. Amlord(颜序, aka 颜世敏)
 ;;                       informlarry@gmail.com
 ;;                       May 30th, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2013 Lawrence X. Amlord(颜序, aka 颜世敏)
 ;; <informlarry@gmail.com>
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;
-;; Subproblem a.
+;;
+;;  Subproblem a.
+;;
 ;;;;;;;;;;;;;;;;;;;;
 
 (define (make-mobile left right)
@@ -48,7 +50,9 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;
-;; Subproblem b.
+;;
+;;  Subproblem b.
+;;
 ;;;;;;;;;;;;;;;;;;;;
 
 (define (total-weight m)
@@ -57,6 +61,7 @@
 	  (else
 	   (+ (total-weight (branch-structure (left-branch m)))
 	      (total-weight (branch-structure (right-branch m)))))))
+
 
 
 ;; An alternative implementation
@@ -74,8 +79,11 @@
       (total-weight (branch-structure b))))
 
 
+
 ;;;;;;;;;;;;;;;;;;;;
-;; Subproblem c.
+;;
+;;  Subproblem c.
+;;
 ;;;;;;;;;;;;;;;;;;;;
 
 (define (balanced? m)
@@ -100,8 +108,11 @@
       (balanced? (branch-structure b))))
 
 
+
 ;;;;;;;;;;;;;;;;;;;;
-;; Subproblem d.
+;;
+;;  Subproblem d.
+;;
 ;;;;;;;;;;;;;;;;;;;;
 
 (define (make-mobile left right)

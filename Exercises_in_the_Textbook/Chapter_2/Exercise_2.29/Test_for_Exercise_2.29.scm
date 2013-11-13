@@ -1,15 +1,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;                       Test_for_Exercise_2.29.scm
-;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       by Lawrence X. Amlord(颜序, aka 颜世敏)
 ;;                       informlarry@gmail.com
 ;;                       May 30th, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2013 Lawrence X. Amlord(颜序, aka 颜世敏)
 ;; <informlarry@gmail.com>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;   Test for subproblem a.
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;Value: make-mobile
 
@@ -25,8 +31,12 @@
 
 
 
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Test for subproblem b.
+;;
+;;   Test for subproblem b.
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Build the first mobile
@@ -58,6 +68,8 @@
 (define m10 (make-mobile left10 right10))
 ;Value: m10
 
+
+
 ;; Build the second mobile
 
 (define left21 (make-branch 2 25))
@@ -88,7 +100,8 @@
 ;Value: m20
 
 
-;; Test for the first implementation of total-weight
+
+;; Test for the first version of total-weight
 
 ;Value: total-weight
 
@@ -99,7 +112,8 @@
 ;Value: 105
 
 
-;; Test for the second implementation of total-weight
+
+;; Test for the second version of total-weight
 
 ;Value: total-weight
 
@@ -113,8 +127,12 @@
 
 
 
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Test for subproblem c.
+;;
+;;   Test for subproblem c.
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;Value: balanced?
@@ -133,8 +151,12 @@
 
 
 
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Test for subproblem d.
+;;
+;;   Test for subproblem d.
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;Value: make-mobile
@@ -144,6 +166,7 @@
 ;Value: right-branch
 
 ;Value: branch-structure
+
 
 
 ;; Build the first mobile
@@ -176,6 +199,7 @@
 ;Value: m10
 
 
+
 ;; Build the second mobile
 
 (define left21 (make-branch 2 25))
@@ -206,7 +230,8 @@
 ;Value: m20
 
 
-;; Test for the first implementation of total-weight
+
+;; Test for the first version of total-weight
 
 ;Value: total-weight
 
@@ -217,7 +242,8 @@
 ;Value: 105
 
 
-;; Test for the second implementation of total-weight
+
+;; Test for the second version of total-weight
 
 ;Value: total-weight
 
@@ -228,6 +254,7 @@
 
 (total-weight m20)
 ;Value: 105
+
 
 
 ;; Test whether the two mobiles are balanced
@@ -245,7 +272,3 @@
 
 (balanced? m20)
 ;Value: #t
-
-
-
-

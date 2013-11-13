@@ -1,12 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;                       Exercise_2.30.scm
-;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       by Lawrence X. Amlord(颜序, aka 颜世敏)
 ;;                       informlarry@gmail.com
 ;;                       May 31st, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2013 Lawrence X. Amlord(颜序, aka 颜世敏)
 ;; <informlarry@gmail.com>
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Implement square-tree in a direct way 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;  Implementing square-tree directly 
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (square-tree tree)
   (cond ((null? tree) '())
@@ -34,7 +38,12 @@
 	       (square-tree (cdr tree))))))
 
 
-;; Define square-tree by using map
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;  Implementing square-tree using map
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (square-tree tree)
   (map (lambda (sub-tree)

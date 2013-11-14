@@ -1,15 +1,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;                       Test_for_Exercise_2.33.scm
-;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       by Lawrence X. Amlord(颜序, aka 颜世敏)
 ;;                       informlarry@gmail.com
 ;;                       Jun 1st, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2013 Lawrence X. Amlord(颜序, aka 颜世敏)
 ;; <informlarry@gmail.com>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define squares (list 1 4 9 16 25))
+;Value: squares
+
+(define odds (list 1 3 5 7))
+;Value: odds
 
 (define (accumulate op initial sequence)
   (if (null? sequence)
@@ -21,18 +27,15 @@
 ;Value: map
 
 (map abs (list -10 2.5 -11.6 17))
-;Value 21: (10 2.5 11.6 17)
+;Value 19: (10 2.5 11.6 17)
+
+(map sqrt squares)
+;Value 21: (1 2 3 4 5)
 
 ;Value: append
 
-(define squares (list 1 4 9 16 25))
-;Value: squares
-
-(define odds (list 1 3 5 7))
-;Value: odds
-
 (append squares odds)
-;Value 21: (1 4 9 16 25 1 3 5 7)
+;Value 20: (1 4 9 16 25 1 3 5 7)
 
 (append odds squares)
 ;Value 22: (1 3 5 7 1 4 9 16 25)
@@ -44,6 +47,4 @@
 
 (length squares)
 ;Value: 5
-
-
 

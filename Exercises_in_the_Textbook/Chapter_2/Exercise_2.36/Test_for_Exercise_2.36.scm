@@ -1,12 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;                       Test_for_Exercise_2.36.scm
-;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       by Lawrence X. Amlord(颜序, aka 颜世敏)
 ;;                       informlarry@gmail.com
 ;;                       Jun 2nd, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2013 Lawrence X. Amlord(颜序, aka 颜世敏)
 ;; <informlarry@gmail.com>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -22,7 +22,12 @@
 ;Value: s
 
 
-;; Test of the first implementation of accumulate-n
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;   Test for the first version of accumulate-n
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;Value: accumulate-n
 
@@ -34,7 +39,12 @@
 ;Value 21: (22 26 30)
 
 
-;; Test of the second implementation of accumulate-n
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;  Test for the second version of accumulate-n
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;Value: accumulate-n
 

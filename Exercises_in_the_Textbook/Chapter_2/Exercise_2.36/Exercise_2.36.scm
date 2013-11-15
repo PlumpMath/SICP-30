@@ -1,12 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;                       Exercise_2.36.scm
-;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       by Lawrence X. Amlord(颜序, aka 颜世敏)
 ;;                       informlarry@gmail.com
 ;;                       Jun 2nd, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2013 Lawrence X. Amlord(颜序, aka 颜世敏)
 ;; <informlarry@gmail.com>
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;; The first implementation of accumulate-n
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;  The first version of accumulate-n
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (accumulate-n op init seqs)
   (if (null? (car seqs))
@@ -46,7 +49,12 @@
 	    (cdr-n (cdr seqs)))))
 
 
-;; The second implementation of accumulate-n
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;  The second version of accumulate-n
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (accumulate-n op init seqs)
   (if (null? (car seqs))

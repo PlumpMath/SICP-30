@@ -1,12 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;;
 ;;                       Test_for_Exercise_2.37.scm
-;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       by Lawrence X. Amlord(颜序, aka 颜世敏)
 ;;                       informlarry@gmail.com
 ;;                       Jun 3rd, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2013 Lawrence X. Amlord(颜序, aka 颜世敏)
 ;; <informlarry@gmail.com>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -17,7 +17,6 @@
       (op (car sequence)
 	  (accumulate op initial (cdr sequence)))))
 ;Value: accumulate
-
 
 (define (accumulate-n op init seqs)
   (if (null? (car seqs))
@@ -45,6 +44,8 @@
 
 (define n (list (list 2 3 4) (list 5 6 7) (list 8 7 6) (list 5 4 3)))
 ;Value: n
+
+
 
 (dot-product v w)
 ;Value: 113

@@ -91,7 +91,7 @@
 
         \ \ (fold-left (lambda (x y)
 
-        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (append (list y) x))
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (cons y x))
 
         \ \ \ \ \ \ \ \ \ \ \ \ \ nil
 

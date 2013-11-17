@@ -1,12 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;                       Exercise_2.41.scm
-;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       by Lawrence X. Amlord(颜序, aka 颜世敏)
 ;;                       informlarry@gmail.com
 ;;                       Jun 5th, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2013 Lawrence X. Amlord(颜序, aka 颜世敏)
 ;; <informlarry@gmail.com>
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,8 @@
 
 (define (sum-s-triple n s)
   (define (sum-to-s? triple)
-    (= (+ (car triple) (cadr triple) (caddr triple)) s))
+    (= (+ (car triple) (cadr triple) (caddr triple))
+       s))
   (map make-triple-sum
        (filter sum-to-s?
 	       (flatmap
@@ -40,6 +41,9 @@
 		(enumerate-interval 1 n)))))
 
 (define (make-triple-sum triple)
-  (list (car triple) (cadr triple) (caddr triple) (+ (car triple) (cadr triple) (caddr triple))))
+  (list (car triple)
+	(cadr triple)
+	(caddr triple)
+	(+ (car triple) (cadr triple) (caddr triple))))
 
 

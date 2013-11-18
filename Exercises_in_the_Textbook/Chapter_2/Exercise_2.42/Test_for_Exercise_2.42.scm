@@ -1,12 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;                       Test_for_Exercise_2.42.scm
-;;                       by Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;;                       by Lawrence X. Amlord(颜序, aka 颜世敏)
 ;;                       informlarry@gmail.com
 ;;                       Jun 7th, 2013
 ;;                       Xi'an, China
 
-;; Copyright (C) 2013 Lawrence R. Amlord(颜世敏 Shi-min Yan)
+;; Copyright (C) 2013 Lawrence X. Amlord(颜序, aka 颜世敏)
 ;; <informlarry@gmail.com>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -46,6 +46,7 @@
 ;Value: enumerate-interval
 
 
+
 (for-each (lambda (pos)
 	    (begin (display pos)
 		   (newline)))
@@ -53,6 +54,8 @@
 ((1 2) (2 4) (3 1) (4 3))
 ((1 3) (2 1) (3 4) (4 2))
 ;Unspecified return value
+
+
 
 (for-each (lambda (pos)
 	    (begin (display pos)
@@ -63,6 +66,8 @@
 ((1 4) (2 1) (3 5) (4 2) (5 6) (6 3))
 ((1 5) (2 3) (3 1) (4 6) (5 4) (6 2))
 ;Unspecified return value
+
+
 
 (for-each (lambda (pos)
 	    (begin (display pos)
@@ -161,5 +166,3 @@
 ((1 8) (2 3) (3 1) (4 6) (5 2) (6 5) (7 7) (8 4))
 ((1 8) (2 4) (3 1) (4 3) (5 6) (6 2) (7 7) (8 5))
 ;Unspecified return value
-
-

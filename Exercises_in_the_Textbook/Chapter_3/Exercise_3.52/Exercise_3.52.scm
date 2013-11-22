@@ -88,20 +88,35 @@
 (define sum 0)
 ;Value: sum
 
+sum
+;Value: 0
+
 (define (accum x)
   (set! sum (+ x sum))
   sum)
 ;Value: accum
 
+sum
+;Value: 0
+
 (define seq (stream-map accum (stream-enumerate-interval 1 20)))
 ;Value: seq
+
+sum
+;Value: 210
 
 (define y (stream-filter even? seq))
 ;Value: y
 
+sum
+;Value: 210
+
 (define z (stream-filter (lambda (x) (= (remainder x 5) 0))
 			 seq))
 ;Value: z
+
+sum
+;Value: 210
 
 (stream-ref y 7)
 ;Value: 90
@@ -127,15 +142,27 @@
 (define sum 0)
 ;Value: sum
 
+sum
+;Value: 0
+
 (define seq (stream-map accum (stream-enumerate-interval 1 20)))
 ;Value: seq
+
+sum
+;Value: 210
 
 (define y (stream-filter even? seq))
 ;Value: y
 
+sum
+;Value: 210
+
 (define z (stream-filter (lambda (x) (= (remainder x 5) 0))
 			 seq))
 ;Value: z
+
+sum
+;Value: 210
 
 (stream-ref y 7)
 ;Value: 90

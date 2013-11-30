@@ -39,27 +39,43 @@
 
       In our original <scm|sqrt-stream> procedure, we made these guesses be a
       stream whose first element is <math|1> and the rest of which are the
-      successive improved guesses. This definition works because, at any
-      point, enough of the <scm|guesses> stream has been generated so that we
-      can feed it back into the definition to produce the next guess. For
-      example, the <scm|sqrt-stream> of <math|2> is generated in the
-      following process:
+      successive improved guesses. This implicit definition works because, at
+      any point, enough of the <scm|guesses> stream has been generated so
+      that we can feed it back into the definition to produce the next guess.
+      Remember that we formerly have exploited this strategy to construct the
+      <scm|integers> and <scm|fibs> stream in section 3.5.2. For example, the
+      <scm|sqrt-stream> of <math|2> is generated in the following process:
 
-      <tabular*|<tformat|<cwith|3|3|1|1|cell-valign|b>|<twith|table-width|1par>|<twith|table-hmode|exact>|<cwith|1|2|7|7|cell-halign|l>|<cwith|3|3|2|6|cell-bborder|0>|<cwith|3|3|7|7|cell-halign|l>|<cwith|2|2|1|-1|cell-bborder|0.1mm>|<table|<row|<cell|>|<cell|<math|1>>|<cell|<math|1.5>>|<cell|<math|1.41666666>>|<cell|<math|1.41421568>>|<cell|<math|1.41421356>>|<cell|<scm|...
+      <tabular*|<tformat|<cwith|3|3|1|1|cell-valign|b>|<twith|table-width|1par>|<twith|table-hmode|exact>|<cwith|1|2|7|7|cell-halign|l>|<cwith|3|3|2|6|cell-bborder|0>|<cwith|3|3|7|7|cell-halign|l>|<cwith|2|2|1|-1|cell-bborder|0.2mm>|<table|<row|<cell|>|<cell|<math|1>>|<cell|<math|1.5>>|<cell|<math|1.41666666>>|<cell|<math|1.41421568>>|<cell|<math|1.41421356>>|<cell|<scm|...
       = guess>>>|<row|<cell|>|<cell|<math|1.5>>|<cell|<math|1.41666666>>|<cell|<math|1.41421568>>|<cell|<math|1.41421356>>|<cell|<math|1.41421356>>|<cell|<scm|...
       = (stream-cdr guesses)>>>|<row|<cell|<math|1>>|<cell|<math|1.5>>|<cell|1.41666666>|<cell|1.41421568>|<cell|<math|1.41421356>>|<cell|<math|1.41421356>>|<cell|<scm|...
       = guess>>>>>>
 
-      <hspace|3ex>Louis's <scm|sqrt-stream> procedure however,\ 
+      <hspace|3ex>Louis's <scm|sqrt-stream> program however, maps the
+      <scm|sqrt-improve> procedure successively onto itself to get better and
+      better guesses. Thus, <scm|(sqrt-stream 2)> is defined to be a stream
+      whose first element is <math|1> and the rest of which is the
+      improvement of itself shifted by one place. To capture the image of
+      itself shifed by one place, Louis forces <scm|sqrt-stream> to call to
+      itself once again. Notice that here what returned by <scm|cons-stream>
+      is simply the number <math|1> together with a promise to improve its
+      <scm|stream-cdr>. No other information about the stream will be
+      preserved in every reduction step. Hence, anyone other than the first
+      element in the stream will be reproduced \ starting from <math|1> again
+      and again and this leads to redundant computation:
 
-      <tabular|<tformat|<cwith|1|-1|1|6|cell-halign|c>|<twith|table-width|1par>|<twith|table-hmode|exact>|<cwith|6|6|7|7|cell-halign|c>|<table|<row|<cell|>|<cell|>|<cell|>|<cell|>|<cell|>|<cell|<math|1>>|<cell|<scm|...
-      = (sqrt-stream 2)>>>|<row|<cell|>|<cell|>|<cell|>|<cell|>|<cell|<math|1>>|<cell|<math|1.5>>|<cell|<scm|...
-      = (sqrt-stream 2)>>>|<row|<cell|>|<cell|>|<cell|>|<cell|<math|1>>|<cell|<math|1.5>>|<cell|<math|1.41666666>>|<cell|<scm|...
-      = (sqrt-stream 2)>>>|<row|<cell|>|<cell|>|<cell|<math|1>>|<cell|<math|1.5>>|<cell|<math|1.41666666>>|<cell|<math|1.41421568>>|<cell|<scm|...
-      = (sqrt-stream 2)>>>|<row|<cell|>|<cell|<math|1>>|<cell|<math|1.5>>|<cell|<math|1.41666666>>|<cell|<math|1.41421568>>|<cell|<math|1.41421356>>|<cell|<scm|...
-      = (sqrt-stream 2)>>>|<row|<cell|<math|\<udots\>>>|<cell|<math|\<vdots\>>>|<cell|<math|\<vdots\>>>|<cell|<math|\<vdots\>>>|<cell|<math|\<vdots\>>>|<cell|<math|\<vdots\>>>|<cell|<math|\<vdots\>>>>>>>
+      <tabular|<tformat|<cwith|1|-1|3|8|cell-halign|c>|<twith|table-width|1par>|<twith|table-hmode|exact>|<cwith|6|6|9|9|cell-halign|c>|<cwith|7|7|2|2|cell-halign|c>|<cwith|7|7|1|1|cell-halign|c>|<cwith|6|6|1|-1|cell-rborder|0>|<cwith|6|6|1|-1|cell-bborder|0.2mm>|<table|<row|<cell|>|<cell|>|<cell|>|<cell|>|<cell|>|<cell|>|<cell|>|<cell|<math|1>>|<cell|<scm|...
+      = (sqrt-stream 2)>>>|<row|<cell|>|<cell|>|<cell|>|<cell|>|<cell|>|<cell|>|<cell|<math|1>>|<cell|<math|1.5>>|<cell|<scm|...
+      = (sqrt-stream 2)>>>|<row|<cell|>|<cell|>|<cell|>|<cell|>|<cell|>|<cell|<math|1>>|<cell|<math|1.5>>|<cell|<math|1.41666666>>|<cell|<scm|...
+      = (sqrt-stream 2)>>>|<row|<cell|>|<cell|>|<cell|>|<cell|>|<cell|<math|1>>|<cell|<math|1.5>>|<cell|<math|1.41666666>>|<cell|<math|1.41421568>>|<cell|<scm|...
+      = (sqrt-stream 2)>>>|<row|<cell|>|<cell|>|<cell|>|<cell|<math|1>>|<cell|<math|1.5>>|<cell|<math|1.41666666>>|<cell|<math|1.41421568>>|<cell|<math|1.41421356>>|<cell|<scm|...
+      = (sqrt-stream 2)>>>|<row|<cell|>|<cell|>|<cell|<math|\<udots\>>>|<cell|<math|\<vdots\>>>|<cell|<math|\<vdots\>>>|<cell|<math|\<vdots\>>>|<cell|<math|\<vdots\>>>|<cell|<math|\<vdots\>>>|<cell|<math|\<vdots\>>>>|<row|<cell|<math|1>>|<cell|<math|1.5>>|<cell|<math|\<ldots\>>>|<cell|<math|\<ldots\>>>|<cell|<math|\<ldots\>>>|<cell|<math|\<ldots\>>>|<cell|<math|\<ldots\>>>|<cell|<math|\<ldots\>>>|<cell|<scm|...
+      = (sqrt-stream 2)>>>>>>
 
-      \;
+      <hspace|3ex>Once the optimization provided by <scm|memo-proc> was
+      eliminated, our original <scm|sqrt-stream> procedure would lost all its
+      formerly computed results and arise the same redundant computation as
+      Louis's procedure does.
     </answer>
   </render-exercise>
 </body>

@@ -47,7 +47,7 @@
   (stream-map + s1 s2))
 ;Value: add-streams
 
-(define integers (cons-stream 1 (add-stream ones integers)))
+(define integers (cons-stream 1 (add-streams ones integers)))
 ;Value: integers
 
 (define (interleave s1 s2)

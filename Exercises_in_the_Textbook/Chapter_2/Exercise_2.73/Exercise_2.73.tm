@@ -137,7 +137,7 @@
 
         \ \ <with|prog-font-shape|italic|;; internal procedures>
 
-        \ \ (define (sum-deriv exp var)
+        \ \ (define (deriv-sum exp var)
 
         \ \ \ \ (make-sum (deriv (addend exp) var)
 
@@ -162,7 +162,7 @@
         \ \ <with|prog-font-shape|italic|;; interface to the rest of the
         system>
 
-        \ \ (put 'deriv '+ sum-deriv)
+        \ \ (put 'deriv '+ deriv-sum)
 
         \ \ (put 'make '+
 
@@ -184,7 +184,7 @@
 
         \ \ <with|prog-font-shape|italic|;; internal procedures>
 
-        \ \ (define (product-deriv exp var)
+        \ \ (define (deriv-product exp var)
 
         \ \ \ \ (make-sum
 
@@ -217,7 +217,7 @@
         \ \ <with|prog-font-shape|italic|;; interface to the rest part of the
         system>
 
-        \ \ (put 'deriv '* product-deriv)
+        \ \ (put 'deriv '* deriv-product)
 
         \ \ (put 'make '*
 
@@ -240,7 +240,7 @@
 
         \ \ <with|prog-font-shape|italic|;; internal procedures>
 
-        \ \ (define (exponentiation-deriv exp var)
+        \ \ (define (deriv-exponentiation exp var)
 
         \ \ \ \ (let ((u (base exp))
 
@@ -272,7 +272,7 @@
         \ \ <with|prog-font-shape|italic|;; interface to the rest of the
         system>
 
-        \ \ (put 'deriv '** exponentiation-deriv)
+        \ \ (put 'deriv '** deriv-exponentiation)
 
         \ \ (put 'make '**
 

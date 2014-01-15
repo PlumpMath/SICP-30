@@ -34,6 +34,6 @@
 (define (list-of-values-right-to-left exps env)
   (if (no-operands? exps)
       '()
-      (let ((rest-operand-values (list-of-values-right-to-left (rest-operands exp) env)))
+      (let ((rest-operand-values (list-of-values-right-to-left (rest-operands exps) env)))
 	(cons (eval (first-operand exps) env)
 	      rest-operand-values))))

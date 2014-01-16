@@ -37,16 +37,16 @@
       for procedure application. So it's appropriate to examine the procedure
       application after all the other cases have been checked.<new-line>
       <hspace|2ex>In Louis's plan, where the clause for procedure application
-      is placed at the very beginning of the <scm|cond> clauses in
-      <scm|eval>, all the special forms will be regarded as procedure
-      applications by the evaluator. Hence, whenever it encounters a special
-      form, the evaluator will evaluate the procedure of that special form as
-      well as all its arguments, even if one of its arguments is undefined.
-      For example, when the expression <scm|(define x 3)> is evaluated, the
-      evaluator first evaluate <scm|define> as well as <scm|x> and <scm|3>
-      and applies the value of <scm|define> to those of the latter ones.
-      However, in terms of the evaluator, the variable <scm|x> has not been
-      defined. This traps the evaluator into bewildment.
+      is placed right before that of assignment in <scm|eval>, all the
+      special forms other than quoted expression will be regarded as
+      procedure applications by the evaluator. Hence, whenever it encounters
+      a special form, the evaluator will evaluate the procedure of that
+      special form as well as all its arguments, even if one of its arguments
+      is undefined. For example, when the expression <scm|(define x 3)> is
+      evaluated, the evaluator first evaluate <scm|define> as well as <scm|x>
+      and <scm|3> and applies the value of <scm|define> to those of the
+      latter ones. However, in terms of the evaluator, the variable <scm|x>
+      has not been defined. This traps the evaluator into bewildment.
 
       b. As the evaluator is constructed using data abstraction in which we
       decouple the general rules of operation from the details of how

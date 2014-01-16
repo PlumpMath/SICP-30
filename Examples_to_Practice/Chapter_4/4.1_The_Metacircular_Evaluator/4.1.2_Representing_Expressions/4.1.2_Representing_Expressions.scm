@@ -25,12 +25,34 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;   Self-evaluating items
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (define (self-evaluating? exp)
   (cond ((number? exp) true)
 	((string? exp) true)
 	(else false)))
 
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;        Variables
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (define (variable? exp) (symbol? exp))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;        Quotations
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (quoted? exp)
   (tagged-list? exp 'quote))
@@ -42,12 +64,27 @@
       (eq? (car exp) tag)
       false))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;        Assignments
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (define (assignment? exp)
   (tagged-list? exp 'set!))
 
 (define (assignment-variable exp) (cadr exp))
 
 (define (assignment-value exp) (caddr exp))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;        Definitions
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (definition? exp)
   (tagged-list? exp 'define))
@@ -63,6 +100,14 @@
       (make-lambda (cdadr exp)    ; formal parameter
 		   (cddr exp))))  ; body
 
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;     Lambda expressions
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (define (lambda? exp) (tagged-list? exp 'lambda))
 
 (define (lambda-parameter exp) (cadr exp))
@@ -71,6 +116,14 @@
 
 (define (make-lambda parameters body)
   (cons 'lambda (cons parameters body)))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;        Conditionals
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (if? exp) (tagged-list? exp 'if))
 
@@ -85,6 +138,14 @@
 
 (define (make-if predicate consequent alternative)
   (list 'if predicate consequent alternative))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;          Begin
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (begin? exp) (tagged-list? exp 'begin))
 
@@ -102,6 +163,14 @@
 	(else (make-begin seq))))
 
 (define (make-begin seq) (cons 'begin seq))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;   Procedure application
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (application? exp) (pair? exp))
 

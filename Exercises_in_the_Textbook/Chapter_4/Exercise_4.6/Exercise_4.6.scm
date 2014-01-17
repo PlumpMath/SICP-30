@@ -26,7 +26,7 @@
 
 (define (let? exp) (tagged-list? exp 'let))
 
-(define (list-of-association exp) (cadr exp))
+(define (list-of-associations exp) (cadr exp))
 
 (define (let-body exp) (cddr exp))
 
@@ -43,7 +43,7 @@
 	    (assoc-exps (cdr assocs)))))
 
 (define (let->combination exp)
-  (let ((assocs (list-of-association exp))
+  (let ((assocs (list-of-associations exp))
 	(body (let-body exp)))
     (let ((vars (assoc-vars assocs))
 	  (exps (assoc-exps assocs)))

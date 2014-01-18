@@ -4,7 +4,7 @@
 ;;                       by Lawrence X. Amlord(颜世敏, aka 颜序)
 ;;                       informlarry@gmail.com
 ;;                       Jan 16th, 2014
-;;                       Xi'an, China
+;;                       Fuzhou, China
 
 ;; Copyright (C) 2013 Lawrence X. Amlord(颜世敏, aka 颜序)
 ;; <informlarry@gmail.com>
@@ -48,7 +48,7 @@
     (let ((vars (assoc-vars assocs))
 	  (exps (assoc-exps assocs)))
       (let ((lambda-exp (make-lambda vars body)))
-	(cons lambda-exp exps)))))
+	(sequence->exp (cons lambda-exp exps))))))
 
 
 

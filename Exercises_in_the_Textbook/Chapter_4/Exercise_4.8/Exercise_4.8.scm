@@ -26,9 +26,19 @@
 
 (define (let? exp) (tagged-list? exp 'let))
 
-(define (list-of-let-bindings exp) (cadr exp))
+(define (named-let? exp)
+  (and (let? exp)
+       (variable? (cadr exp))))
 
-(define (let-body exp) (cddr exp))
+(define (list-of-bindings exp)
+  (if (not (named-let? exp))
+      (cadr exp)
+      (caddr exp)))
+
+(define (let-body exp)
+  (if (not (named-let? exp))
+      (cddr exp)
+      (cdddr exp)))
 
 (define (binding-vars bindings)
   (if (null? bindings)
@@ -42,32 +52,20 @@
       (cons (cadar bindings)
 	    (binding-exps (cdr bindings)))))
 
-(define (named-let? exp)
-  (and (let? exp)
-       (variable? (cadr exp))))
-
 (define (named-let-variable exp) (cadr exp))
 
-(define (list-of-named-let-bindings exp) (caddr exp))
-
-(define (named-let-body exp) (cdddr exp))
-
 (define (let->combination exp)
-  (if (named-let? exp)
-      (let ((procedure-name (named-let-variable exp))
-	    (bindings (list-of-named-let-bindings exp))
-	    (body (named-let-body exp)))
-	(let ((vars (binding-vars bindings))
-	      (exps (binding-exps bindings)))
-	  (let ((lambda-exp (make-lambda vars body)))
-	    (let ((internal-definition
-		   (list 'define procedure-name lambda-exp)))
-	      (sequence->exp
-	       (list internal-definition
-		     (list procedure-name exps)))))))
-      (let ((bindings (list-of-let-bindings exp))
-	    (body (let-body exp)))
-	(let ((vars (binding-vars bindings))
-	      (exps (binding-exps bindings)))
-	  (let ((lambda-exp (make-lambda vars body)))
-	    (cons lambda-exp exps))))))
+  (let ((bindings (list-of-bindings exp))
+	(body (let-body exp)))
+    (let ((vars (binding-vars bindings))
+	  (exps (binding-exps bindings)))
+      (let ((lambda-exp (make-lambda vars body)))
+	(if (not (named-let? exp))
+	    (sequence->exp (cons lambda-exp exps))
+	    (let ((procedure-name (named-let-variable exp)))
+	      (let ((definition (list 'define
+				      procedure-name
+				      lambda-exp))
+		    (application (cons procedure-name exps)))
+		(sequence->exp
+		 (cons definition application)))))))))

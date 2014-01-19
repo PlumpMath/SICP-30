@@ -21,7 +21,7 @@
       \;
 
       <scm|Do> is an iteration construct that has the form<\footnote>
-        R5RS\ 
+        A more specific description of <scm|do> can be found in Kelsey 1998.
       </footnote>
 
       <\scm-code>
@@ -75,7 +75,7 @@
       <scm|\<less\><with|prog-font-shape|italic|expression>\<gtr\>> is(are)
       returned. If no <scm|\<less\><with|prog-font-shape|italic|expression>\<gtr\>>s
       are present, then the value of the <scm|do> expression is unspecified
-      in standard Scheme; we have chosen here to make it false. For example
+      in standard Scheme. For example
 
       <\scm-code>
         (let ((x '(1 3 5 7 9)))
@@ -105,7 +105,125 @@
         \ \ \ \ \ \ \ \ \ (iter x 0)))
       </scm-code>
 
-      <hspace|3ex>We include syntax
+      <hspace|3ex>We include syntax procedures that extract the parts of a
+      <scm|do> expression, and a procedure <scm|do-\<gtr\>combination> that
+      transform <scm|do> expression into ordinary procedure calls.
+
+      <\scm-code>
+        (define (do? exp) (tagged-list? exp 'do))
+
+        \;
+
+        (define (list-of-bindings exp) (cadr exp))
+
+        \;
+
+        (define (do-termination exp) (caddr exp))
+
+        \;
+
+        (define (do-command exp) (cdddr exp))
+
+        \;
+
+        (define (list-of-variables bindings)
+
+        \ \ (if (null? bindings)
+
+        \ \ \ \ \ \ '()
+
+        \ \ \ \ \ \ (cons (caar bindings)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ (list-of-variable (cdr bindings)))))
+
+        \;
+
+        (define (list-of-inits bindings)
+
+        \ \ (if (null? bindings)
+
+        \ \ \ \ \ \ '()
+
+        \ \ \ \ \ \ (cons (cadar bindings)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ (list-of-inits (cdr bindings)))))
+
+        \;
+
+        (define (list-of-steps bindings)
+
+        \ \ (if (null? bindings)
+
+        \ \ \ \ \ \ '()
+
+        \ \ \ \ \ \ (cons (caddar bindings)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ (list-of-steps (cdr bindings)))))
+
+        \;
+
+        (define (termination-test termination)
+
+        \ \ (car termination))
+
+        \;
+
+        (define (termination-actions termination)
+
+        \ \ (cdr termination))
+
+        \;
+
+        (define (do-\<gtr\>combination exp)
+
+        \ \ (do-component-\<gtr\>begin (do-bindings exp)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (do-termination exp)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (do-command exp)))
+
+        \;
+
+        (define (do-component-\<gtr\>begin bindings termination command)
+
+        \ \ (if (or (null? bindings) (null? termination))
+
+        \ \ \ \ \ \ 'false
+
+        \ \ \ \ \ \ (let ((vars (list-of-variables bindings))
+
+        \ \ \ \ \ \ \ \ \ \ \ \ (inits (list-of-inits bindings))
+
+        \ \ \ \ \ \ \ \ \ \ \ \ (steps (list-of-steps bindings))
+
+        \ \ \ \ \ \ \ \ \ \ \ \ (test (termination-test termination))
+
+        \ \ \ \ \ \ \ \ \ \ \ \ (exit-actions (termination-actions
+        termination)))
+
+        \ \ \ \ \ \ \ \ (let ((definition (list 'define
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (cons
+        'iter vars)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (make-if
+        test
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit-actions
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (sequence-\<gtr\>exp
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (cons
+        command
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (cons
+        'iter steps))))))
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ (application (cons 'iter inits)))
+
+        \ \ \ \ \ \ \ \ \ \ (sequence-\<gtr\>exp (cons definition
+        application)))))
+      </scm-code>
     </answer>
   </render-exercise>
 </body>
@@ -119,8 +237,8 @@
 <\references>
   <\collection>
     <associate|footnote-|<tuple|?|?|../../../../../../.TeXmacs/texts/scratch/no_name_23.tm>>
-    <associate|footnote-*|<tuple|?|?|../../../../../../.TeXmacs/texts/scratch/no_name_23.tm>>
-    <associate|footnote-1|<tuple|1|?|../../../../../../.TeXmacs/texts/scratch/no_name_23.tm>>
-    <associate|footnr-1|<tuple|1|?|../../../../../../.TeXmacs/texts/scratch/no_name_23.tm>>
+    <associate|footnote-*|<tuple|?|1|../../../../../../.TeXmacs/texts/scratch/no_name_23.tm>>
+    <associate|footnote-1|<tuple|1|1|../../../../../../.TeXmacs/texts/scratch/no_name_23.tm>>
+    <associate|footnr-1|<tuple|1|1|../../../../../../.TeXmacs/texts/scratch/no_name_23.tm>>
   </collection>
 </references>

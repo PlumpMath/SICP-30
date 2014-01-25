@@ -24,44 +24,42 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define (env-loop var env no-var-act found-act)
-  (define (scan vars vals)
-    (cond ((null? vars)
-	   (no-var-act env))
-	  ((eq? var (car vars))
-	   (found-act vals))
-	  (else (scan (cdr vars) (cdr vals)))))
+(define (traverse-env var env request)
   (if (eq? env the-empty-environment)
-      (error "Unbound variable" var)
-      (let ((frame (first-frame env)))
-	(scan (frame-variables frame)
-	      (frame-values frame)))))
+      '()
+      (traverse-frame (first-frame env) request)))
 
-
+(define (traverse-frame frame request)
+  (let ((vars (car frame))
+	(vals (cdr frame)))
+    (cond ((null? vars)
+	   (cond ((eq? request 'lookup)
+		  (traverse-env var env 'lookup))
+		 ((eq? request 'set!)
+		  (traverse-env var env 'set!))
+		 ((eq? request 'define!)
+		  '())
+		 (else
+		  (error "Unknown request -- TRAVERSE-FRAME" request))))
+	  ((eq? var (car vars))
+	   (car vals))
+	  (else
+	   (traverse-frame (cons (cdr vars) (cdr vals)) request)))))
 
 (define (lookup-variable-value var env)
-  (define (no-var-act env)
-    (env-loop var
-	      (enclosing-environment env)
-	      no-var-act
-	      found-act))
-  (define (found-act vals)
-    (car vals))
-  (env-loop var env no-var-act found-act))
+  (let ((val (traverse-env var env 'lookup)))
+    (if (null? val)
+	(error "Unbound variable" var)
+	val)))
 
-(define (set-variable-value! var val env)
-  (define (no-var-act env)
-    (env-loop var
-	      (enclosing-environment env)
-	      no-var-act
-	      found-act))
-  (define (found-act vals)
-    (set-car! vals val))
-  (env-loop var env no-var-act found-act))
+(define (set-variable-value! var new-val env)
+  (let ((val (traverse-env var env 'set!)))
+    (if (null? val)
+	(error "Unbound variable -- SET!" var)
+	(set! val new-val))))
 
-(define (define-variable! var val env)
-  (define (no-var-act env)
-    (add-binding-to-frame! var val (first-frame env)))
-  (define (found-act vals)
-    (set-car! vals val))
-  (env-loop var env no-var-act found-act))
+(define (define-variable! var new-val env)
+  (let ((val (traverse-env var env 'define!)))
+    (if (null? val)
+	(add-binding-to-frame! var new-val (first-frame env))
+	(set! val new-val))))

@@ -24,34 +24,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define (let? exp) (tagged-list? exp 'let))
-
-(define (list-of-associations exp) (cadr exp))
-
-(define (let-body exp) (cddr exp))
-
-(define (assoc-vars assocs)
-  (if (null? assocs)
-      '()
-      (cons (caar assocs)
-	    (assoc-vars (cdr assocs)))))
-
-(define (assoc-exps assocs)
-  (if (null? assocs)
-      '()
-      (cons (cadar assocs)
-	    (assoc-exps (cdr assocs)))))
-
-(define (let->combination exp)
-  (let ((assocs (list-of-associations exp))
-	(body (let-body exp)))
-    (let ((vars (assoc-vars assocs))
-	  (exps (assoc-exps assocs)))
-      (let ((lambda-exp (make-lambda vars body)))
-	(sequence->exp (cons lambda-exp exps))))))
-
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;      Extending EVAL
@@ -79,3 +51,31 @@
 		(list-of-values (operands exp) env)))
 	(else
 	 (error "Unknown expression type -- EVAL" exp))))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;   Representing the LET Special Form
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (let? exp) (tagged-list? exp 'let))
+
+(define (list-of-bindings exp) (cadr exp))
+
+(define (let-body exp) (cddr exp))
+
+(define (binding-variables bindings)
+  (map car bindings))
+
+(define (binding-expressions bindings)
+  (map cadr bindings))
+
+(define (let->combination exp)
+  (let ((bindings (list-of-bindings exp))
+	(body (let-body exp)))
+    (let ((vars (binding-variables bindings))
+	  (exps (binding-expressions bindings)))
+      (let ((lambda-exp (make-lambda vars body)))
+	(cons lambda-exp exps)))))

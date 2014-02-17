@@ -112,9 +112,10 @@
   (cond ((primitive-procedure? proc)
 	 (apply-primitive-procedure proc args))
 	((compound-procedure? proc)
-	 (extend-environment (procedure-parameters proc)
-			     args
-			     (procedure-environment proc)))
+	 ((procedure-body proc)
+	  (extend-environment (procedure-parameters proc)
+			      args
+			      (procedure-environment proc))))
 	(else
 	 (error
 	  "Unknown procedure type -- EXECUTE-APPLICATION"

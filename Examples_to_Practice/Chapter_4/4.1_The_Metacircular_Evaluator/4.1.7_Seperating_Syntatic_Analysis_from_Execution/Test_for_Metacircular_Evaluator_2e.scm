@@ -1,10 +1,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;                       Test_for_Metacircular_Evaluator_2e.scm
+;;                       Test_for_Metacirsular_Evaluator_2e.scm
 ;;                       originated from SICP
 ;;                       edited by Lawrence X. Amlord(颜世敏, aka 颜序)
 ;;                       informlarry@gmail.com
-;;                       Feb 14th, 2014
+;;                       Feb 17th, 2014
 ;;                       Fuzhou, China
 
 ;; Copyright (C) 1984-2014 Harold Abelson and Gerald Jay Sussman
@@ -282,4 +282,8 @@ ok
 (append '(a b c) '(d e f))
 
 ;;; M-Eval value:
-;; Unknown error
+(a b c d e f)
+
+;;; M-Eval input:
+;Quit!
+

@@ -67,7 +67,7 @@
       </scm-code>
 
       Using the rule of substitution, we see that both Alyssa's program and
-      the one in the text above generate exactly the same result:
+      the one in the text above generate exactly the same expression:
 
       <\scm-code>
         (lambda (env)
@@ -81,8 +81,8 @@
         \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ env)))
       </scm-code>
 
-      <hspace|3ex>However, things varies remarkably when we compare
-      <scm|analyze-sequence> with two expression:
+      <hspace|3ex>However, the fact no longer holds when they are compared
+      for a sequence with two expressions:
 
       <\scm-code>
         (define (\<less\>procedure\<gtr\> \<less\>parameters\<gtr\>)
@@ -92,7 +92,9 @@
         \ \ \ \ \ \ \ \ \ \<less\>body-exp2\<gtr\>))
       </scm-code>
 
-      Alyssa's program:
+      Alyssa's implementation, analyzes the individual execution procedures
+      through procedure call, terminates with all the subexpressions except
+      the first one of a sequence unanalyzed:
 
       <\scm-code>
         (lambda (env)
@@ -109,7 +111,8 @@
         \<less\>body-exp2\<gtr\>)) env))
       </scm-code>
 
-      the one in the text:
+      By comparision, our original <scm|analyze-sequence> procedure analyzes
+      the sequence thoroughly:
 
       <\scm-code>
         (lambda (env)
@@ -143,6 +146,6 @@
 <\references>
   <\collection>
     <associate|footnote-|<tuple|?|?|../../../../../../.TeXmacs/texts/scratch/no_name_23.tm>>
-    <associate|footnote-*|<tuple|?|?|../../../../../../.TeXmacs/texts/scratch/no_name_23.tm>>
+    <associate|footnote-*|<tuple|?|?>>
   </collection>
 </references>

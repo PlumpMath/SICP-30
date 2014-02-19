@@ -84,14 +84,34 @@
         \ \ \ \ \ \ \ \ 1.0
 
         \ \ \ \ \ \ \ \ (sqrt-iter (improve 1.0 2) 2))
+
+        \;
+
+        (new-if (good-enough? 1.0 2)
+
+        \ \ \ \ \ \ \ \ 1.0
+
+        \ \ \ \ \ \ \ \ (new-if (good-enough? 1.5 2)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1.5
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (sqrt-iter (improve 1.5 2) 2)))
+
+        \;
+
+        ...
+
+        \;
       </scm-code>
 
       In section 1.1.5 we learnt that Scheme uses applicative-order
       evaluation, namely, that all the arguments to Scheme procedures are
       evaluated when the procedure is applied. Hence, the evaluator must
       obtain the value of <scm|(sqrt-iter (improve 1.0 2) 2)> before get the
-      compound procedure <scm|new-if> applied. This arouse an infinite
-      recursion and therefore exhausted the interpreter.
+      compound procedure <scm|new-if> applied. Expanding this expression
+      would produce another application of <scm|new-if> that contains
+      <scm|(sqrt-iter ...)>. This arouse an infinite recursion and therefore
+      exhausted the interpreter.
     </answer>
   </render-exercise>
 </body>

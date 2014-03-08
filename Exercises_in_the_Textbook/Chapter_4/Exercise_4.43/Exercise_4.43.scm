@@ -110,25 +110,25 @@ ok
 	 (make-family 'parker
 		      (amb 'lorna 'rosalind)
 		      'mary)))
-    (let ((families (list moore-family
-			  downing-family
-			  hall-family
-			  barnacle-family
-			  parker-family)))
-      (require
-       (distinct? (daughter downing-family)
-		  (daughter hall-family)
-		  (daughter parker-family)))
-      (require
-       (eq? (yacht (filter (lambda (family)
-			     (eq? (daughter family) 'gabrielle))
-			   families))
-	    (daughter parker-family)))
-      (list (list 'moore 'mary)
-	    (list 'downing (daughter downing-family))
-	    (list 'hall (daughter hall-family))
-	    (list 'barnacle 'melissa)
-	    (list 'parker (daughter parker-family))))))
+    (for-each (lambda (family)
+		(if (eq? (daughter family) 'gabrielle)
+		    (require (eq? (yacht family) (daughter parker-family)))))
+	      (list downing-family hall-family))
+;    (require
+;     (eq? (yacht
+;	   (car (filter (lambda (family)
+;			  (eq? (daughter family) 'gabrielle))
+;			(list downing-family hall-family))))
+;	  (daughter parker-family)))
+    (require
+     (distinct? (list (daughter downing-family)
+		      (daughter hall-family)
+		      (daughter parker-family))))
+    (list (list 'moore 'mary)
+	  (list 'downing (daughter downing-family))
+	  (list 'hall (daughter hall-family))
+	  (list 'barnacle 'melissa)
+	  (list 'parker (daughter parker-family)))))
 
 ;;; Starting a new problem 
 ;;; Amb-Eval value:
@@ -148,10 +148,3 @@ ok
 
 ;;; Amb-Eval input:
 (family-matching)
-
-;;; Starting a new problem 
-;Unknown procedure type -- APPLY #[compiled-procedure 16 ("list" #x9) #x14 #x103cb737c]
-;To continue, call RESTART with an option number:
-; (RESTART 1) => Return to read-eval-print level 1.
-
-(debug)

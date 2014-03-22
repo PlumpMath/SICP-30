@@ -34,18 +34,11 @@
       b.
 
       <\scm-code>
-        (and (salary ?person ?amount)
+        (and (salary ?person ?person-amount)
 
-        \ \ \ \ \ (lisp-value \<less\>
+        \ \ \ \ \ (salary (Bitdiddle Ben) ?Ben-amount)
 
-        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?amount
-
-        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (caddr (salary (Bitdiddle Ben)
-        ?amount))))
-
-        \;
-
-        (salary (Bitdiddle Ben) ?amount)
+        \ \ \ \ \ (lisp-value \<less\> ?person-amount Ben-amount))
       </scm-code>
 
       c.
@@ -53,11 +46,9 @@
       <\scm-code>
         (and (supervisor ?pupil ?mentor)
 
-        \ \ \ \ \ (not (job ?mentor (computer . ?type))))
+        \ \ \ \ \ (not (job ?mentor (computer . ?type)))
 
-        \;
-
-        (not (job ?person (computer . ?type)))
+        \ \ \ \ \ (job ?mentor ?position))
       </scm-code>
     </answer>
   </render-exercise>
@@ -72,6 +63,6 @@
 <\references>
   <\collection>
     <associate|footnote-|<tuple|?|?|../../../../../../.TeXmacs/texts/scratch/no_name_25.tm>>
-    <associate|footnote-*|<tuple|?|?|../../../../../../.TeXmacs/texts/scratch/no_name_25.tm>>
+    <associate|footnote-*|<tuple|?|1|../../../../../../.TeXmacs/texts/scratch/no_name_25.tm>>
   </collection>
 </references>

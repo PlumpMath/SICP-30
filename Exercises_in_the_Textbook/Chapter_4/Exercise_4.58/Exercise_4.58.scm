@@ -24,9 +24,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "/Users/Lawrence/Documents/CSAIL/SICP_Journey/Exercises_in_the_Textbook/Chapter_4/Exercise_4.58/ch4-query.scm")
+(load "/Users/Lawrence/Campus/Engineering/EECS/SICP/allcode/ch4-query.scm")
 
-;Loading "Documents/CSAIL/SICP_Journey/Exercises_in_the_Textbook/Chapter_4/Exercise_4.58/ch4-query.scm"... done
+;Loading "Campus/Engineering/EECS/SICP/allcode/ch4-query.scm"... done
 ;Value: microshaft-data-base
 
 (initialize-data-base microshaft-data-base)
@@ -42,9 +42,9 @@ Assertion added to data base.
 
 ;;; Query input:
 (assert! (rule (big-shot ?person ?division)
-	       (and (job ?person (?division . ?position))
-		    (or (not (supervisor ?person ?mentor))
-			(and (supervisor ?person ?mentor)
+	       (and (job ?person (?division . ?position-1))
+		    (or (not (supervisor ?person ?mentor)) ;; the person doesn't have a supervisor
+			(and (supervisor ?person ?mentor)   ;; the person's supervisor works in another division
 			     (not (job ?mentor (?division . ?position-2))))))))
 
 Assertion added to data base.

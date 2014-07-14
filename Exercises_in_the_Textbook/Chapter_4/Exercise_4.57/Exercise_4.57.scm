@@ -24,9 +24,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "/Users/Lawrence/Documents/CSAIL/SICP_Journey/Exercises_in_the_Textbook/Chapter_4/Exercise_4.55/ch4-query.scm")
+(load "/Users/Lawrence/Campus/Engineering/EECS/SICP/allcode/ch4-query.scm")
 
-;Loading "ch4-query.scm"... done
+;Loading "Campus/Engineering/EECS/SICP/allcode/ch4-query.scm"... done
 ;Value: microshaft-data-base
 
 (initialize-data-base microshaft-data-base)

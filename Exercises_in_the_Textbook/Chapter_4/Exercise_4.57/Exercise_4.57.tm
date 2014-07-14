@@ -1,8 +1,18 @@
 <TeXmacs|1.99.1>
 
-<style|generic>
+<style|<tuple|generic|compact-list>>
 
 <\body>
+  <\hide-preamble>
+    \;
+
+    <assign|item|<macro|<next-item><render-item|<the-item>>>>
+
+    <assign|enumerate-alpha|<\macro|body>
+      <list|<macro|name|<aligned-item|<arg|name><with|font-shape|right|.>>>|<macro|name|<number|<arg|name>|alpha>>|<arg|body>>
+    </macro>>
+  </hide-preamble>
+
   <\render-exercise>
     Exercise 4.57
   <|render-exercise>
@@ -16,16 +26,18 @@
     can also do person 2's job, and if person 1 and person 2 are not the same
     person. Using your rule, give queries that find the following:
 
-    a. all people who can replace Cy D. Fect;
+    <\enumerate-alpha>
+      <item>all people who can replace Cy D. Fect;
 
-    b. all people who can replace someone who is being paid more than they
-    are, together with the two salaries.
+      <item>all people who can replace someone who is being paid more than
+      they are, together with the two salaries.
+    </enumerate-alpha>
 
     <\answer>
       \;
 
-      The <scm|replace> rule below expresses the sufficient condition for
-      replacing individuals:
+      The <scm|replace> rule below shows expresses the condition for
+      replacing one stuff by another:
 
       <\scm-code>
         (rule (replace ?person-1 ?person-2)
@@ -45,73 +57,77 @@
         \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (not (same ?person-1 ?person-2)))))
       </scm-code>
 
-      Using this rule, we can find out all people who can replace Cy D. Fect
-      with a simple query:
+      <\enumerate-alpha>
+        <item>Using <scm|replace>, we can find out all people who can replace
+        Cy D. Fect with a simple query:
 
-      <\scm-code>
-        <with|prog-font-shape|italic|;;; Query input:>
+        <\scm-code>
+          ;;; Query input:
 
-        (replace ?person (Fect Cy D))
+          (replace ?person (Fect Cy D))
 
-        \;
+          \;
 
-        <with|prog-font-shape|italic|;;; Query results:>
+          ;;; Query results:
 
-        (replace (hacker alyssa p) (fect cy d))
+          (replace (hacker alyssa p) (fect cy d))
 
-        (replace (bitdiddle ben) (fect cy d))
-      </scm-code>
+          (replace (bitdiddle ben) (fect cy d))
+        </scm-code>
 
-      To find out all people who are qualified to someone else's job while
-      bare lower salaries, we could consult the data base with the following
-      query:
+        <item>To find out all people who are qualified to someone else's job
+        while bear lower salaries, we could consult the data base with the
+        following query:
 
-      <\scm-code>
-        <with|prog-font-shape|italic|;;; Query input:>
+        <\scm-code>
+          ;;; Query input:
 
-        (and (replace ?person-1 ?person-2)
+          (and (replace ?person-1 ?person-2)
 
-        \ \ \ \ \ (salary ?person-1 ?amount-1)
+          \ \ \ \ \ (salary ?person-1 ?amount-1)
 
-        \ \ \ \ \ (salary ?person-2 ?amount-2)
+          \ \ \ \ \ (salary ?person-2 ?amount-2)
 
-        \ \ \ \ \ (lisp-value \<less\> ?amount-1 ?amount-2))
+          \ \ \ \ \ (lisp-value \<less\> ?amount-1 ?amount-2))
 
-        \;
+          \;
 
-        <with|prog-font-shape|italic|;;; Query results:>
+          ;;; Query results:
 
-        (and (replace (aull dewitt) (warbucks oliver))
+          (and (replace (aull dewitt) (warbucks oliver))
 
-        \ \ \ \ \ (salary (aull dewitt) 25000)
+          \ \ \ \ \ (salary (aull dewitt) 25000)
 
-        \ \ \ \ \ (salary (warbucks oliver) 150000)
+          \ \ \ \ \ (salary (warbucks oliver) 150000)
 
-        \ \ \ \ \ (lisp-value \<less\> 25000 150000))
+          \ \ \ \ \ (lisp-value \<less\> 25000 150000))
 
-        \;
+          \;
 
-        (and (replace (fect cy d) (hacker alyssa p))
+          (and (replace (fect cy d) (hacker alyssa p))
 
-        \ \ \ \ \ (salary (fect cy d) 35000)
+          \ \ \ \ \ (salary (fect cy d) 35000)
 
-        \ \ \ \ \ (salary (hacker alyssa p) 40000)
+          \ \ \ \ \ (salary (hacker alyssa p) 40000)
 
-        \ \ \ \ \ (lisp-value \<less\> 35000 40000))
-      </scm-code>
+          \ \ \ \ \ (lisp-value \<less\> 35000 40000))
+        </scm-code>
+      </enumerate-alpha>
     </answer>
   </render-exercise>
 </body>
 
 <\initial>
   <\collection>
-    <associate|font-base-size|11>
+    <associate|exercise-indentation|0tab>
+    <associate|font-base-size|12>
+    <associate|indent-indentation|0tab>
   </collection>
 </initial>
 
 <\references>
   <\collection>
     <associate|footnote-|<tuple|?|?|../../../../../../.TeXmacs/texts/scratch/no_name_25.tm>>
-    <associate|footnote-*|<tuple|?|?|../../../../../../.TeXmacs/texts/scratch/no_name_25.tm>>
+    <associate|footnote-*|<tuple|?|?>>
   </collection>
 </references>

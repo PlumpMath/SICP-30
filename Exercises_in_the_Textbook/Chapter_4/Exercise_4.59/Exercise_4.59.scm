@@ -1,6 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;                       Exercise_4.29.scm
+;;                       Exercise_4.59.scm
 ;;                       by Lawrence X. Amlord(颜世敏, aka 颜序)
 ;;                       informlarry@gmail.com
 ;;                       Mar 25th, 2014
@@ -24,9 +24,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "/Users/Lawrence/Documents/CSAIL/SICP_Journey/Exercises_in_the_Textbook/Chapter_4/Exercise_4.59/ch4-query.scm")
+(load "/Users/Lawrence/Campus/Engineering/EECS/SICP/allcode/ch4-query.scm")
 
-;Loading "Documents/CSAIL/SICP_Journey/Exercises_in_the_Textbook/Chapter_4/Exercise_4.59/ch4-query.scm"... done
+;Loading "Campus/Engineering/EECS/SICP/allcode/ch4-query.scm"... done
 ;Value: microshaft-data-base
 
 (initialize-data-base microshaft-data-base)
@@ -65,16 +65,12 @@ Assertion added to data base.
 
 Assertion added to data base.
 
-
-;;; Part a.
 ;;; Query input:
 (meeting ?division (Friday ?time))
 
 ;;; Query results:
 (meeting administration (friday 1pm))
 
-
-;;; Part b.
 ;;; Query input:
 (assert! (rule (meeting-time ?person ?day-and-time)
 	       (or (meeting whole-company ?day-and-time)
@@ -83,13 +79,14 @@ Assertion added to data base.
 
 Assertion added to data base.
 
-
-;;; Part c.
 ;;; Query input:
-(meeting-time (Hacker Alyssa P) (Wednesday ?time))
+(and (meeting-time (Hacker Alyssa P) (Wednesday ?time))
+     (meeting ?division (Wednesday ?time)))
 
 ;;; Query results:
-(meeting-time (hacker alyssa p) (wednesday 4pm))
-(meeting-time (hacker alyssa p) (wednesday 3pm))
+(and (meeting-time (hacker alyssa p) (wednesday 4pm))
+     (meeting whole-company (wednesday 4pm)))
+(and (meeting-time (hacker alyssa p) (wednesday 3pm))
+     (meeting computer (wednesday 3pm)))
 
 ;;; Query input:

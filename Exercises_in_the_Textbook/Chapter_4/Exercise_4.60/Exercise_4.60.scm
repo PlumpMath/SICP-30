@@ -24,9 +24,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "/Users/Lawrence/Campus/Engineering/EECS/SICP_Journey/Exercises_in_the_Textbook/Chapter_4/Exercise_4.60/ch4-query.scm")
+(load "/Users/Lawrence/Campus/Engineering/EECS/SICP/allcode/ch4-query.scm")
 
-;Loading "Campus/Engineering/EECS/SICP_Journey/Exercises_in_the_Textbook/Chapter_4/Exercise_4.60/ch4-query.scm"... done
+;Loading "Campus/Engineering/EECS/SICP/allcode/ch4-query.scm"... done
 ;Value: microshaft-data-base
 
 (initialize-data-base microshaft-data-base)
@@ -36,52 +36,52 @@
 
 
 ;;; Query input:
-(assert! (id (Warbucks Oliver) 001))
-
-Assertion added to data base.
-
-;;; Query input:
-(assert! (id (Aull DeWitt) 002))
-
-Assertion added to data base.
-
-;;; Query input:
-(assert! (id (Bitdiddle Ben) 011))
-
-Assertion added to data base.
-
-;;; Query input:
-(assert! (id (Hacker Alyssa P) 012))
-
-Assertion added to data base.
-
-;;; Query input:
-(assert! (id (Fect Cy D) 013))
-
-Assertion added to data base.
-
-;;; Query input:
-(assert! (id (Tweakit Lem E) 014))
-
-Assertion added to data base.
-
-;;; Query input:
-(assert! (id (Reasoner Louis) 015))
-
-Assertion added to data base.
-
-;;; Query input:
-(assert! (id (Scrooge Eben) 021))
-
-Assertion added to data base.
-
-;;; Query input:
-(assert! (id (Cratchet Robert) 022))
-
-Assertion added to data base.
-
-;;; Query input:
 (assert! (rule (same ?x ?x)))
+
+Assertion added to data base.
+
+;;; Query input:
+(assert! (id (Warbucks Oliver) 1))
+
+Assertion added to data base.
+
+;;; Query input:
+(assert! (id (Aull DeWitt) 2))
+
+Assertion added to data base.
+
+;;; Query input:
+(assert! (id (Bitdiddle Ben) 11))
+
+Assertion added to data base.
+
+;;; Query input:
+(assert! (id (Hacker Alyssa P) 12))
+
+Assertion added to data base.
+
+;;; Query input:
+(assert! (id (Fect Cy D) 13))
+
+Assertion added to data base.
+
+;;; Query input:
+(assert! (id (Tweakit Lem E) 14))
+
+Assertion added to data base.
+
+;;; Query input:
+(assert! (id (Reasoner Louis) 15))
+
+Assertion added to data base.
+
+;;; Query input:
+(assert! (id (Scrooge Eben) 21))
+
+Assertion added to data base.
+
+;;; Query input:
+(assert! (id (Cratchet Robert) 22))
 
 Assertion added to data base.
 
@@ -89,10 +89,7 @@ Assertion added to data base.
 (assert! (rule (lives-near ?person-1 ?person-2)
 	       (and (address ?person-1 (?town . ?rest-1))
 		    (address ?person-2 (?town . ?rest-2))
-		    (not (same ?person-1 ?person-2))
-		    (id ?person-1 ?id-1)
-		    (id ?person-2 ?id-2)
-		    (lisp-value > ?id-1 ?id-2))))
+		    (not (same ?person-1 ?person-2)))))
 
 Assertion added to data base.
 
@@ -104,20 +101,50 @@ Assertion added to data base.
 (lives-near (fect cy d) (hacker alyssa p))
 
 ;;; Query input:
-(lives-near ?person-1 ?person-2)
+(and (lives-near ?person-1 ?person-2)
+     (id ?person-1 ?id-1)
+     (id ?person-2 ?id-2)
+     (lisp-value > ?id-1 ?id-2))
 
 ;;; Query results:
-(lives-near (reasoner louis) (aull dewitt))
-(lives-near (aull dewitt) (reasoner louis))
-(lives-near (reasoner louis) (bitdiddle ben))
-(lives-near (aull dewitt) (bitdiddle ben))
-(lives-near (fect cy d) (hacker alyssa p))
-(lives-near (reasoner louis) (aull dewitt))
-(lives-near (bitdiddle ben) (aull dewitt))
-(lives-near (reasoner louis) (bitdiddle ben))
-(lives-near (hacker alyssa p) (fect cy d))
-(lives-near (fect cy d) (hacker alyssa p))
-(lives-near (bitdiddle ben) (aull dewitt))
-(lives-near (bitdiddle ben) (reasoner louis))
+(and (lives-near (reasoner louis) (aull dewitt))
+     (id (reasoner louis) 15)
+     (id (aull dewitt) 2)
+     (lisp-value > 15 2))
+
+(and (lives-near (reasoner louis) (aull dewitt))
+     (id (reasoner louis) 15)
+     (id (aull dewitt) 2)
+     (lisp-value > 15 2))
+
+(and (lives-near (reasoner louis) (bitdiddle ben))
+     (id (reasoner louis) 15)
+     (id (bitdiddle ben) 11) 
+     (lisp-value > 15 11))
+
+(and (lives-near (reasoner louis) (bitdiddle ben))
+     (id (reasoner louis) 15)
+     (id (bitdiddle ben) 11)
+     (lisp-value > 15 11))
+
+(and (lives-near (fect cy d) (hacker alyssa p))
+     (id (fect cy d) 13)
+     (id (hacker alyssa p) 12)
+     (lisp-value > 13 12))
+
+(and (lives-near (fect cy d) (hacker alyssa p))
+     (id (fect cy d) 13)
+     (id (hacker alyssa p) 12)
+     (lisp-value > 13 12))
+
+(and (lives-near (bitdiddle ben) (aull dewitt))
+     (id (bitdiddle ben) 11)
+     (id (aull dewitt) 2)
+     (lisp-value > 11 2))
+
+(and (lives-near (bitdiddle ben) (aull dewitt))
+     (id (bitdiddle ben) 11)
+     (id (aull dewitt) 2)
+     (lisp-value > 11 2))
 
 ;;; Query input:

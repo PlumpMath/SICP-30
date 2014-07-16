@@ -38,12 +38,11 @@
     <\answer>
       \;
 
-      Alyssa's trouble arouses from the fact that <scm|lives-near> fails to
-      get rid of symmetrical pairs while consulting the data base which makes
-      the same fact match twice by the query system. So we must guarantee
-      that symmetry on pairs be eliminated before quering. A plausible
-      strategy is to stipulate a topological order among the employees. For
-      example, we may assign each individual a unique ID:
+      Alyssa's trouble arouse from the fact that <scm|lives-near> matches a
+      pair of symmetrical assertions twice while consulting the data base. A
+      plausible strategy to list each pair only once is to stipulate a
+      topological order among the employees. For example, we may assign each
+      individual a unique ID:
 
       <\scm-code>
         (id (Warbuks Oliver) 001)
@@ -65,23 +64,59 @@
         (id (Cratchet Robert) 022)
       </scm-code>
 
-      and modify <scm|lives-near> to fetch entries of which pairs are
-      assigned with designated order:
+      and use a query equipped with ID comparison to find a list of people
+      who live near each other without duplicates
 
       <\scm-code>
-        (rule (lives-near ?person-1 ?person-2)
+        (and (lives-near ?person-1 ?person-2)
 
-        \ \ \ \ \ \ (and (address ?person-1 (?town . ?rest-1))
+        \ \ \ \ \ (id ?person-1 ?id-1)
 
-        \ \ \ \ \ \ \ \ \ \ \ (address ?person-2 (?town . ?rest-2))
+        \ \ \ \ \ (id ?person-2 ?id-2)
 
-        \ \ \ \ \ \ \ \ \ \ \ (not (same ?person-1 ?person-2))
+        \ \ \ \ \ (lisp-value \<gtr\> ?id-1 ?id-2))
+      </scm-code>
 
-        \ \ \ \ \ \ \ \ \ \ \ (id ?person-1 ?id-1)
+      and result in
 
-        \ \ \ \ \ \ \ \ \ \ \ (id ?person-2 ?id-2)
+      <\scm-code>
+        (and (lives-near (reasoner louis) (aull dewitt))
 
-        \ \ \ \ \ \ \ \ \ \ \ (lisp-value \<gtr\> ?id-1 ?id-2)))
+        \ \ \ \ \ (id (reasoner louis) 15)
+
+        \ \ \ \ \ (id (aull dewitt) 2)
+
+        \ \ \ \ \ (lisp-value \<gtr\> 15 2))
+
+        \;
+
+        (and (lives-near (reasoner louis) (bitdiddle ben))
+
+        \ \ \ \ \ (id (reasoner louis) 15)
+
+        \ \ \ \ \ (id (bitdiddle ben) 11)\ 
+
+        \ \ \ \ \ (lisp-value \<gtr\> 15 11))
+
+        \;
+
+        (and (lives-near (fect cy d) (hacker alyssa p))
+
+        \ \ \ \ \ (id (fect cy d) 13)
+
+        \ \ \ \ \ (id (hacker alyssa p) 12)
+
+        \ \ \ \ \ (lisp-value \<gtr\> 13 12))
+
+        \;
+
+        (and (lives-near (bitdiddle ben) (aull dewitt))
+
+        \ \ \ \ \ (id (bitdiddle ben) 11)
+
+        \ \ \ \ \ (id (aull dewitt) 2)
+
+        \ \ \ \ \ (lisp-value \<gtr\> 11 2))
       </scm-code>
     </answer>
   </render-exercise>
@@ -89,7 +124,9 @@
 
 <\initial>
   <\collection>
-    <associate|font-base-size|11>
+    <associate|exercise-indentation|0tab>
+    <associate|font-base-size|12>
+    <associate|indent-indentation|0tab>
   </collection>
 </initial>
 

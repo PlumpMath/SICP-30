@@ -76,7 +76,7 @@
       </scm-code>
 
       with its conclusion to form an extension on the original empty frame,
-      in which <scm|?staff-person> is bound to <scm|(Bitdiddle Ben)> and
+      so <scm|?staff-person> is bound to <scm|(Bitdiddle Ben)> and
       <scm|?boss> is bound to <scm|?who>. Then, relative to this extended
       frame, the interpreter proceeds to evaluate the rule body
 
@@ -88,14 +88,15 @@
         \ \ \ \ \ \ \ \ \ (supervisor (Bitdiddle Ben) ?middle-manager)))
       </scm-code>
 
-      The first query in this <scm|or> combination extends the stream of
-      frame with the pattern variable <scm|?who> bound to <scm|(Warbucks
-      Oliver)>. However, it is the <scm|and> of two queries that make the
-      interpreter falls into infinite loops in making deductions. Note that
-      the interpreter immediately encounters the <scm|outranked-by> rule
-      again as it proceeds to handle the <scm|and> combination. Unifying it
-      extends the former frame with <scm|?middle-manager> replacing
-      <scm|(Bitdiddle Ben)> and evaluates almost an identical rule body again
+      <hspace|3ex>Unifying the <scm|supervisor> rule in the first query of
+      <scm|or> combination extends the frame with the pattern variable
+      <scm|?who> bound to <scm|(Warbucks Oliver)>. However, it is the second
+      one, the <scm|and> of two queries that makes the interpreter falls into
+      infinite loops while making deductions. Note that the interpreter
+      immediately encounters the <scm|outranked-by> rule again as it proceeds
+      to handle the <scm|and> combination. Unifying it extends the stream of
+      frames with <scm|?middle-manager> replacing <scm|(Bitdiddle Ben)> and
+      evaluates almost an identical rule body again
 
       <\scm-code>
         (or (supervisor ?middle-manager ?who)
@@ -105,9 +106,62 @@
         \ \ \ \ \ \ \ \ \ (supervisor ?middle-manager ?middle-manager)))
       </scm-code>
 
-      Observe that the <scm|outranked-by> rule unwind to reveal itself
-      endlessly with no frame filtered away. Therefore, the query systems
-      goes into an infinite loop while handling DeWitt Aull's query.
+      <hspace|3ex>Observe that the <scm|outranked-by> rule unwind to reveal
+      itself endlessly in the <scm|and> combination with no frame filtered
+      away. Therefore, the query system goes into an infinite loop while
+      handling DeWitt Aull's query.
+
+      Going back to the original <scm|outranked-by> rule, which makes the
+      application to <scm|supervisor> rule comes first in the <scm|and>
+      combination, we can see how it avoids the infinite loops.
+
+      <\scm-code>
+        (rule (outranked-by ?staff-person ?boss)
+
+        \ \ \ \ \ \ (or (supervisor ?staff-person ?boss)
+
+        \ \ \ \ \ \ \ \ \ \ (and (supervisor ?staff-person ?middle-manager)
+
+        \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (outranked-by ?middle-manager ?boss))))
+      </scm-code>
+
+      <hspace|3ex>After unification, the query system extends the empty frame
+      with <scm|?staff-person> bound to <scm|(Bitdiddle Ben)> and <scm|?boss>
+      bound to <scm|?who>, it then comes to evaluate the rule body
+
+      <\scm-code>
+        (or (supervisor (Bitdiddle Ben) ?who)
+
+        \ \ \ \ (and (supervisor (Bitdiddle Ben) ?middle-manager)
+
+        \ \ \ \ \ \ \ \ \ (outranked-by ?middle-manager ?who)))
+      </scm-code>
+
+      <hspace|3ex>The first query in the <scm|or> combination is unified
+      successfully and extends the frame with the pattern variable <scm|?who>
+      bound to <scm|(Warbucks Oliver)>. Unifying the <scm|supervisor> rule in
+      the <scm|and> combination extends the frame with <scm|?middle-manager>
+      bound to <scm|(Warbucks Oliver)>, then relative to this extended frame,
+      the interpreter reapplies the <scm|outranked-by> rule.
+
+      <\scm-code>
+        (or (supervisor (Warbucks Oliver) ?who)
+
+        \ \ \ \ (and (supervisor (Warbucks Oliver) ?middle-manager)
+
+        \ \ \ \ \ \ \ \ \ (outranked-by ?middle-manager ?who)))
+      </scm-code>
+
+      <hspace|3ex>This compound query results in a failed unification and
+      returns an empty frame, for there is no person supervises
+      <scm|(Warbucks Oliver)> according to Microshaft personnel data base.
+      Therefore the unification terminates and the interpreter uses the
+      resulting frame extended by the first query in the <scm|or> combination
+      to instantiate the original query pattern.
+
+      <\scm-code>
+        (outranked-by (Bitdiddle Ben) (Warbucks Oliver))
+      </scm-code>
     </answer>
   </render-exercise>
 </body>

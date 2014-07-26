@@ -108,4 +108,10 @@ Assertion added to data base.
 (son lamech jabal)
 
 ;;; Query input:
+(grandson Methushael ?s)
 
+;;; Query results:
+(grandson methushael jubal)
+(grandson methushael jabal)
+
+;;; Query input:

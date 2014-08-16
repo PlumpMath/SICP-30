@@ -35,6 +35,10 @@
       <\scm-code>
         (controller
 
+        \ \ \ (assign product (const 1))
+
+        \ \ \ (assign counter (const 1))
+
         \ test-counter
 
         \ \ \ (test (op \<gtr\>) (reg counter) (const n))

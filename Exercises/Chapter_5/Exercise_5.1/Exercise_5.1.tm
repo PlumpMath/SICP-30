@@ -59,19 +59,20 @@
 
       A machine to carry out this factorial algorithm must keep track of two
       numbers, <em|product> and <em|counter>, and we assume that these
-      numbers are stored in two registers with those names. The basic
-      operation required are testing whether contents of register
-      <scm|counter> exceeds the constant <math|n>, computing the product of
-      the contents of register <scm|counter> multiplied by the contents of
-      register <scm|product>, and computing the increment of the contents of
-      register <scm|counter>. On each cycle of the factorial algorithm, the
-      contents of register <scm|product> must be replaced by the product
-      produced by multiplied itself to the contents of register
-      <scm|counter>, and the contents of register <scm|counter> must be
-      replaced by its increment. Figure <reference|fig_exc5.1-1><\float|float|tbh>
-        <big-figure|<with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.569993gw|0.5gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-arrow-end|\<gtr\>|gr-auto-crop|true|<graphics||<gr-group|<with|arrow-end|\<gtr\>|<line|<point|-5.2|-1.8>|<point|-6.0|-1.8>|<point|-6.0|2.0>>>|<gr-group|<line|<point|-5.125|-1.925>|<point|-4.875|-1.675>>|<carc|<point|-5.2|-1.8>|<point|-4.8|-1.8>|<point|-5.0|-1.6>>|<line|<point|-5.125|-1.675>|<point|-4.875|-1.925>>>|<line|<point|-4.0|-0.8>|<point|-4.0|-1.8>|<point|-4.8|-1.8>>|<cline|<point|-4.9|0.0>|<point|-3.1|0.0>|<point|-3.6|-0.8>|<point|-4.4|-0.8>>|<with|arrow-end|\<gtr\>|<line|<point|-5.0|2.0>|<point|-5.0|1.0>|<point|-4.4|1.0>|<point|-4.4|0.0>>>|<text-at|<scm|*>|<point|-4.1|-0.5>>|<cline|<point|-6.5|3.0>|<point|-4.5|3.0>|<point|-4.5|2.0>|<point|-6.5|2.0>>|<with|arrow-end|\<gtr\>|<line|<point|-1.7|2>|<point|-1.7|1.0>|<point|-3.6|1.0>|<point|-3.6|0.0>>>|<text-at|<scm|product
+      numbers are stored in two registers with those names. Both registers
+      has their contents iterate starting from <math|1>. The basic operations
+      required are testing whether contents of register <scm|counter> exceeds
+      the constant <math|n>, computing the product of the contents of
+      register <scm|counter> multiplied by the contents of register
+      <scm|product>, and computing the increment of the contents of register
+      <scm|counter>. On each cycle of the factorial algorithm, the contents
+      of register <scm|product> must be replaced by the product produced by
+      multiplied itself to the contents of register <scm|counter>, and the
+      contents of register <scm|counter> must be replaced by its increment.
+      Figure <reference|fig_exc5.1-1><\float|float|tbh>
+        <big-figure|<with|gr-mode|<tuple|group-edit|group-ungroup>|gr-frame|<tuple|scale|1cm|<tuple|0.549995gw|0.390011gh>>|gr-geometry|<tuple|geometry|1par|0.6par>|gr-grid|<tuple|empty>|gr-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-edit-grid-aspect|<tuple|<tuple|axes|none>|<tuple|1|none>|<tuple|10|none>>|gr-edit-grid|<tuple|empty>|gr-edit-grid-old|<tuple|cartesian|<point|0|0>|1>|gr-arrow-end|\<gtr\>|gr-auto-crop|true|<graphics||<gr-group|<with|arrow-end|\<gtr\>|<line|<point|-5.2|-1.8>|<point|-6.0|-1.8>|<point|-6.0|2.0>>>|<gr-group|<line|<point|-5.125|-1.925>|<point|-4.875|-1.675>>|<carc|<point|-5.2|-1.8>|<point|-4.8|-1.8>|<point|-5.0|-1.6>>|<line|<point|-5.125|-1.675>|<point|-4.875|-1.925>>>|<line|<point|-4.0|-0.8>|<point|-4.0|-1.8>|<point|-4.8|-1.8>>|<cline|<point|-4.9|0.0>|<point|-3.1|0.0>|<point|-3.6|-0.8>|<point|-4.4|-0.8>>|<with|arrow-end|\<gtr\>|<line|<point|-5.0|2.0>|<point|-5.0|1.0>|<point|-4.4|1.0>|<point|-4.4|0.0>>>|<text-at|<scm|*>|<point|-4.1|-0.5>>|<cline|<point|-6.5|3.0>|<point|-4.5|3.0>|<point|-4.5|2.0>|<point|-6.5|2.0>>|<with|arrow-end|\<gtr\>|<line|<point|-1.7|2>|<point|-1.7|1.0>|<point|-3.6|1.0>|<point|-3.6|0.0>>>|<text-at|<scm|product
         <text|<math|\<leftarrow\>>> counter *
-        product>|<point|-7.57211|-2.4>>|<text-at|<scm|product>|<point|-6.15|2.4>>|<with|arrow-end|\<gtr\>|<line|<point|0|-1.8>|<point|-1.0|-1.8>|<point|-1.0|2.0>>>|<cline|<point|-2.0|3.0>|<point|0|3.0>|<point|0|2.0>|<point|-2.0|2.0>>|<gr-group|<line|<point|0.075|-1.925>|<point|0.325|-1.675>>|<carc|<point|0|-1.8>|<point|0.4|-1.8>|<point|0.2|-1.6>>|<line|<point|0.075|-1.675>|<point|0.325|-1.925>>>|<line|<point|1.5|-0.8>|<point|1.5|-1.8>|<point|0.4|-1.8>>|<with|arrow-end|\<gtr\>|<line|<point|-0.3|2>|<point|-0.3|1.0>|<point|1.1|1.0>|<point|1.1|0.0>>>|<cline|<point|0.6|0>|<point|2.4|0>|<point|1.9|-0.8>|<point|1.1|-0.8>>|<text-at|<scm|counter>|<point|-1.65|2.4>>|<with|arrow-end|\<gtr\>|<line|<point|0|2.5>|<point|5.1|2.5>>>|<text-at|<scm|+>|<point|1.4|-0.5>>|<text-at|<scm|counter
+        product>|<point|-7.57211|-2.4>>|<text-at|<scm|product>|<point|-6.15|2.4>>|<with|arrow-end|\<gtr\>|<line|<point|-5.5|3.5>|<point|-5.5|3.0>>>|<cline|<point|-6.0|4.3>|<point|-5.0|4.3>|<point|-5.5|3.5>>|<with|arrow-end|\<gtr\>|<line|<point|0|-1.8>|<point|-1.0|-1.8>|<point|-1.0|2.0>>>|<text-at|<scm|1>|<point|-5.6|3.9>>|<cline|<point|-2.0|3.0>|<point|0|3.0>|<point|0|2.0>|<point|-2.0|2.0>>|<gr-group|<line|<point|0.075|-1.925>|<point|0.325|-1.675>>|<carc|<point|0|-1.8>|<point|0.4|-1.8>|<point|0.2|-1.6>>|<line|<point|0.075|-1.675>|<point|0.325|-1.925>>>|<line|<point|1.5|-0.8>|<point|1.5|-1.8>|<point|0.4|-1.8>>|<with|arrow-end|\<gtr\>|<line|<point|-0.3|2>|<point|-0.3|1.0>|<point|1.1|1.0>|<point|1.1|0.0>>>|<cline|<point|0.6|0>|<point|2.4|0>|<point|1.9|-0.8>|<point|1.1|-0.8>>|<with|arrow-end|\<gtr\>|<line|<point|-1|3.5>|<point|-1.0|3.0>>>|<text-at|<scm|counter>|<point|-1.65|2.4>>|<cline|<point|-1.5|4.3>|<point|-0.5|4.3>|<point|-1.0|3.5>>|<with|arrow-end|\<gtr\>|<line|<point|0|2.5>|<point|5.1|2.5>>>|<text-at|<scm|1>|<point|-1.1|3.9>>|<text-at|<scm|+>|<point|1.4|-0.5>>|<text-at|<scm|counter
         <text|<math|\<leftarrow\>>> counter +
         1>|<point|-1.77211|-2.4>>|<with|arrow-end|\<gtr\>|<line|<point|3.5|1.4>|<point|3.5|1.0>|<point|1.9|1.0>|<point|1.9|0.0>>>|<cline|<point|3.0|2.2>|<point|4.0|2.2>|<point|3.5|1.4>>|<text-at|<scm|1>|<point|3.4|1.8>>|<cline|<point|5.0|-0.8>|<point|6.0|-0.8>|<point|5.5|0>>|<text-at|<scm|n>|<point|5.4|-0.6>>|<with|arrow-end|\<gtr\>|<line|<point|5.5|0>|<point|5.5|2.1>>>|<carc|<point|5.1|2.5>|<point|5.9|2.5>|<point|5.5|2.9>>|<text-at|<scm|\<gtr\>>|<point|5.425|2.4>>>>>|<label|fig_exc5.1-1>Data
         paths for a factorial machine.>
@@ -100,8 +101,8 @@
   <\collection>
     <associate|auto-1|<tuple|1|1>>
     <associate|auto-2|<tuple|2|2>>
-    <associate|fig_exc5.1-1|<tuple|1|?>>
-    <associate|fig_exc5.1-2|<tuple|2|?>>
+    <associate|fig_exc5.1-1|<tuple|1|1>>
+    <associate|fig_exc5.1-2|<tuple|2|2>>
     <associate|footnote-|<tuple|?|?>>
     <associate|footnote-*|<tuple|?|1>>
   </collection>
